@@ -52,6 +52,9 @@ public class Map
      */
     public Map(int width, int height)
     {
+        assert width > 0;
+        assert height > 0;
+
         _width = width;
         _height = height;
 
@@ -80,7 +83,7 @@ public class Map
      * Returns the height of this map.
      * @return the number of tiles along the direction of the y-axis
      */
-    public int get_height()
+    public int getHeight()
     {
         return _height;
     }
@@ -93,7 +96,27 @@ public class Map
      */
     public Tile getTileAt(int x, int y)
     {
+        assert x >= 0 && x < _width;
+        assert y >= 0 && y < _height;
+
         return _tiles[x][y];
+    }
+
+    /**
+     * Replaces an existing tile with the specified tile.
+     * @param tile the new tile
+     */
+    public void addTile(Tile tile)
+    {
+        assert tile != null;
+
+        int x = tile.getX();
+        int y = tile.getY();
+
+        // Cannot place wall on top of unit
+        assert getUnitAt(x, y) == null;
+
+        _tiles[x][y] = tile;
     }
 
     /**
@@ -104,5 +127,136 @@ public class Map
     public Tile getTileUnder(Unit unit)
     {
         return getTileAt(unit.getX(), unit.getY());
+    }
+
+    /**
+     * Returns the unit at the specified (x, y) coordinate, if one exists.
+     * @param x the x-coordinate to check for a unit
+     * @param y the y-coordinate to check for a unit
+     * @return the unit at (x, y), if one exists; null, otherwise
+     */
+    public Unit getUnitAt(int x, int y)
+    {
+        // TODO [re-structure]
+        // Improve this implementation by re-structuring how units are stored
+
+        for (Unit unit : _units)
+        {
+            if (unit.getX() == x && unit.getY() == y)
+            {
+                return unit;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Adds the specified unit to the map.
+     * @param unit the unit to add to the map
+     */
+    public void addUnit(Unit unit)
+    {
+        // TODO [re-structure]
+        // This method signature should be altered, maybe to include (x, y) params
+
+        // Cannot add unit on top of wall
+        assert getTileAt(unit.getX(), unit.getY()).isWall() == false;
+
+        _units.add(unit);
+    }
+
+    /**
+     * Returns a collection of all units on this map.
+     * @return a copy of the collection of all units on this map
+     */
+    public Unit[] getUnits()
+    {
+        return _units.toArray(new Unit[_units.size()]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        int capacity = (2 + _height) * (4 + _width * 4);
+        java.lang.StringBuilder sb = new java.lang.StringBuilder(capacity);
+
+        // Top x-numbering
+        sb.append("  ");
+        for (int x = 0; x < _width; x++)
+        {
+            sb.append("   ");
+            sb.append(x % 10);
+        }
+        sb.append('\n');
+
+        // Main map
+        for (int y = 0; y < _height; y++)
+        {
+            // Top of row
+            sb.append("   ");
+            for (int x = 0; x < _width; x++)
+            {
+                sb.append("·---");
+            }
+            sb.append("·\n");
+
+            // Left y-numbering
+            sb.append(" ");
+            sb.append(y % 10);
+            sb.append(" ");
+
+            // Each column in row
+            for (int x = 0; x < _width; x++)
+            {
+                sb.append("|");
+
+                char tileChar = ' ';
+                Tile tile = getTileAt(x, y);
+
+                if (tile.isWall())
+                {
+                    tileChar = '|';
+                }
+                else if (tile.boostsDodge())
+                {
+                    tileChar = '~';
+                }
+                else if (tile.reducesMovement())
+                {
+                    tileChar = '_';
+                }
+
+                sb.append(tileChar);
+
+                Unit unit = getUnitAt(x, y);
+                if (unit != null)
+                {
+                    sb.append('#');
+                }
+                else
+                {
+                    sb.append(tileChar);
+                }
+
+                sb.append(tileChar);
+            }
+
+            // Right side of last column in row
+            sb.append("|\n");
+        }
+
+        // Bottom of last row
+        sb.append("   ");
+        for (int x = 0; x < _width; x++)
+        {
+            sb.append("·---");
+        }
+        sb.append("·\n");
+
+        return sb.toString();
     }
 }
