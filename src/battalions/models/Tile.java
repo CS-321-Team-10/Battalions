@@ -34,7 +34,7 @@ public class Tile
     private final int _y;
 
     /**
-     * Whether or not this tile is impassible.
+     * Whether or not this tile is impassable.
      */
     private final boolean _isWall;
 
@@ -52,12 +52,18 @@ public class Tile
      * Initializes a new instance of the Tile class.
      * @param x the location of this tile on the x-axis
      * @param y the location of this tile on the y-axis
-     * @param isWall whether or not this tile is impassible
+     * @param isWall whether or not this tile is impassable
      * @param boostsDodge whether or not this tile boosts a unit's chance of dodging an attack
      * @param reducesMovement whether or not this tile reduces a unit's movement range
      */
     public Tile(int x, int y, boolean isWall, boolean boostsDodge, boolean reducesMovement)
     {
+        assert x >= 0;
+        assert y >= 0;
+
+        // Wall cannot boost dodge chance or reduce movement range
+        assert (isWall && (boostsDodge || reducesMovement)) == false;
+
         _x = x;
         _y = y;
         _isWall = isWall;
@@ -84,8 +90,8 @@ public class Tile
     }
 
     /**
-     * Returns whether or not this tile is impassible.
-     * @return true, if this tile is impassible; false, otherwise
+     * Returns whether or not this tile is impassable.
+     * @return true, if this tile is impassable; false, otherwise
      */
     public boolean isWall()
     {
@@ -108,5 +114,20 @@ public class Tile
     public boolean reducesMovement()
     {
         return _reducesMovement;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        String format =
+            (_isWall ? "Impassable " : "Passable ")
+            + "Tile @(%d, %d)"
+            + (_boostsDodge ? " [+DODGE]" : "")
+            + (_reducesMovement ? " [-MOVE]" : "");
+
+        return String.format(format + '\n', _x, _y);
     }
 }
