@@ -1,0 +1,20 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}School:         University of Alabama in Huntsville
+${licensePrefix}Course Title:   Object-Oriented Programming in Java
+${licensePrefix}Instructor:     Dr. Dan Rochowiak
+${licensePrefix}
+${licensePrefix}Course Number:  CS 321
+${licensePrefix}Course Section: 01
+${licensePrefix}Term:           Fall 2020
+${licensePrefix}
+${licensePrefix}Team:           10
+${licensePrefix}Team Members:   Scott Clarke
+${licensePrefix}                Guess Crow
+${licensePrefix}                Blocker Griffin
+${licensePrefix}                Thomas Lemmons
+${licensePrefix}                Bryant Terry
+<#if licenseLast??>
+${licenseLast}
+</#if>
