@@ -92,6 +92,20 @@ public class Unit
         int magicAttack, int magicDefense,
         int speed, int luck)
     {
+        assert x >= 0;
+        assert y >= 0;
+
+        assert health > 0;
+        assert attack >= 0;
+        assert defense >= 0;
+        assert magicAttack >= 0;
+        assert magicDefense >= 0;
+        assert speed >= 0;
+        assert luck >= 0;
+
+        // Unit must be able to attack either physically or magically
+        assert attack > 0 || magicAttack > 0;
+
         _x = x;
         _y = y;
 
@@ -248,5 +262,21 @@ public class Unit
     public boolean isAlive()
     {
         return _isAlive;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        String format =
+            (_isAlive ? "Live " : "Dead ")
+            + "Unit @(%d, %d)\n"
+            + "  [%d HP] [%d SPEED] [%d LUCK]\n"
+            + "  [%d ATK] [%d DEF] [%d MATK] [%d MDEF]";
+
+        return String.format(format + '\n', _x, _y, _health, _attack, _defense,
+            _magicAttack, _magicDefense, _speed, _luck);
     }
 }
