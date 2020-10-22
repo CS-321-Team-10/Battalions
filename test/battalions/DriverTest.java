@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * School:         University of Alabama in Huntsville
+ * Course Title:   Object-Oriented Programming in Java
+ * Instructor:     Dr. Dan Rochowiak
+ *
+ * Course Number:  CS 321
+ * Course Section: 01
+ * Term:           Fall 2020
+ *
+ * Team:           10
+ * Team Members:   Scott Clarke
+ *                 Guess Crow
+ *                 Blocker Griffin
+ *                 Thomas Lemmons
+ *                 Bryant Terry
  */
 package battalions;
 
@@ -12,7 +23,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author scott
+ * @author Scott
  */
 public class DriverTest
 {
