@@ -45,11 +45,11 @@ public class Driver
         map.addTile(new Tile(4, 4, true, false, false));
         map.addTile(new Tile(4, 5, true, false, false));
         map.addTile(new Tile(7, 4, true, false, false));
-        
+
         // Add dodge boost tiles
         map.addTile(new Tile(5, 4, false, true, false));
         map.addTile(new Tile(5, 3, false, true, false));
-        
+
         // Add movement reduce tiles
         map.addTile(new Tile(7, 7, false, false, true));
 
@@ -59,7 +59,7 @@ public class Driver
 
         // Display map
         System.out.println(map);
-        
+
         // Display all unit stats
         for (Unit unit : map.getUnits())
         {

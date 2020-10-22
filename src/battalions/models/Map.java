@@ -181,7 +181,7 @@ public class Map
     @Override
     public String toString()
     {
-        int capacity = (2 + _height) * (4 + _width * 4);
+        final int capacity = (2 + _height * 2) * (5 + _width * 4);
         java.lang.StringBuilder sb = new java.lang.StringBuilder(capacity);
 
         // Top x-numbering
