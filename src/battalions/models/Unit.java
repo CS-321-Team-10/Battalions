@@ -26,6 +26,16 @@ import battalions.util.Stats;
 public class Unit
 {
     /**
+     * The location of this unit on the x-axis.
+     */
+    private final int _x;
+
+    /**
+     * The location of this unit on the y-axis.
+     */
+    private final int _y;
+
+    /**
      * The amount of damage this unit can sustain.
      */
     private int _health;
@@ -67,6 +77,8 @@ public class Unit
 
     /**
      * Initializes a new instance of the Unit class.
+     * @param x the initial x-coordinate for this unit
+     * @param y the initial y-coordinate for this unit
      * @param health the base HP stat for this unit
      * @param attack the base ATK stat for this unit
      * @param defense the base DEF stat for this unit
@@ -75,9 +87,14 @@ public class Unit
      * @param speed the base SPEED stat for this unit
      * @param luck the base LUCK stat for this unit
      */
-    public Unit(int health, int attack, int defense,
-        int magicAttack, int magicDefense, int speed, int luck)
+    public Unit(int x, int y,
+        int health, int attack, int defense,
+        int magicAttack, int magicDefense,
+        int speed, int luck)
     {
+        _x = x;
+        _y = y;
+
         _health = health;
         _attack = attack;
         _defense = defense;
@@ -144,12 +161,21 @@ public class Unit
     }
 
     /**
-     * Determines whether or not this unit is alive.
-     * @return true, if this unit is alive; false, otherwise
+     * Gets the current x-coordinate of this unit.
+     * @return the current x-coordinate of this unit
      */
-    public boolean isAlive()
+    public int getX()
     {
-        return _isAlive;
+        return _x;
+    }
+
+    /**
+     * Gets the current y-coordinate of this unit.
+     * @return the current y-coordinate of this unit.
+     */
+    public int getY()
+    {
+        return _y;
     }
 
     /**
@@ -213,5 +239,14 @@ public class Unit
     public int getLuck()
     {
         return _luck;
+    }
+
+    /**
+     * Determines whether or not this unit is alive.
+     * @return true, if this unit is alive; false, otherwise
+     */
+    public boolean isAlive()
+    {
+        return _isAlive;
     }
 }

@@ -24,12 +24,12 @@ package battalions.models;
 public class Tile
 {
     /**
-     * The location of the tile on the x-axis.
+     * The location of this tile on the x-axis.
      */
     private final int _x;
 
     /**
-     * The location of the tile on the y-axis.
+     * The location of this tile on the y-axis.
      */
     private final int _y;
 
