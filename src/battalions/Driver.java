@@ -54,12 +54,24 @@ public class Driver
         map.addTile(new Tile(7, 7, false, false, true));
 
         // Add units
-        map.addUnit(new Unit(5, 4, 15, 2, 1, 3, 2, 5, 3));
-        map.addUnit(new Unit(2, 7, 10, 3, 2, 2, 1, 4, 5));
+        map.addUnit(new Unit(5, 4, 15, 2, 1, 3, 2, 5, 3, 5));
+        map.addUnit(new Unit(2, 7, 10, 3, 2, 2, 1, 4, 5, 5));
 
         // Display map
         System.out.println(map);
 
+        // Display all unit stats
+        for (Unit unit : map.getUnits())
+        {
+            System.out.println(unit);
+        }
+        
+        // Testing moveUnit()
+        map.moveUnit(2, 7, 2, 2);
+        
+        // Display map
+        System.out.println(map);
+        
         // Display all unit stats
         for (Unit unit : map.getUnits())
         {

@@ -165,6 +165,27 @@ public class Map
 
         _units.add(unit);
     }
+    
+    /**
+     *  Allows the unit to move across the map. This the actual calculation that
+     *  should be performed after the program checks to ensure that the unit
+     *  is being moved to an empty tile, within its movement range.
+     * @param old_x the x-coordinate of the unit being moved.
+     * @param old_y the y-coordinate of the unit being moved.
+     * @param new_x the x-coordinate the unit is being moved to.
+     * @param new_y the y-coordinate the unit is being moved to.
+     */
+    public void moveUnit(int old_x, int old_y, int new_x, int new_y)
+    {   
+        for (Unit unit : _units)
+        {
+            if (unit.getX() == old_x && unit.getY() == old_y)
+            {
+                unit.setX(new_x);
+                unit.setY(new_y);
+            }
+        }
+    }
 
     /**
      * Returns a collection of all units on this map.
@@ -233,7 +254,7 @@ public class Map
                 sb.append(tileChar);
 
                 Unit unit = getUnitAt(x, y);
-                if (unit != null)
+                if (unit != null && unit.isAlive())
                 {
                     sb.append('#');
                 }
