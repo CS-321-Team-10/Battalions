@@ -186,6 +186,38 @@ public class Map
             }
         }
     }
+    
+    /**
+     * Performs calculations and checks to determine whether or not the 
+     * new coordinates for a Unit being moved are valid. Checks the Unit's
+     * movement stat, and checks the new Tile for Units and walls.
+     * Returns true if the new coordinates are valid, and otherwise returns
+     * false.
+     * @param old_x the x-coordinate of the unit being moved.
+     * @param old_y the y-coordinate of the unit being moved.
+     * @param new_x the x-coordinate the unit is being moved to.
+     * @param new_y the y-coordinate the unit is being moved to.
+     */
+    public boolean moveUnitCalculations(int old_x, int old_y, int new_x, int new_y)
+    {
+        // TODO [re-structure]
+        // Improve this implementation by re-working movement calculations
+        
+        if(getUnitAt(new_x, new_y) == null || getTileAt(new_x, new_y).isWall())
+        {
+            // Get absolute value of the distance between new and old coordinates
+            int x_difference = Math.abs(old_x - new_x);
+            int y_difference = Math.abs(old_y - new_y);
+            
+            if(getUnitAt(old_x, old_y).getMovement() >= (x_difference + y_difference))
+            {
+                moveUnit(old_x, old_y, new_x, new_y);
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * Returns a collection of all units on this map.

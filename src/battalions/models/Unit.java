@@ -79,6 +79,16 @@ public class Unit
      * Whether or not this unit is alive.
      */
     private boolean _isAlive;
+    
+    /**
+     * Whether or not the unit has moved.
+     */
+    private boolean _hasMoved;
+    
+    /**
+     * Whether or not the unit has performed an action.
+     */
+    private boolean _hasActed;
 
     /**
      * Initializes a new instance of the Unit class.
@@ -126,6 +136,8 @@ public class Unit
         _movement = movement;
 
         _isAlive = true;
+        _hasMoved = false;
+        _hasActed = false;
     }
 
     /**
@@ -293,6 +305,42 @@ public class Unit
     public boolean isAlive()
     {
         return _isAlive;
+    }
+    
+    /**
+     * Determines whether or not this unit has moved for the turn.
+     * @return true, if this unit has moved; false, otherwise
+     */
+    public boolean gethasMoved()
+    {
+        return _hasMoved;
+    }
+    
+    /**
+    * Sets the _hasMoved variable to true or false
+    * @param trueorfalse a boolean that is true if the Unit has moved
+    */
+    public void sethasMoved(boolean trueorfalse)
+    {
+        _hasMoved = trueorfalse;
+    }
+    
+    /**
+    * Determines whether or not this unit has acted for the turn.
+    * @return true, if this unit has acted; false, otherwise
+    */
+    public boolean gethasActed()
+    {
+        return _hasActed;
+    }
+    
+    /**
+    * Sets the _hasActed variable to true or false
+    * @param trueorfalse a boolean that is true if the Unit has acted
+    */
+    public void sethasActed(boolean trueorfalse)
+    {
+        _hasActed = trueorfalse;
     }
 
     /**

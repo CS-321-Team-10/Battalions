@@ -67,7 +67,8 @@ public class Driver
         }
         
         // Testing moveUnit()
-        map.moveUnit(2, 7, 2, 2);
+        map.moveUnitCalculations(5, 4, 5, 7); // Should work
+        map.moveUnitCalculations(2, 7, 1, 1); // Exceeds movement stat
         
         // Display map
         System.out.println(map);
