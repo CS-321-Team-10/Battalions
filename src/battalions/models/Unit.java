@@ -74,6 +74,11 @@ public class Unit
      * The amount of tiles this unit can move across
      */
     private final int _movement;
+    
+    /**
+     * The amount of tiles this unit can attack another Unit across
+     */
+    private final int _range;
 
     /**
      * Whether or not this unit is alive.
@@ -102,11 +107,12 @@ public class Unit
      * @param speed the base SPEED stat for this unit
      * @param luck the base LUCK stat for this unit
      * @param movement the base MOVEMENT stat for this unit
+     * @param range the base RANGE stat for this unit
      */
     public Unit(int x, int y,
         int health, int attack, int defense,
         int magicAttack, int magicDefense,
-        int speed, int luck, int movement)
+        int speed, int luck, int movement, int range)
     {
         assert x >= 0;
         assert y >= 0;
@@ -119,6 +125,7 @@ public class Unit
         assert speed >= 0;
         assert luck >= 0;
         assert movement >= 0;
+        assert range >= 0;
 
         // Unit must be able to attack either physically or magically
         assert attack > 0 || magicAttack > 0;
@@ -134,6 +141,7 @@ public class Unit
         _speed = speed;
         _luck = luck;
         _movement = movement;
+        _range = range;
 
         _isAlive = true;
         _hasMoved = false;
@@ -293,9 +301,22 @@ public class Unit
         return _luck;
     }
     
+    /**
+     * Gets the current MOVEMENT stat of this unit.
+     * @return the current MOVEMENT stat of this unit
+     */
     public int getMovement()
     {
         return _movement;
+    }
+    
+    /**
+     * Gets the current RANGE stat of this unit.
+     * @return the current RANGE stat of this unit
+     */
+    public int getRange()
+    {
+        return _range;
     }
 
     /**

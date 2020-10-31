@@ -218,6 +218,48 @@ public class Map
         
         return false;
     }
+    
+    /**
+     * Allows a unit to attack another unit.
+     * @param old_x the x-coordinate of the attacking unit.
+     * @param old_y the y-coordinate of the attacking unit.
+     * @param new_x the x-coordinate the unit is being attacked.
+     * @param new_y the y-coordinate the unit is being attacked.
+     */
+    public boolean runAttackSequence(int old_x, int old_y, int new_x, int new_y, boolean normal_attack)
+    {
+        Unit attackingUnit = getUnitAt(old_x, old_y);
+        
+        int x_difference = Math.abs(old_x - new_x);
+        int y_difference = Math.abs(old_y - new_y);
+        
+        if(attackingUnit.getRange() < (x_difference + y_difference))
+        {
+            return false;
+        }
+        
+        if(getUnitAt(new_x, new_y).isAlive())
+        {
+            for (Unit unit : _units)
+            {
+                if (unit.getX() == new_x && unit.getY() == new_y)
+                {
+                    if(normal_attack)
+                    {
+                        attackingUnit.attack(unit);
+                        return true;
+                    }
+                    else
+                    {
+                       attackingUnit.magicAttack(unit);
+                       return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * Returns a collection of all units on this map.

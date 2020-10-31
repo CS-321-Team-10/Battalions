@@ -54,8 +54,8 @@ public class Driver
         map.addTile(new Tile(7, 7, false, false, true));
 
         // Add units
-        map.addUnit(new Unit(5, 4, 15, 2, 1, 3, 2, 5, 3, 5));
-        map.addUnit(new Unit(2, 7, 10, 3, 2, 2, 1, 4, 5, 5));
+        map.addUnit(new Unit(5, 4, 15, 2, 1, 3, 2, 5, 3, 5, 1));
+        map.addUnit(new Unit(2, 7, 10, 3, 2, 2, 1, 4, 5, 5, 1));
 
         // Display map
         System.out.println(map);
@@ -69,6 +69,19 @@ public class Driver
         // Testing moveUnit()
         map.moveUnitCalculations(5, 4, 5, 7); // Should work
         map.moveUnitCalculations(2, 7, 1, 1); // Exceeds movement stat
+        
+        // Display map
+        System.out.println(map);
+        
+        // Display all unit stats
+        for (Unit unit : map.getUnits())
+        {
+            System.out.println(unit);
+        }
+        
+        // Testing runAttackSequence()
+        map.moveUnit(5, 7, 2, 6); // Move units next to each other for test
+        map.runAttackSequence(2, 6, 2, 7, true);
         
         // Display map
         System.out.println(map);
