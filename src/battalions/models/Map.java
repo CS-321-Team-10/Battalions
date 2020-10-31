@@ -41,7 +41,7 @@ public class Map
     private final Tile[][] _tiles;
 
     /**
-     * The list of units on the map.
+     * The list of player units on the map.
      */
     private final ArrayList<Unit> _units;
 
@@ -183,6 +183,7 @@ public class Map
             {
                 unit.setX(new_x);
                 unit.setY(new_y);
+                unit.sethasMoved(true);
             }
         }
     }
@@ -203,24 +204,27 @@ public class Map
         // TODO [re-structure]
         // Improve this implementation by re-working movement calculations
         
-        if(getUnitAt(new_x, new_y) == null || getTileAt(new_x, new_y).isWall())
+        // Get absolute value of the distance between new and old coordinates
+        int x_difference = Math.abs(old_x - new_x);
+        int y_difference = Math.abs(old_y - new_y);
+        if(getUnitAt(old_x, old_y).getMovement() < (x_difference + y_difference))
         {
-            // Get absolute value of the distance between new and old coordinates
-            int x_difference = Math.abs(old_x - new_x);
-            int y_difference = Math.abs(old_y - new_y);
-            
-            if(getUnitAt(old_x, old_y).getMovement() >= (x_difference + y_difference))
-            {
-                moveUnit(old_x, old_y, new_x, new_y);
-                return true;
-            }
+            return false;
         }
         
-        return false;
+        if(getUnitAt(old_x, old_y).gethasMoved() || getUnitAt(new_x, new_y) != null || getTileAt(new_x, new_y).isWall())
+        {
+            return false;
+        }
+        
+        moveUnit(old_x, old_y, new_x, new_y);
+        return true;
     }
     
     /**
-     * Allows a unit to attack another unit.
+     * Allows a unit to attack another unit. Checks to ensure that the unit
+     * hasn't already attacked, and that they're actually attacking another
+     * unit.
      * @param old_x the x-coordinate of the attacking unit.
      * @param old_y the y-coordinate of the attacking unit.
      * @param new_x the x-coordinate the unit is being attacked.
@@ -228,31 +232,41 @@ public class Map
      */
     public boolean runAttackSequence(int old_x, int old_y, int new_x, int new_y, boolean normal_attack)
     {
-        Unit attackingUnit = getUnitAt(old_x, old_y);
+        // TODO [re-structure]
+        // Improve this implementation by re-working range calculations
         
         int x_difference = Math.abs(old_x - new_x);
         int y_difference = Math.abs(old_y - new_y);
         
-        if(attackingUnit.getRange() < (x_difference + y_difference))
+        // End the function if the targeted unit is outside of range,
+        if((getUnitAt(old_x, old_y).getRange() < (x_difference + y_difference)))
         {
             return false;
         }
         
-        if(getUnitAt(new_x, new_y).isAlive())
+        if(!getUnitAt(old_x, old_y).gethasActed() && getUnitAt(new_x, new_y) != null && getUnitAt(new_x, new_y).isAlive())
         {
+            for (Unit unit: _units)
+            {
+                if (unit.getX() == old_x && unit.getY() == old_y)
+                {
+                    unit.sethasActed(true);
+                }
+            }
+            
             for (Unit unit : _units)
             {
                 if (unit.getX() == new_x && unit.getY() == new_y)
                 {
                     if(normal_attack)
                     {
-                        attackingUnit.attack(unit);
+                        getUnitAt(old_x, old_y).attack(unit);
                         return true;
                     }
                     else
                     {
-                       attackingUnit.magicAttack(unit);
-                       return true;
+                        getUnitAt(old_x, old_y).magicAttack(unit);
+                        return true;
                     }
                 }
             }

@@ -69,6 +69,7 @@ public class Driver
         // Testing moveUnit()
         map.moveUnitCalculations(5, 4, 5, 7); // Should work
         map.moveUnitCalculations(2, 7, 1, 1); // Exceeds movement stat
+        map.moveUnitCalculations(2, 7, 5, 6); // Should work
         
         // Display map
         System.out.println(map);
@@ -80,8 +81,10 @@ public class Driver
         }
         
         // Testing runAttackSequence()
-        map.moveUnit(5, 7, 2, 6); // Move units next to each other for test
-        map.runAttackSequence(2, 6, 2, 7, true);
+        map.runAttackSequence(5, 7, 5, 6, true); // Turn already used;
+        map.runAttackSequence(5, 7, 5, 6, true); // These shouldn't work.
+        map.runAttackSequence(5, 7, 5, 6, true);
+        map.runAttackSequence(5, 7, 5, 6, true);
         
         // Display map
         System.out.println(map);
