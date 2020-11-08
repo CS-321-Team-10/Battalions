@@ -53,27 +53,204 @@ public class MapView extends javax.swing.JPanel
     private void initComponents()
     {
 
-        updateButton = new javax.swing.JButton();
-        closeButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        showButtonGroup = new javax.swing.ButtonGroup();
+        sourceSelectButtonGroup = new javax.swing.ButtonGroup();
+        destinationSelectButtonGroup = new javax.swing.ButtonGroup();
+        mapBorder = new javax.swing.JPanel();
+        mapTextScrollPanel = new javax.swing.JScrollPane();
         mapText = new javax.swing.JTextArea();
+        updateButton = new javax.swing.JButton();
+        showBorder = new javax.swing.JPanel();
+        showUnitsRadio = new javax.swing.JRadioButton();
+        showMovesRadio = new javax.swing.JRadioButton();
+        showAttacksRadio = new javax.swing.JRadioButton();
+        showAllRadio = new javax.swing.JRadioButton();
+        sourceSelectBorder = new javax.swing.JPanel();
+        deselectRadio = new javax.swing.JRadioButton();
+        selectUnitRadio = new javax.swing.JRadioButton();
+        selectTileRadio = new javax.swing.JRadioButton();
+        sourceSelectX = new javax.swing.JTextField();
+        sourceSelectY = new javax.swing.JTextField();
+        destinationSelectBorder = new javax.swing.JPanel();
+        destinationDeselectRadio = new javax.swing.JRadioButton();
+        desinationSelectUnitRadio = new javax.swing.JRadioButton();
+        destinationSelectTileRadio = new javax.swing.JRadioButton();
+        destinationSelectX = new javax.swing.JTextField();
+        destinationSelectY = new javax.swing.JTextField();
 
-        updateButton.setText("Update");
-
-        closeButton.setText("Close");
-        closeButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                closeButtonActionPerformed(evt);
-            }
-        });
+        mapBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Map"));
 
         mapText.setColumns(20);
         mapText.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         mapText.setRows(5);
         mapText.setText("<Map>");
-        jScrollPane1.setViewportView(mapText);
+        mapTextScrollPanel.setViewportView(mapText);
+
+        updateButton.setText("Update");
+
+        showBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Map Layer"));
+
+        showButtonGroup.add(showUnitsRadio);
+        showUnitsRadio.setText("Show Available Units");
+
+        showButtonGroup.add(showMovesRadio);
+        showMovesRadio.setText("Show Valid Moves");
+
+        showButtonGroup.add(showAttacksRadio);
+        showAttacksRadio.setText("Show Valid Attacks");
+
+        showButtonGroup.add(showAllRadio);
+        showAllRadio.setText("Show All");
+
+        javax.swing.GroupLayout showBorderLayout = new javax.swing.GroupLayout(showBorder);
+        showBorder.setLayout(showBorderLayout);
+        showBorderLayout.setHorizontalGroup(
+            showBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(showBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(showBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(showAttacksRadio)
+                    .addComponent(showMovesRadio)
+                    .addComponent(showUnitsRadio)
+                    .addComponent(showAllRadio))
+                .addContainerGap())
+        );
+        showBorderLayout.setVerticalGroup(
+            showBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(showBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(showAllRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showUnitsRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showMovesRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showAttacksRadio)
+                .addContainerGap())
+        );
+
+        sourceSelectBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Source"));
+
+        sourceSelectButtonGroup.add(deselectRadio);
+        deselectRadio.setText("Deselect");
+
+        sourceSelectButtonGroup.add(selectUnitRadio);
+        selectUnitRadio.setText("Select Unit");
+
+        sourceSelectButtonGroup.add(selectTileRadio);
+        selectTileRadio.setText("Select Tile");
+
+        javax.swing.GroupLayout sourceSelectBorderLayout = new javax.swing.GroupLayout(sourceSelectBorder);
+        sourceSelectBorder.setLayout(sourceSelectBorderLayout);
+        sourceSelectBorderLayout.setHorizontalGroup(
+            sourceSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sourceSelectBorderLayout.createSequentialGroup()
+                .addGroup(sourceSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sourceSelectBorderLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(sourceSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(selectUnitRadio)
+                            .addComponent(selectTileRadio)
+                            .addComponent(deselectRadio)
+                            .addComponent(sourceSelectY, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(sourceSelectBorderLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(sourceSelectX, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        sourceSelectBorderLayout.setVerticalGroup(
+            sourceSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sourceSelectBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(deselectRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selectTileRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selectUnitRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(sourceSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sourceSelectY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sourceSelectX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        destinationSelectBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Destination"));
+
+        destinationSelectButtonGroup.add(destinationDeselectRadio);
+        destinationDeselectRadio.setText("Deselect");
+
+        destinationSelectButtonGroup.add(desinationSelectUnitRadio);
+        desinationSelectUnitRadio.setText("Select Unit");
+
+        destinationSelectButtonGroup.add(destinationSelectTileRadio);
+        destinationSelectTileRadio.setText("Select Tile");
+
+        javax.swing.GroupLayout destinationSelectBorderLayout = new javax.swing.GroupLayout(destinationSelectBorder);
+        destinationSelectBorder.setLayout(destinationSelectBorderLayout);
+        destinationSelectBorderLayout.setHorizontalGroup(
+            destinationSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(destinationSelectBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(destinationSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(desinationSelectUnitRadio)
+                    .addComponent(destinationSelectTileRadio)
+                    .addComponent(destinationDeselectRadio)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, destinationSelectBorderLayout.createSequentialGroup()
+                        .addComponent(destinationSelectX, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(destinationSelectY, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        destinationSelectBorderLayout.setVerticalGroup(
+            destinationSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(destinationSelectBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(destinationDeselectRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(destinationSelectTileRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(desinationSelectUnitRadio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(destinationSelectBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(destinationSelectY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(destinationSelectX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout mapBorderLayout = new javax.swing.GroupLayout(mapBorder);
+        mapBorder.setLayout(mapBorderLayout);
+        mapBorderLayout.setHorizontalGroup(
+            mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mapBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mapTextScrollPanel)
+                    .addGroup(mapBorderLayout.createSequentialGroup()
+                        .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(updateButton)
+                            .addGroup(mapBorderLayout.createSequentialGroup()
+                                .addComponent(showBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sourceSelectBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(destinationSelectBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 342, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        mapBorderLayout.setVerticalGroup(
+            mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mapBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mapTextScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(updateButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(destinationSelectBorder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showBorder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sourceSelectBorder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -81,38 +258,43 @@ public class MapView extends javax.swing.JPanel
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(updateButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(closeButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(mapBorder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(updateButton)
-                    .addComponent(closeButton))
+                .addComponent(mapBorder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_closeButtonActionPerformed
-    {//GEN-HEADEREND:event_closeButtonActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_closeButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton closeButton;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton deselectRadio;
+    private javax.swing.JRadioButton desinationSelectUnitRadio;
+    private javax.swing.JRadioButton destinationDeselectRadio;
+    private javax.swing.JPanel destinationSelectBorder;
+    private javax.swing.ButtonGroup destinationSelectButtonGroup;
+    private javax.swing.JRadioButton destinationSelectTileRadio;
+    private javax.swing.JTextField destinationSelectX;
+    private javax.swing.JTextField destinationSelectY;
+    private javax.swing.JPanel mapBorder;
     private javax.swing.JTextArea mapText;
+    private javax.swing.JScrollPane mapTextScrollPanel;
+    private javax.swing.JRadioButton selectTileRadio;
+    private javax.swing.JRadioButton selectUnitRadio;
+    private javax.swing.JRadioButton showAllRadio;
+    private javax.swing.JRadioButton showAttacksRadio;
+    private javax.swing.JPanel showBorder;
+    private javax.swing.ButtonGroup showButtonGroup;
+    private javax.swing.JRadioButton showMovesRadio;
+    private javax.swing.JRadioButton showUnitsRadio;
+    private javax.swing.JPanel sourceSelectBorder;
+    private javax.swing.ButtonGroup sourceSelectButtonGroup;
+    private javax.swing.JTextField sourceSelectX;
+    private javax.swing.JTextField sourceSelectY;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
