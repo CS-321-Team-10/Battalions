@@ -41,7 +41,7 @@ public class Map
     private final Tile[][] _tiles;
 
     /**
-     * The list of units on the map.
+     * The list of player units on the map.
      */
     private final ArrayList<Unit> _units;
 
@@ -165,6 +165,115 @@ public class Map
 
         _units.add(unit);
     }
+    
+    /**
+     *  Allows the unit to move across the map. This the actual calculation that
+     *  should be performed after the program checks to ensure that the unit
+     *  is being moved to an empty tile, within its movement range.
+     * @param old_x the x-coordinate of the unit being moved.
+     * @param old_y the y-coordinate of the unit being moved.
+     * @param new_x the x-coordinate the unit is being moved to.
+     * @param new_y the y-coordinate the unit is being moved to.
+     */
+    public void moveUnit(int old_x, int old_y, int new_x, int new_y)
+    {   
+        for (Unit unit : _units)
+        {
+            if (unit.getX() == old_x && unit.getY() == old_y)
+            {
+                unit.setX(new_x);
+                unit.setY(new_y);
+                unit.sethasMoved(true);
+            }
+        }
+    }
+    
+    /**
+     * Performs calculations and checks to determine whether or not the 
+     * new coordinates for a Unit being moved are valid. Checks the Unit's
+     * movement stat, and checks the new Tile for Units and walls.
+     * Returns true if the new coordinates are valid, and otherwise returns
+     * false.
+     * @param old_x the x-coordinate of the unit being moved.
+     * @param old_y the y-coordinate of the unit being moved.
+     * @param new_x the x-coordinate the unit is being moved to.
+     * @param new_y the y-coordinate the unit is being moved to.
+     */
+    public boolean moveUnitCalculations(int old_x, int old_y, int new_x, int new_y)
+    {
+        // TODO [re-structure]
+        // Improve this implementation by re-working movement calculations
+        
+        // Get absolute value of the distance between new and old coordinates
+        int x_difference = Math.abs(old_x - new_x);
+        int y_difference = Math.abs(old_y - new_y);
+        if(getUnitAt(old_x, old_y).getMovement() < (x_difference + y_difference))
+        {
+            return false;
+        }
+        
+        if(getUnitAt(old_x, old_y).gethasMoved() || getUnitAt(new_x, new_y) != null || getTileAt(new_x, new_y).isWall())
+        {
+            return false;
+        }
+        
+        moveUnit(old_x, old_y, new_x, new_y);
+        return true;
+    }
+    
+    /**
+     * Allows a unit to attack another unit. Checks to ensure that the unit
+     * hasn't already attacked, and that they're actually attacking another
+     * unit.
+     * @param old_x the x-coordinate of the attacking unit.
+     * @param old_y the y-coordinate of the attacking unit.
+     * @param new_x the x-coordinate the unit is being attacked.
+     * @param new_y the y-coordinate the unit is being attacked.
+     */
+    public boolean runAttackSequence(int old_x, int old_y, int new_x, int new_y, boolean normal_attack)
+    {
+        // TODO [re-structure]
+        // Improve this implementation by re-working range calculations
+        
+        int x_difference = Math.abs(old_x - new_x);
+        int y_difference = Math.abs(old_y - new_y);
+        
+        // End the function if the targeted unit is outside of range,
+        if((getUnitAt(old_x, old_y).getRange() < (x_difference + y_difference)))
+        {
+            return false;
+        }
+        
+        if(!getUnitAt(old_x, old_y).gethasActed() && getUnitAt(new_x, new_y) != null && getUnitAt(new_x, new_y).isAlive())
+        {
+            for (Unit unit: _units)
+            {
+                if (unit.getX() == old_x && unit.getY() == old_y)
+                {
+                    unit.sethasActed(true);
+                }
+            }
+            
+            for (Unit unit : _units)
+            {
+                if (unit.getX() == new_x && unit.getY() == new_y)
+                {
+                    if(normal_attack)
+                    {
+                        getUnitAt(old_x, old_y).attack(unit);
+                        return true;
+                    }
+                    else
+                    {
+                        getUnitAt(old_x, old_y).magicAttack(unit);
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
 
     /**
      * Returns a collection of all units on this map.
@@ -233,7 +342,7 @@ public class Map
                 sb.append(tileChar);
 
                 Unit unit = getUnitAt(x, y);
-                if (unit != null)
+                if (unit != null && unit.isAlive())
                 {
                     sb.append('#');
                 }

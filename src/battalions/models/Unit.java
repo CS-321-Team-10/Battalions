@@ -28,12 +28,12 @@ public class Unit
     /**
      * The location of this unit on the x-axis.
      */
-    private final int _x;
+    private int _x;
 
     /**
      * The location of this unit on the y-axis.
      */
-    private final int _y;
+    private int _y;
 
     /**
      * The amount of damage this unit can sustain.
@@ -69,11 +69,31 @@ public class Unit
      * This unit's stat for the relative rarity of performing lucky actions.
      */
     private final int _luck;
+    
+    /**
+     * The amount of tiles this unit can move across
+     */
+    private final int _movement;
+    
+    /**
+     * The amount of tiles this unit can attack another Unit across
+     */
+    private final int _range;
 
     /**
      * Whether or not this unit is alive.
      */
     private boolean _isAlive;
+    
+    /**
+     * Whether or not the unit has moved.
+     */
+    private boolean _hasMoved;
+    
+    /**
+     * Whether or not the unit has performed an action.
+     */
+    private boolean _hasActed;
 
     /**
      * Initializes a new instance of the Unit class.
@@ -86,11 +106,13 @@ public class Unit
      * @param magicDefense the base MDEF stat for this unit
      * @param speed the base SPEED stat for this unit
      * @param luck the base LUCK stat for this unit
+     * @param movement the base MOVEMENT stat for this unit
+     * @param range the base RANGE stat for this unit
      */
     public Unit(int x, int y,
         int health, int attack, int defense,
         int magicAttack, int magicDefense,
-        int speed, int luck)
+        int speed, int luck, int movement, int range)
     {
         assert x >= 0;
         assert y >= 0;
@@ -102,6 +124,8 @@ public class Unit
         assert magicDefense >= 0;
         assert speed >= 0;
         assert luck >= 0;
+        assert movement >= 0;
+        assert range >= 0;
 
         // Unit must be able to attack either physically or magically
         assert attack > 0 || magicAttack > 0;
@@ -116,8 +140,12 @@ public class Unit
         _magicDefense = magicDefense;
         _speed = speed;
         _luck = luck;
+        _movement = movement;
+        _range = range;
 
         _isAlive = true;
+        _hasMoved = false;
+        _hasActed = false;
     }
 
     /**
@@ -182,6 +210,15 @@ public class Unit
     {
         return _x;
     }
+    
+    /**
+     * Sets the current x-coordinate of this unit.
+     * @param x The new x-coordinate of the unit.
+     */
+    public void setX(int x)
+    {
+        _x = x;
+    }
 
     /**
      * Gets the current y-coordinate of this unit.
@@ -190,6 +227,15 @@ public class Unit
     public int getY()
     {
         return _y;
+    }
+    
+    /**
+     * Sets the current y-coordinate of this unit.
+     * @param y The new y-coordinate of the unit.
+     */
+    public void setY(int y)
+    {
+        _y = y;
     }
 
     /**
@@ -254,6 +300,24 @@ public class Unit
     {
         return _luck;
     }
+    
+    /**
+     * Gets the current MOVEMENT stat of this unit.
+     * @return the current MOVEMENT stat of this unit
+     */
+    public int getMovement()
+    {
+        return _movement;
+    }
+    
+    /**
+     * Gets the current RANGE stat of this unit.
+     * @return the current RANGE stat of this unit
+     */
+    public int getRange()
+    {
+        return _range;
+    }
 
     /**
      * Determines whether or not this unit is alive.
@@ -262,6 +326,42 @@ public class Unit
     public boolean isAlive()
     {
         return _isAlive;
+    }
+    
+    /**
+     * Determines whether or not this unit has moved for the turn.
+     * @return true, if this unit has moved; false, otherwise
+     */
+    public boolean gethasMoved()
+    {
+        return _hasMoved;
+    }
+    
+    /**
+    * Sets the _hasMoved variable to true or false
+    * @param trueorfalse a boolean that is true if the Unit has moved
+    */
+    public void sethasMoved(boolean trueorfalse)
+    {
+        _hasMoved = trueorfalse;
+    }
+    
+    /**
+    * Determines whether or not this unit has acted for the turn.
+    * @return true, if this unit has acted; false, otherwise
+    */
+    public boolean gethasActed()
+    {
+        return _hasActed;
+    }
+    
+    /**
+    * Sets the _hasActed variable to true or false
+    * @param trueorfalse a boolean that is true if the Unit has acted
+    */
+    public void sethasActed(boolean trueorfalse)
+    {
+        _hasActed = trueorfalse;
     }
 
     /**
