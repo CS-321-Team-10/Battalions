@@ -22,28 +22,37 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Tests the Driver class.
  * @author Scott
  */
 public class DriverTest
 {
 
+    /**
+     * Initializes a new instance of the DriverTest class.
+     */
     public DriverTest()
     {
     }
 
+    /**
+     * Prepares this class for testing.
+     */
     @BeforeClass
     public static void setUpClass()
     {
     }
 
+    /**
+     * Finalizes this class after testing.
+     */
     @AfterClass
     public static void tearDownClass()
     {
     }
 
     /**
-     * Test of main method, of class Driver.
+     * Tests the Driver.main method.
      */
     @Test
     public void testMain()
