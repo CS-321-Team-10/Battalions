@@ -262,6 +262,25 @@ public class Map
     }
 
     /**
+     * Returns a copy of all tiles on the map, as a 2D array.
+     * @return a shallow copy of all tiles on the map, as a 2D array
+     */
+    public Tile[][] getTiles()
+    {
+        Tile[][] tiles = new Tile[_height][_width];
+
+        for (int x = 0; x < _width; x++)
+        {
+            for (int y = 0; y < _height; y++)
+            {
+                tiles[y][x] = _tiles[y][x];
+            }
+        }
+
+        return tiles;
+    }
+
+    /**
      * Returns the set of all units on this map.
      * @return a copy of the set of all units on this map
      */
