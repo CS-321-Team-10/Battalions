@@ -16,6 +16,8 @@
  */
 package battalions.util;
 
+import battalions.models.ActionType;
+
 /**
  * Used for calculating stat variations.
  * @author Scott
@@ -33,6 +35,26 @@ public final class Stats
     public static final int MAGIC_ATTACK_VARIATION = 2;
 
     /**
+     * The maximum random variation that can occur for a heal.
+     */
+    public static final int HEAL_VARIATION = 2;
+
+    /**
+     * The maximum random variation that can occur for an attack assist.
+     */
+    public static final int ASSIST_VARIATION = 2;
+
+    /**
+     * The maximum random variation that can occur for a magic attack assist.
+     */
+    public static final int MAGIC_ASSIST_VARIATION = 2;
+
+    /**
+     * The maximum random variation that can occur for a defend.
+     */
+    public static final int DEFEND_VARIATION = 1;
+
+    /**
      * Luck stat values must be between 0 and this value (exclusive).
      */
     public static final int LUCK_RANGE = 10;
@@ -40,30 +62,74 @@ public final class Stats
     /**
      * The multiplicative boost to ATK or MATK stats when lucky.
      */
-    public static final double LUCKY_ATTACK_MULTIPLIER = 1.5;
+    public static final float LUCKY_ATTACK_MULTIPLIER = 1.5f;
 
     /**
-     * Returns a small random variation on the provided base ATK stat.
-     * @param attack the base ATK stat
-     * @param luck the base LUCK stat
-     * @return a randomly varied ATK stat
+     * The multiplicative boost to ATK or MATK assists when lucky.
      */
-    public static int randomAttack(int attack, int luck)
-    {
-        int base = attack + Rng.getInt(0, ATTACK_VARIATION);
-        return isLucky(luck) ? (int)(base * LUCKY_ATTACK_MULTIPLIER) : base;
-    }
+    public static final float LUCKY_ASSIST_MULTIPLIER = 2.0f;
 
     /**
-     * Returns a small random variation on the provided base MATK stat.
-     * @param magicAttack the base MATK stat
-     * @param luck the base LUCK stat
-     * @return a randomly varied MATK stat
+     * The maximum boosted defense when lucky
      */
-    public static int randomMagicAttack(int magicAttack, int luck)
+    public static final int LUCKY_DEFEND = 100;
+
+    /**
+     * Returns a small random variation on the provided base stat.
+     * @param action the type of action being performed
+     * @param stat the base stat corresponding to the type of action
+     * @param luck the base luck stat
+     * @return a randomly varied stat
+     */
+    public static int randomVariation(ActionType action, int stat, int luck)
     {
-        int base = magicAttack + Rng.getInt(0, MAGIC_ATTACK_VARIATION);
-        return isLucky(luck) ? (int)(base * LUCKY_ATTACK_MULTIPLIER) : base;
+        int base = stat;
+        int random = 0;
+        float multiplier = 1.0f;
+
+        switch (action)
+        {
+            case Attack:
+                random = Rng.getInt(0, ATTACK_VARIATION);
+                if (isLucky(luck))
+                {
+                    multiplier = LUCKY_ATTACK_MULTIPLIER;
+                }
+                break;
+            case MagicAttack:
+                random = Rng.getInt(0, MAGIC_ATTACK_VARIATION);
+                if (isLucky(luck))
+                {
+                    multiplier = LUCKY_ATTACK_MULTIPLIER;
+                }
+                break;
+            case Heal:
+                random = Rng.getInt(0, HEAL_VARIATION);
+                break;
+            case Defend:
+                random = Rng.getInt(0, DEFEND_VARIATION);
+                if (isLucky(luck))
+                {
+                    base = LUCKY_DEFEND;
+                }
+                break;
+            case AttackAssist:
+                random = Rng.getInt(0, ASSIST_VARIATION);
+                if (isLucky(luck))
+                {
+                    multiplier = LUCKY_ASSIST_MULTIPLIER;
+                }
+                break;
+            case MagicAttackAssist:
+                random = Rng.getInt(0, MAGIC_ASSIST_VARIATION);
+                if (isLucky(luck))
+                {
+                    multiplier = LUCKY_ASSIST_MULTIPLIER;
+                }
+                break;
+        }
+
+        return (int)(multiplier * (base + random));
     }
 
     /**

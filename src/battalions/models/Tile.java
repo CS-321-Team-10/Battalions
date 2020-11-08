@@ -21,81 +21,84 @@ package battalions.models;
  * @author Scott
  * @author Bryant
  */
-public class Tile
+public class Tile implements IMapItem
 {
     /**
-     * The location of this tile on the x-axis.
+     * Contains bit-flags for tile effects.
      */
-    private final int _x;
+    public class Effects
+    {
+        /**
+         * This tile has no special effects on units.
+         */
+        public static final int NONE = 0;
+        
+        /**
+        * This tile prevents units from standing on or crossing it.
+        */
+       public static final int IMPASSABLE = 1;
+
+       /**
+        * This tile boosts a unit's chance of dodging an attack.
+        */
+       public static final int BOOSTS_DODGE = 1 << 1;
+
+       /**
+        * This tile reduces a unit's movement range.
+        */
+       public static final int REDUCES_MOVEMENT = 1 << 2;
+    }
 
     /**
-     * The location of this tile on the y-axis.
+     * The map in which this tile resides.
      */
-    private final int _y;
+    private final Map _map;
 
     /**
-     * Whether or not this tile is impassable.
+     * The location of this tile on the map.
      */
-    private final boolean _isWall;
+    private final Location _location;
 
     /**
-     * Whether or not this tile boosts a unit's chance of dodging an attack.
+     * The effects this tile has when a unit stands on it.
      */
-    private final boolean _boostsDodge;
-
-    /**
-     * Whether or not this tile reduces a unit's movement range.
-     */
-    private final boolean _reducesMovement;
+    private final int _effects;
 
     /**
      * Initializes a new instance of the Tile class.
-     * @param x the location of this tile on the x-axis
-     * @param y the location of this tile on the y-axis
-     * @param isWall whether or not this tile is impassable
-     * @param boostsDodge whether or not this tile boosts a unit's chance of dodging an attack
-     * @param reducesMovement whether or not this tile reduces a unit's movement range
+     * @param map the map in which this tile resides
+     * @param l the initial location for this tile
+     * @param effectFlags the effect bit-flags for this tile
      */
-    public Tile(int x, int y, boolean isWall, boolean boostsDodge, boolean reducesMovement)
+    public Tile(Map map, Location l, int effectFlags)
     {
-        assert x >= 0;
-        assert y >= 0;
+        assert map != null;
+        assert map.inBounds(l);
 
-        // Wall cannot boost dodge chance or reduce movement range
-        assert (isWall && (boostsDodge || reducesMovement)) == false;
-
-        _x = x;
-        _y = y;
-        _isWall = isWall;
-        _boostsDodge = boostsDodge;
-        _reducesMovement = reducesMovement;
+        _map = map;
+        _location = l;
+        _effects = effectFlags;
     }
-
-    /**
-     * Gets the x-coordinate of this tile.
-     * @return the location of this tile on the x-axis
-     */
-    public int getX()
+    
+    @Override
+    public final Map getMap()
     {
-        return _x;
+        return _map;
     }
-
-    /**
-     * Gets the y-coordinate of this tile.
-     * @return the location of this tile on the y-axis
-     */
-    public int getY()
+    
+    @Override
+    public final Location getLocation()
     {
-        return _y;
+        return _location;
     }
 
     /**
      * Returns whether or not this tile is impassable.
      * @return true, if this tile is impassable; false, otherwise
      */
-    public boolean isWall()
+    public boolean isImpassable()
     {
-        return _isWall;
+        return (_effects & Effects.IMPASSABLE) == Effects.IMPASSABLE;
     }
 
     /**
@@ -104,7 +107,7 @@ public class Tile
      */
     public boolean boostsDodge()
     {
-        return _boostsDodge;
+        return (_effects & Effects.BOOSTS_DODGE) == Effects.BOOSTS_DODGE;
     }
 
     /**
@@ -113,21 +116,15 @@ public class Tile
      */
     public boolean reducesMovement()
     {
-        return _reducesMovement;
+        return (_effects & Effects.REDUCES_MOVEMENT) == Effects.REDUCES_MOVEMENT;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString()
     {
-        String format =
-            (_isWall ? "Impassable " : "Passable ")
-            + "Tile @(%d, %d)"
-            + (_boostsDodge ? " [+DODGE]" : "")
-            + (_reducesMovement ? " [-MOVE]" : "");
-
-        return String.format(format + '\n', _x, _y);
+        return "Tile " + _location.toString()
+            + (isImpassable() ? " [WALL]" : "")
+            + (boostsDodge() ? " [+DODGE]" : "")
+            + (reducesMovement() ? " [-MOVE]" : "");
     }
 }

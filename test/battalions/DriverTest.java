@@ -22,7 +22,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Tests the Driver class.
+ * Tests the App class.
  * @author Scott
  */
 public class DriverTest
@@ -52,14 +52,14 @@ public class DriverTest
     }
 
     /**
-     * Tests the Driver.main method.
+     * Tests the App.main method.
      */
     @Test
     public void testMain()
     {
         System.out.println("main");
         String[] args = null;
-        Driver.main(args);
+        App.main(args);
 
         assertTrue(true);
     }

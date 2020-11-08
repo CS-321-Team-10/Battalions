@@ -16,7 +16,9 @@
  */
 package battalions.models;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Contains a grid of tiles.
@@ -26,12 +28,12 @@ import java.util.ArrayList;
 public class Map
 {
     /**
-     * The number of tiles along the direction of the x-axis.
+     * The size of this map (in tiles) along the x-axis.
      */
     private final int _width;
 
     /**
-     * The number of tiles along the direction of the y-axis.
+     * The size of this map (in tiles) along the y-axis.
      */
     private final int _height;
 
@@ -41,14 +43,14 @@ public class Map
     private final Tile[][] _tiles;
 
     /**
-     * The list of player units on the map.
+     * The set of units on the map.
      */
-    private final ArrayList<Unit> _units;
+    private final java.util.Map<Location, Unit> _units;
 
     /**
-     * Initializes a new instance of the Map class.
-     * @param width the width for this map
-     * @param height the height for this map
+     * Initializes a new instance of the Map class at the specified size.
+     * @param width the size of this map (in tiles) along the x-axis
+     * @param height the size of this map (in tiles) along the y-axis
      */
     public Map(int width, int height)
     {
@@ -58,23 +60,23 @@ public class Map
         _width = width;
         _height = height;
 
-        _tiles = new Tile[_width][_height];
+        _tiles = new Tile[_height][_width];
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
             {
-                _tiles[x][y] = new Tile(x, y, false, false, false);
+                _tiles[x][y] = new Tile(this, new Location(x, y), Tile.Effects.NONE);
             }
         }
 
-        _units = new ArrayList<>();
+        _units = new HashMap<>();
     }
 
     /**
      * Returns the width of this map.
      * @return the number of tiles along the direction of the x-axis
      */
-    public int getWidth()
+    public final int getWidth()
     {
         return _width;
     }
@@ -83,210 +85,195 @@ public class Map
      * Returns the height of this map.
      * @return the number of tiles along the direction of the y-axis
      */
-    public int getHeight()
+    public final int getHeight()
     {
         return _height;
     }
 
     /**
-     * Returns the tile positioned at the specified (x, y) coordinate on this map.
-     * @param x the x-coordinate of the desired tile
-     * @param y the y-coordinate of the desired tile
-     * @return the tile at the specified coordinate
+     * Returns the tile positioned at the specified location on this map.
+     * @param l the location of the desired tile
+     * @return the tile at the specified location
      */
-    public Tile getTileAt(int x, int y)
+    public Tile getTileAt(Location l)
     {
-        assert x >= 0 && x < _width;
-        assert y >= 0 && y < _height;
+        assert inBounds(l);
 
-        return _tiles[x][y];
+        return _tiles[l.x][l.y];
     }
 
     /**
-     * Replaces an existing tile with the specified tile.
-     * @param tile the new tile
+     * Returns the unit at the specified location on this map.
+     * @param l the location of the desired unit
+     * @return the unit at the specified location, if one exists; null, otherwise
      */
-    public void addTile(Tile tile)
+    public Unit getUnitAt(Location l)
     {
-        assert tile != null;
+        assert inBounds(l);
 
-        int x = tile.getX();
-        int y = tile.getY();
+        return _units.get(l);
+    }
+
+    /**
+     * Returns the tile positioned under the specified unit on this map.
+     * @param u the unit positioned on the desired tile
+     * @return the tile whose location matches that of the specified unit
+     */
+    public Tile getTileUnder(Unit u)
+    {
+        assert _units.containsValue(u);
+
+        return getTileAt(u.getLocation());
+    }
+
+    /**
+     * Adds a tile to this map.
+     * @param t the tile to add to this map
+     */
+    public void addTile(Tile t)
+    {
+        assert t != null;
+
+        Location l = t.getLocation();
+        assert inBounds(l);
 
         // Cannot place wall on top of unit
-        assert getUnitAt(x, y) == null;
+        assert getUnitAt(l) == null;
 
-        _tiles[x][y] = tile;
+        _tiles[l.x][l.y] = t;
     }
 
     /**
-     * Returns the tile on which the specified unit is positioned.
-     * @param unit the unit whose tile to return
-     * @return the tile at the same (x, y) coordinate of the specified unit
+     * Adds a unit to this map.
+     * @param u the unit to add to the map
      */
-    public Tile getTileUnder(Unit unit)
+    public void addUnit(Unit u)
     {
-        return getTileAt(unit.getX(), unit.getY());
+        assert u != null;
+
+        Location l = u.getLocation();
+        assert inBounds(l);
+
+        // Cannot place unit on top of wall
+        assert getTileAt(l).isImpassable() == false;
+
+        _units.put(l, u);
     }
 
     /**
-     * Returns the unit at the specified (x, y) coordinate, if one exists.
-     * @param x the x-coordinate to check for a unit
-     * @param y the y-coordinate to check for a unit
-     * @return the unit at (x, y), if one exists; null, otherwise
+     * Returns whether it is possible for the specified unit to move to
+     * the specified location.
+     * @param u the unit performing the hypothetical movement
+     * @param l the hypothetical destination location
+     * @return true, if the movement is possible; false, otherwise
      */
-    public Unit getUnitAt(int x, int y)
+    public boolean canMoveTo(Unit u, Location l)
     {
-        // TODO [re-structure]
-        // Improve this implementation by re-structuring how units are stored
-
-        for (Unit unit : _units)
-        {
-            if (unit.getX() == x && unit.getY() == y)
-            {
-                return unit;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Adds the specified unit to the map.
-     * @param unit the unit to add to the map
-     */
-    public void addUnit(Unit unit)
-    {
-        // TODO [re-structure]
-        // This method signature should be altered, maybe to include (x, y) params
-
-        // Cannot add unit on top of wall
-        assert getTileAt(unit.getX(), unit.getY()).isWall() == false;
-
-        _units.add(unit);
-    }
-    
-    /**
-     *  Allows the unit to move across the map. This the actual calculation that
-     *  should be performed after the program checks to ensure that the unit
-     *  is being moved to an empty tile, within its movement range.
-     * @param old_x the x-coordinate of the unit being moved.
-     * @param old_y the y-coordinate of the unit being moved.
-     * @param new_x the x-coordinate the unit is being moved to.
-     * @param new_y the y-coordinate the unit is being moved to.
-     */
-    public void moveUnit(int old_x, int old_y, int new_x, int new_y)
-    {   
-        for (Unit unit : _units)
-        {
-            if (unit.getX() == old_x && unit.getY() == old_y)
-            {
-                unit.setX(new_x);
-                unit.setY(new_y);
-                unit.sethasMoved(true);
-            }
-        }
-    }
-    
-    /**
-     * Performs calculations and checks to determine whether or not the 
-     * new coordinates for a Unit being moved are valid. Checks the Unit's
-     * movement stat, and checks the new Tile for Units and walls.
-     * Returns true if the new coordinates are valid, and otherwise returns
-     * false.
-     * @param old_x the x-coordinate of the unit being moved.
-     * @param old_y the y-coordinate of the unit being moved.
-     * @param new_x the x-coordinate the unit is being moved to.
-     * @param new_y the y-coordinate the unit is being moved to.
-     */
-    public boolean moveUnitCalculations(int old_x, int old_y, int new_x, int new_y)
-    {
-        // TODO [re-structure]
-        // Improve this implementation by re-working movement calculations
-        
-        // Get absolute value of the distance between new and old coordinates
-        int x_difference = Math.abs(old_x - new_x);
-        int y_difference = Math.abs(old_y - new_y);
-        if(getUnitAt(old_x, old_y).getMovement() < (x_difference + y_difference))
+        // Unit must be a child of this map
+        if (_units.containsValue(u) == false)
         {
             return false;
         }
-        
-        if(getUnitAt(old_x, old_y).gethasMoved() || getUnitAt(new_x, new_y) != null || getTileAt(new_x, new_y).isWall())
+
+        // Location must be in bounds
+        if (inBounds(l) == false)
         {
             return false;
         }
-        
-        moveUnit(old_x, old_y, new_x, new_y);
+
+        // Location must not contain a wall
+        Tile tile = getTileAt(l);
+        if (tile.isImpassable())
+        {
+            return false;
+        }
+
+        // [TODO] Pathfinding code to make sure path doesn't
+        //        teleport over walls or other players
+
         return true;
     }
-    
+
     /**
-     * Allows a unit to attack another unit. Checks to ensure that the unit
-     * hasn't already attacked, and that they're actually attacking another
-     * unit.
-     * @param old_x the x-coordinate of the attacking unit.
-     * @param old_y the y-coordinate of the attacking unit.
-     * @param new_x the x-coordinate the unit is being attacked.
-     * @param new_y the y-coordinate the unit is being attacked.
+     * Returns whether it is possible for the former specified unit
+     * to attack the latter.
+     * @param attacker the unit performing the hypothetical attack
+     * @param defender the unit being hypothetically attacked
+     * @return true, if the attack is possible; false, otherwise
      */
-    public boolean runAttackSequence(int old_x, int old_y, int new_x, int new_y, boolean normal_attack)
+    public boolean canAttack(Unit attacker, Unit defender)
     {
-        // TODO [re-structure]
-        // Improve this implementation by re-working range calculations
-        
-        int x_difference = Math.abs(old_x - new_x);
-        int y_difference = Math.abs(old_y - new_y);
-        
-        // End the function if the targeted unit is outside of range,
-        if((getUnitAt(old_x, old_y).getRange() < (x_difference + y_difference)))
+        // Both units must be children of this map
+        if ((_units.containsValue(attacker) == false)
+            || (_units.containsValue(defender) == false))
         {
             return false;
         }
-        
-        if(!getUnitAt(old_x, old_y).gethasActed() && getUnitAt(new_x, new_y) != null && getUnitAt(new_x, new_y).isAlive())
+
+        // Units must be owned by opposing players
+        if (attacker.getPlayer() == defender.getPlayer())
         {
-            for (Unit unit: _units)
-            {
-                if (unit.getX() == old_x && unit.getY() == old_y)
-                {
-                    unit.sethasActed(true);
-                }
-            }
-            
-            for (Unit unit : _units)
-            {
-                if (unit.getX() == new_x && unit.getY() == new_y)
-                {
-                    if(normal_attack)
-                    {
-                        getUnitAt(old_x, old_y).attack(unit);
-                        return true;
-                    }
-                    else
-                    {
-                        getUnitAt(old_x, old_y).magicAttack(unit);
-                        return true;
-                    }
-                }
-            }
+            return false;
         }
-        
-        return false;
+
+        // [TODO] Pathfinding code to make sure path doesn't
+        //        teleport over walls or other players
+
+        return true;
     }
 
     /**
-     * Returns a collection of all units on this map.
-     * @return a copy of the collection of all units on this map
+     * Returns whether it is possible for the former specified unit
+     * to assist the latter.
+     * @param assister the unit performing the hypothetical assist
+     * @param assisted the unit being hypothetically assisted
+     * @return true, if the assist is possible; false, otherwise
      */
-    public Unit[] getUnits()
+    public boolean canAssist(Unit assister, Unit assisted)
     {
-        return _units.toArray(new Unit[_units.size()]);
+        // Both units must be children of this map
+        if (_units.containsValue(assister) == false
+            || _units.containsValue(assisted) == false)
+        {
+            return false;
+        }
+
+        // Units must be owned by the same player
+        if (assister.getPlayer() != assister.getPlayer())
+        {
+            return false;
+        }
+
+        // [TODO] Pathfinding code to make sure path doesn't
+        //        teleport over walls or other players
+
+        return true;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns whether the specified location is within the bounds of this map.
+     * @param l the location in question
+     * @return whether the location is a valid location on this map
      */
+    public boolean inBounds(Location l)
+    {
+        return (l.x >= 0) && (l.x < _width)
+            && (l.y >= 0) && (l.y < _height);
+    }
+
+    /**
+     * Returns the set of all units on this map.
+     * @return a copy of the set of all units on this map
+     */
+    public Set<Unit> getUnits()
+    {
+        Set<Unit> result = new HashSet<>();
+
+        _units.entrySet().forEach(x -> result.add(x.getValue()));
+
+        return result;
+    }
+
     @Override
     public String toString()
     {
@@ -321,12 +308,14 @@ public class Map
             // Each column in row
             for (int x = 0; x < _width; x++)
             {
+                Location l = new Location(x, y);
+
                 sb.append("|");
 
                 char tileChar = ' ';
-                Tile tile = getTileAt(x, y);
+                Tile tile = getTileAt(l);
 
-                if (tile.isWall())
+                if (tile.isImpassable())
                 {
                     tileChar = '|';
                 }
@@ -341,7 +330,7 @@ public class Map
 
                 sb.append(tileChar);
 
-                Unit unit = getUnitAt(x, y);
+                Unit unit = getUnitAt(l);
                 if (unit != null && unit.isAlive())
                 {
                     sb.append('#');
