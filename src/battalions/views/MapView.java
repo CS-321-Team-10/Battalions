@@ -2,11 +2,11 @@
  * School:         University of Alabama in Huntsville
  * Course Title:   Object-Oriented Programming in Java
  * Instructor:     Dr. Dan Rochowiak
- * 
+ *
  * Course Number:  CS 321
  * Course Section: 01
  * Term:           Fall 2020
- * 
+ *
  * Team:           10
  * Team Members:   Scott Clarke
  *                 Guess Crow
@@ -15,7 +15,7 @@
  *                 Bryant Terry
  */
 package battalions.views;
-import java.awt.*;  
+import java.awt.*;
 import javax.swing.*;
 import battalions.models.Map;
 import battalions.models.Tile;
@@ -28,15 +28,16 @@ import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.util.Random;
 /**
- *
- * @author scott
+ * Provides a view for the Map class, controlled by the MapController class.
+ * @author Guess
+ * @author Scott
  */
 public class MapView extends javax.swing.JPanel
 {
     // A MapController object to refer to when drawing map tiles, in order to follow MVC
     // An ImageObserver needed to draw map tiles
     ImageObserver observer;
-    
+
     /**
      * Creates new form MapView
      */
@@ -44,7 +45,7 @@ public class MapView extends javax.swing.JPanel
     {
         initComponents();
     }
-    
+
     public void setMapText(String t)
     {
         mapText.setText(t);
@@ -55,22 +56,26 @@ public class MapView extends javax.swing.JPanel
         updateButton.addActionListener(l);
     }
 
-    public void drawATestPanel(Color color)
+    public void drawATestPanel(Color color, int width, int height, int x, int y)
     {
         JPanel testPanel = new JPanel();
-        testPanel.setSize(32, 32);
+
+        testPanel.setSize(width, height);
+        testPanel.setLocation(x, y);
         testPanel.setBackground(color);
-        testPanel.setLocation(10, 10);
         testPanel.setVisible(true);
+
         tileMap.add(testPanel);
+
+        tileMap.repaint();
     }
-    
+
     // A method that reads through the map data to display, calling the method to display each tile
     public void displayMap(Map mapMod) throws IOException
     {
         // A temporary copy of the 2D tile array retrieved from the model
         Tile[][] tiles = mapMod.getTiles();
-        
+
         // for statements to traverse the copy array
         for (int x = 0; x < tiles.length; x++)
         {
@@ -118,7 +123,7 @@ public class MapView extends javax.swing.JPanel
 			//  e.g. the switch is missing a case
 			assert false;
 	}
-	
+
         // An if statement to randomize the grass tile used for visual interest
         if(fileName == "\\Battalions\\src\\tiles\\Grass1.png")
         {
@@ -136,10 +141,10 @@ public class MapView extends javax.swing.JPanel
                             break;
                 case 3:
                     fileName = "\\Battalions\\src\\tiles\\WheatGrass2.png";
-                            break;            
+                            break;
             }
         }
-        
+
 	// Tile image and image object to hold it
 	File file;
 	BufferedImage tileImage = null;
@@ -153,10 +158,10 @@ public class MapView extends javax.swing.JPanel
 		System.out.println("FileNotFoundException: file \"" + fileName + "\" was not found. " + e);
 		return;
 	}
-        
+
         // Creates a graphics object that holds the png that we've now read into tileImage
         Graphics g = tileImage.getGraphics();
-        
+
         // TESTING TO SEE IF ANYTHING WILL DISPLAY
         /*
         JPanel tilePanel = new JPanel();
@@ -167,18 +172,18 @@ public class MapView extends javax.swing.JPanel
         tilePanel.setVisible(true);
         tileMap.add(tilePanel);
         */
-        
+
         // FINALLY Panel draws the image within the map view. with the png itself, the xy position it should be drawn at, and an image observer
         g.drawImage(tileImage, tile.getLocation().x, tile.getLocation().y, observer);
         paintComponent(g);
     }
-    
+
     @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

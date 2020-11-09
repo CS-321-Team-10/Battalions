@@ -52,11 +52,11 @@ public class MapController
         public void actionPerformed(ActionEvent e)
         {
             _view.setMapText(_model.toString());
-            
+
             // A test method to draw a panel
-            _view.drawATestPanel(Color.red);
-            _view.drawATestPanel(Color.blue);
-            
+            _view.drawATestPanel(Color.red, 32, 32, 10, 10);
+            _view.drawATestPanel(Color.blue, 50, 50, 40, 40);
+
             // Tries to display the map from the passed model whenever the update button is pressed
             try
             {
@@ -67,8 +67,8 @@ public class MapController
                 System.out.println("Map unable to draw" + ex);
             return;
             }
-            
+
         }
     }
-    
+
 }
