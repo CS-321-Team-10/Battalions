@@ -173,6 +173,7 @@ public class MapView extends javax.swing.JPanel
         paintComponent(g);
     }
     
+    @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
