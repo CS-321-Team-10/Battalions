@@ -16,6 +16,7 @@
  */
 package battalions.models;
 
+import static battalions.models.Tile.tileType;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class Map
         {
             for (int y = 0; y < _height; y++)
             {
-                _tiles[x][y] = new Tile(this, new Location(x, y), Tile.Effects.NONE);
+                _tiles[x][y] = new Tile(this, new Location(x, y), Tile.Effects.NONE, Tile.tileType.field);
             }
         }
 

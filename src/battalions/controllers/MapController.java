@@ -16,10 +16,18 @@
  */
 package battalions.controllers;
 
+import battalions.models.Location;
 import battalions.models.Map;
+import battalions.models.Tile.tileType;
 import battalions.views.MapView;
+import java.awt.Color;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JPanel;
 
 /**
  *
@@ -44,6 +52,23 @@ public class MapController
         public void actionPerformed(ActionEvent e)
         {
             _view.setMapText(_model.toString());
+            
+            // A test method to draw a panel
+            _view.drawATestPanel(Color.red);
+            _view.drawATestPanel(Color.blue);
+            
+            // Tries to display the map from the passed model whenever the update button is pressed
+            try
+            {
+                _view.displayMap(_model);
+            }
+            catch (IOException ex)
+            {
+                System.out.println("Map unable to draw" + ex);
+            return;
+            }
+            
         }
     }
+    
 }

@@ -15,16 +15,28 @@
  *                 Bryant Terry
  */
 package battalions.views;
-
+import java.awt.*;  
+import javax.swing.*;
+import battalions.models.Map;
+import battalions.models.Tile;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.awt.event.ActionListener;
-
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.IOException;
+import java.util.Random;
 /**
  *
  * @author scott
  */
 public class MapView extends javax.swing.JPanel
 {
-
+    // A MapController object to refer to when drawing map tiles, in order to follow MVC
+    // An ImageObserver needed to draw map tiles
+    ImageObserver observer;
+    
     /**
      * Creates new form MapView
      */
@@ -43,6 +55,129 @@ public class MapView extends javax.swing.JPanel
         updateButton.addActionListener(l);
     }
 
+    public void drawATestPanel(Color color)
+    {
+        JPanel testPanel = new JPanel();
+        testPanel.setSize(32, 32);
+        testPanel.setBackground(color);
+        testPanel.setLocation(10, 10);
+        testPanel.setVisible(true);
+        tileMap.add(testPanel);
+    }
+    
+    // A method that reads through the map data to display, calling the method to display each tile
+    public void displayMap(Map mapMod) throws IOException
+    {
+        // A temporary copy of the 2D tile array retrieved from the model
+        Tile[][] tiles = mapMod.getTiles();
+        
+        // for statements to traverse the copy array
+        for (int x = 0; x < tiles.length; x++)
+        {
+            for (int y = 0; y < tiles[0].length; y++)
+            {
+                // calls method to display the tile at this x y location
+                displayMapTile(tiles[x][y]);
+            }
+        }
+    }
+    // A method to display a tile image corresponding to the passed tile
+    public void displayMapTile(Tile tile) throws IOException
+    {
+        // Determine the given tile's type, then sets the appropriate PNG path
+        String fileName = null;
+        Random r = new Random();
+	switch (tile.getTileType())
+	{
+		case field:
+			fileName = "\\Battalions\\src\\tiles\\Grass1.png";
+			break;
+		case forest:
+			fileName = "\\Battalions\\src\\tiles\\Forest.png";
+			break;
+		case wallHoriz:
+			fileName = "\\Battalions\\src\\tiles\\WallHorizontal.png";
+			break;
+		case wallVert:
+			fileName = "\\Battalions\\src\\tiles\\WallVertical.png";
+			break;
+		case wallCornerNW:
+			fileName = "\\Battalions\\src\\tiles\\WallCornerNW.png";
+			break;
+		case wallCornerNE:
+			fileName = "\\Battalions\\src\\tiles\\WallCornerNE.png";
+			break;
+		case wallCornerSW:
+			fileName = "\\Battalions\\src\\tiles\\WallCornerSW.png";
+			break;
+		case wallCornerSE:
+			fileName = "\\Battalions\\src\\tiles\\WallCornerSE.png";
+			break;
+		default:
+			// If you end up here, it's probably a code error:
+			//  e.g. the switch is missing a case
+			assert false;
+	}
+	
+        // An if statement to randomize the grass tile used for visual interest
+        if(fileName == "\\Battalions\\src\\tiles\\Grass1.png")
+        {
+            int rand = r.nextInt();
+            switch(rand % 4)
+            {
+                case 0:
+                    fileName = "\\Battalions\\src\\tiles\\Grass1.png";
+                            break;
+                case 1:
+                    fileName = "\\Battalions\\src\\tiles\\Grass2.png";
+                            break;
+                case 2:
+                    fileName = "\\Battalions\\src\\tiles\\WheatGrass1.png";
+                            break;
+                case 3:
+                    fileName = "\\Battalions\\src\\tiles\\WheatGrass2.png";
+                            break;            
+            }
+        }
+        
+	// Tile image and image object to hold it
+	File file;
+	BufferedImage tileImage = null;
+	try
+	{
+		file = new File(fileName);
+		tileImage = ImageIO.read(file);
+	}
+	catch (FileNotFoundException e)
+	{
+		System.out.println("FileNotFoundException: file \"" + fileName + "\" was not found. " + e);
+		return;
+	}
+        
+        // Creates a graphics object that holds the png that we've now read into tileImage
+        Graphics g = tileImage.getGraphics();
+        
+        // TESTING TO SEE IF ANYTHING WILL DISPLAY
+        /*
+        JPanel tilePanel = new JPanel();
+        tilePanel.setSize(16, 16);
+        tilePanel.setBackground(Color.blue);
+        tilePanel.createImage(16, 16);
+        tilePanel.paint(g);
+        tilePanel.setVisible(true);
+        tileMap.add(tilePanel);
+        */
+        
+        // FINALLY Panel draws the image within the map view. with the png itself, the xy position it should be drawn at, and an image observer
+        g.drawImage(tileImage, tile.getLocation().x, tile.getLocation().y, observer);
+        paintComponent(g);
+    }
+    
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,6 +206,7 @@ public class MapView extends javax.swing.JPanel
         selectTileRadio = new javax.swing.JRadioButton();
         sourceSelectX = new javax.swing.JTextField();
         sourceSelectY = new javax.swing.JTextField();
+        tileMap = new javax.swing.JPanel();
         destinationSelectBorder = new javax.swing.JPanel();
         destinationDeselectRadio = new javax.swing.JRadioButton();
         desinationSelectUnitRadio = new javax.swing.JRadioButton();
@@ -174,6 +310,19 @@ public class MapView extends javax.swing.JPanel
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tileMap.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout tileMapLayout = new javax.swing.GroupLayout(tileMap);
+        tileMap.setLayout(tileMapLayout);
+        tileMapLayout.setHorizontalGroup(
+            tileMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 284, Short.MAX_VALUE)
+        );
+        tileMapLayout.setVerticalGroup(
+            tileMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         destinationSelectBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Destination"));
 
         destinationSelectButtonGroup.add(destinationDeselectRadio);
@@ -222,10 +371,9 @@ public class MapView extends javax.swing.JPanel
         mapBorderLayout.setHorizontalGroup(
             mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapBorderLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapTextScrollPanel)
                     .addGroup(mapBorderLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(updateButton)
                             .addGroup(mapBorderLayout.createSequentialGroup()
@@ -234,14 +382,21 @@ public class MapView extends javax.swing.JPanel
                                 .addComponent(sourceSelectBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(destinationSelectBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 342, Short.MAX_VALUE)))
+                        .addGap(0, 342, Short.MAX_VALUE))
+                    .addGroup(mapBorderLayout.createSequentialGroup()
+                        .addComponent(tileMap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(mapTextScrollPanel)))
                 .addContainerGap())
         );
         mapBorderLayout.setVerticalGroup(
             mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapBorderLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mapTextScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mapBorderLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(mapTextScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
+                    .addComponent(tileMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(updateButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -295,6 +450,7 @@ public class MapView extends javax.swing.JPanel
     private javax.swing.ButtonGroup sourceSelectButtonGroup;
     private javax.swing.JTextField sourceSelectX;
     private javax.swing.JTextField sourceSelectY;
+    private javax.swing.JPanel tileMap;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

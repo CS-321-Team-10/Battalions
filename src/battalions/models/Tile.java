@@ -49,6 +49,12 @@ public class Tile implements IMapItem
        public static final int REDUCES_MOVEMENT = 1 << 2;
     }
 
+    // Adding an enum for the type of a tile, used for determining its sprite
+    public enum tileType
+    {
+        field, forest, wallHoriz, wallVert, wallCornerNW, wallCornerNE, wallCornerSW, wallCornerSE;
+    }
+    
     /**
      * The map in which this tile resides.
      */
@@ -64,17 +70,21 @@ public class Tile implements IMapItem
      */
     private final int _effects;
 
+    // The type of the tile on the map
+    private final tileType _type;
+    
     /**
      * Initializes a new instance of the Tile class.
      * @param map the map in which this tile resides
      * @param l the initial location for this tile
      * @param effectFlags the effect bit-flags for this tile
      */
-    public Tile(Map map, Location l, int effectFlags)
+    public Tile(Map map, Location l, int effectFlags, tileType type)
     {
         assert map != null;
         assert map.inBounds(l);
-
+        
+        _type = type;
         _map = map;
         _location = l;
         _effects = effectFlags;
@@ -92,6 +102,12 @@ public class Tile implements IMapItem
         return _location;
     }
 
+    // A simple return method for getting tile type
+    public final tileType getTileType()
+    {
+        return _type;
+    }
+    
     /**
      * Returns whether or not this tile is impassable.
      * @return true, if this tile is impassable; false, otherwise
