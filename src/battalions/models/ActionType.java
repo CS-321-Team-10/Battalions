@@ -14,7 +14,7 @@
  *                 Thomas Lemmons
  *                 Bryant Terry
  */
-package battalions.data;
+package battalions.models;
 
 /**
  * Specifies the type of a unit action.

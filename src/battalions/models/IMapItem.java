@@ -16,8 +16,6 @@
  */
 package battalions.models;
 
-import battalions.data.Location;
-
 /**
  * Represents an object that is located at a coordinate on a map.
  * @author Scott

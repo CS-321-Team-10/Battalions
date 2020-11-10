@@ -16,7 +16,7 @@
  */
 package battalions.util;
 
-import battalions.data.ActionType;
+import battalions.models.ActionType;
 
 /**
  * Used for calculating stat variations.

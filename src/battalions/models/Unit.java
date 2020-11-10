@@ -16,8 +16,6 @@
  */
 package battalions.models;
 
-import battalions.data.Location;
-import battalions.data.ActionType;
 import battalions.util.LocationSets;
 import battalions.util.Stats;
 import java.util.HashSet;

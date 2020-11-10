@@ -16,9 +16,6 @@
  */
 package battalions.models;
 
-import battalions.data.Location;
-import battalions.data.Orientation;
-import battalions.data.TileType;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -68,7 +65,7 @@ public class Map
         {
             for (int y = 0; y < _height; y++)
             {
-                _tiles[x][y] = new Tile(this, new Location(x, y), TileType.Field, Orientation.Up);
+                _tiles[x][y] = new Tile(this, new Location(x, y), Tile.Effects.NONE);
             }
         }
 
@@ -158,7 +155,7 @@ public class Map
         assert inBounds(l);
 
         // Cannot place unit on top of wall
-        assert getTileAt(l).getType().isImpassable() == false;
+        assert getTileAt(l).isImpassable() == false;
 
         _units.put(l, u);
     }
@@ -186,7 +183,7 @@ public class Map
 
         // Location must not contain a wall
         Tile tile = getTileAt(l);
-        if (tile.getType().isImpassable())
+        if (tile.isImpassable())
         {
             return false;
         }
@@ -265,25 +262,6 @@ public class Map
     }
 
     /**
-     * Returns a copy of all tiles on the map, as a 2D array.
-     * @return a shallow copy of all tiles on the map, as a 2D array
-     */
-    public Tile[][] getTiles()
-    {
-        Tile[][] tiles = new Tile[_height][_width];
-
-        for (int x = 0; x < _width; x++)
-        {
-            for (int y = 0; y < _height; y++)
-            {
-                tiles[y][x] = _tiles[y][x];
-            }
-        }
-
-        return tiles;
-    }
-
-    /**
      * Returns the set of all units on this map.
      * @return a copy of the set of all units on this map
      */
@@ -337,15 +315,15 @@ public class Map
                 char tileChar = ' ';
                 Tile tile = getTileAt(l);
 
-                if (tile.getType().isImpassable())
+                if (tile.isImpassable())
                 {
                     tileChar = '|';
                 }
-                else if (tile.getType().boostsDodge())
+                else if (tile.boostsDodge())
                 {
                     tileChar = '~';
                 }
-                else if (tile.getType().reducesMovement())
+                else if (tile.reducesMovement())
                 {
                     tileChar = '_';
                 }

@@ -16,7 +16,7 @@
  */
 package battalions.util;
 
-import battalions.data.Location;
+import battalions.models.Location;
 import java.util.HashSet;
 import java.util.Set;
 
