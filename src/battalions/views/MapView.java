@@ -17,16 +17,11 @@
 package battalions.views;
 import java.awt.*;
 import javax.swing.*;
-import battalions.models.Map;
 import battalions.models.Tile;
 import battalions.util.Rng;
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.io.IOException;
+
 /**
  * Provides a view for the Map class, controlled by the MapController class.
  * @author Guess
@@ -39,135 +34,142 @@ public class MapView extends javax.swing.JPanel
     ImageObserver observer;
 
     /**
-     * Creates new form MapView
+     * Instantiates a new instance of the MapView class.
      */
     public MapView()
     {
         initComponents();
     }
 
+    /**
+     * Displays the provided text on this view.
+     * @param t the text to display
+     */
     public void setMapText(String t)
     {
         mapText.setText(t);
     }
 
+    /**
+     * Adds an action listener that will be used to perform updates upon
+     * clicking the Update button.
+     * @param l the listener for the Update button
+     */
     public void addUpdateButtonListener(ActionListener l)
     {
         updateButton.addActionListener(l);
     }
 
-    public void drawATestPanel(Color color, int width, int height, int x, int y)
+    /**
+     * Displays each tile in the 2D array of tiles.
+     * @param tiles the 2D array of tiles to be displayed
+     */
+    public void displayMap(Tile[][] tiles)
     {
-        JPanel testPanel = new JPanel();
+        final int rows = tiles.length;
+        assert rows > 0;
 
-        testPanel.setSize(width, height);
-        testPanel.setLocation(x, y);
-        testPanel.setBackground(color);
-        testPanel.setVisible(true);
+        final int cols = tiles[0].length;
+        assert cols > 0;
 
-        tileMap.add(testPanel);
+        // Remove all child tiles
+        tileMap.removeAll();
+        tileMap.setLayout(new GridLayout(rows, cols));
 
-        tileMap.repaint();
-    }
-
-    // A method that reads through the map data to display, calling the method to display each tile
-    public void displayMap(Map mapMod) throws IOException
-    {
-        // A temporary copy of the 2D tile array retrieved from the model
-        Tile[][] tiles = mapMod.getTiles();
-
-        // for statements to traverse the copy array
-        for (int x = 0; x < tiles.length; x++)
+        // Traverse X on the inner loop so that the map is drawn row-wise,
+        //  which is required for adding children to a GridLayout
+        for (int y = 0; y < tiles[0].length; y++)
         {
-            for (int y = 0; y < tiles[0].length; y++)
+            for (int x = 0; x < tiles.length; x++)
             {
-                // calls method to display the tile at this x y location
-                displayMapTile(tiles[x][y]);
+                // Current tile
+                Tile t = tiles[y][x];
+
+                // Create tile ImageIcon and insert into JLabel
+                JLabel label = new JLabel(getImage(t));
+                label.setPreferredSize(new Dimension(25, 25));
+
+                // Add each child tile
+                tileMap.add(label);
             }
         }
+
+        // Validate size and paint once all child tiles are added
+        tileMap.validate();
     }
-    // A method to display a tile image corresponding to the passed tile
-    public void displayMapTile(Tile tile) throws IOException
+
+    /**
+     * Return an image with the sprite corresponding to the specified tile.
+     * @param t the tile whose image to return
+     * @return the specified tile sprite as an ImageIcon
+     */
+    private ImageIcon getImage(Tile t)
     {
         // Path to tiles directory
-        String fileName = "\\Battalions\\src\\tiles\\";
+        String fileName = null;
 
         // Determine the given tile's type, then sets the appropriate PNG path
-	switch (tile.getType())
-	{
+        switch (t.getType())
+        {
             case Field:
                 // Randomize which grass tile is chosen
                 switch (Rng.getInt(0, 3))
                 {
                     case 0:
-                        fileName += "Grass1.png";
+                        fileName = "Grass1.png";
                         break;
                     case 1:
-                        fileName += "Grass2.png";
+                        fileName = "Grass2.png";
                         break;
                     case 2:
-                        fileName += "WheatGrass1.png";
+                        fileName = "WheatGrass1.png";
                         break;
                     case 3:
-                        fileName += "WheatGrass2.png";
+                        fileName = "WheatGrass2.png";
                         break;
                 }
                 break;
             case Forest:
-                fileName += "Forest.png";
+                fileName = "Forest.png";
                 break;
             case Sand:
-                fileName += "Sand.png";
+                fileName = "Sand.png";
                 break;
             case Wall:
-                switch (tile.getOrientation())
+                switch (t.getOrientation())
                 {
                     case Up:
                     case Down:
-                        fileName += "WallVertical.png";
+                        fileName = "WallVertical.png";
                         break;
                     case Right:
                     case Left:
-                        fileName += "WallHorizontal.png";
+                        fileName = "WallHorizontal.png";
                         break;
                     case UpLeft:
-                        fileName += "WallCornerNW.png";
+                        fileName = "WallCornerNW.png";
                         break;
                     case UpRight:
-                        fileName += "WallCornerNE.png";
+                        fileName = "WallCornerNE.png";
                         break;
                     case DownLeft:
-                        fileName += "WallCornerSW.png";
+                        fileName = "WallCornerSW.png";
                         break;
                     case DownRight:
-                        fileName += "WallCornerSE.png";
+                        fileName = "WallCornerSE.png";
                         break;
                 }
                 break;
-            default:
-                // If you end up here, it's probably a code error:
-                //  e.g. the switch is missing a case
-                assert false;
-	}
+        }
 
-	// Tile image and image object to hold it
-	File file;
-	BufferedImage tileImage = null;
-	try
-	{
-		file = new File(fileName);
-		tileImage = ImageIO.read(file);
-	}
-	catch (FileNotFoundException e)
-	{
-		System.out.println("FileNotFoundException: file \"" + fileName + "\" was not found. " + e);
-		return;
-	}
+        if (fileName == null)
+        {
+            // If you end up here, it's probably a code error:
+            //  e.g. a switch is missing a case
+            assert false;
+        }
 
-        Graphics g = tileImage.getGraphics();
-
-        // Draw the image within the map view
-        g.drawImage(tileImage, tile.getLocation().x, tile.getLocation().y, observer);
+        return new ImageIcon("src/images/tiles/" + fileName);
     }
 
     /**
