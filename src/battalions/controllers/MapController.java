@@ -18,10 +18,8 @@ package battalions.controllers;
 
 import battalions.models.Map;
 import battalions.views.MapView;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  *
