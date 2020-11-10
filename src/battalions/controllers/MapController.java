@@ -44,6 +44,10 @@ public class MapController
         public void actionPerformed(ActionEvent e)
         {
             _view.setMapText(_model.toString());
+
+            // [TODO deal with try-catch]
+            _view.displayMap(_model.getTiles());
         }
     }
+
 }

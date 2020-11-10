@@ -16,12 +16,11 @@
  */
 package battalions;
 
+import battalions.data.*;
 import battalions.controllers.*;
 import battalions.models.*;
 import battalions.views.*;
-import java.awt.FlowLayout;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Serves as the entry point of the program.
@@ -89,20 +88,20 @@ public class App
         _cpu = new Player();
 
         // Add walls
-        map.addTile(new Tile(map, new Location(4, 4), Tile.Effects.IMPASSABLE));
-        map.addTile(new Tile(map, new Location(4, 5), Tile.Effects.IMPASSABLE));
-        map.addTile(new Tile(map, new Location(7, 4), Tile.Effects.IMPASSABLE));
+        map.addTile(new Tile(map, new Location(4, 4), TileType.Wall, Orientation.Right));
+        map.addTile(new Tile(map, new Location(4, 5), TileType.Wall, Orientation.Up));
+        map.addTile(new Tile(map, new Location(7, 4), TileType.Wall, Orientation.UpLeft));
 
         // Add dodge boost tiles
-        map.addTile(new Tile(map, new Location(5, 4), Tile.Effects.BOOSTS_DODGE));
-        map.addTile(new Tile(map, new Location(5, 3), Tile.Effects.BOOSTS_DODGE));
+        map.addTile(new Tile(map, new Location(5, 4), TileType.Forest, Orientation.Up));
+        map.addTile(new Tile(map, new Location(5, 3), TileType.Forest, Orientation.Up));
 
         // Add movement reduce tiles
-        map.addTile(new Tile(map, new Location(7, 7), Tile.Effects.REDUCES_MOVEMENT));
+        map.addTile(new Tile(map, new Location(7, 7), TileType.Sand, Orientation.Up));
 
         // Add units [TODO these units are not completely usable]
-        map.addUnit(new Unit(_player, map, new Location(5, 4), 15, 2, 1, 3, 2, 5, 3, 5, 1, new HashSet<Location>(), new HashSet<Location>()));
-        map.addUnit(new Unit(_player, map, new Location(2, 7), 10, 3, 2, 2, 1, 4, 5, 5, 1, new HashSet<Location>(), new HashSet<Location>()));
+        map.addUnit(new Unit(_player, map, new Location(5, 4), 15, 2, 1, 3, 2, 5, 3, 5, 1, new HashSet<>(), new HashSet<>()));
+        map.addUnit(new Unit(_player, map, new Location(2, 7), 10, 3, 2, 2, 1, 4, 5, 5, 1, new HashSet<>(), new HashSet<>()));
     }
 
     /**
@@ -175,7 +174,8 @@ public class App
         GameView gameView = new GameView();
 
         Map map = _game.getMap();
-        MapController mapController = new MapController(map, gameView.getMapView());
+        MapView mapView = gameView.getMapView();
+        MapController mapController = new MapController(map, mapView);
 
         gameView.setVisible(true);
     }
