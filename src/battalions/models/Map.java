@@ -16,7 +16,9 @@
  */
 package battalions.models;
 
-import static battalions.models.Tile.tileType;
+import battalions.data.Location;
+import battalions.data.Orientation;
+import battalions.data.TileType;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -66,7 +68,7 @@ public class Map
         {
             for (int y = 0; y < _height; y++)
             {
-                _tiles[x][y] = new Tile(this, new Location(x, y), Tile.Effects.NONE, Tile.tileType.field);
+                _tiles[x][y] = new Tile(this, new Location(x, y), TileType.Field, Orientation.Up);
             }
         }
 
@@ -156,7 +158,7 @@ public class Map
         assert inBounds(l);
 
         // Cannot place unit on top of wall
-        assert getTileAt(l).isImpassable() == false;
+        assert getTileAt(l).getType().isImpassable() == false;
 
         _units.put(l, u);
     }
@@ -184,7 +186,7 @@ public class Map
 
         // Location must not contain a wall
         Tile tile = getTileAt(l);
-        if (tile.isImpassable())
+        if (tile.getType().isImpassable())
         {
             return false;
         }
@@ -335,15 +337,15 @@ public class Map
                 char tileChar = ' ';
                 Tile tile = getTileAt(l);
 
-                if (tile.isImpassable())
+                if (tile.getType().isImpassable())
                 {
                     tileChar = '|';
                 }
-                else if (tile.boostsDodge())
+                else if (tile.getType().boostsDodge())
                 {
                     tileChar = '~';
                 }
-                else if (tile.reducesMovement())
+                else if (tile.getType().reducesMovement())
                 {
                     tileChar = '_';
                 }

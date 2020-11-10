@@ -16,6 +16,10 @@
  */
 package battalions.models;
 
+import battalions.data.Location;
+import battalions.data.Orientation;
+import battalions.data.TileType;
+
 /**
  * A single square on the map.
  * @author Scott
@@ -23,38 +27,6 @@ package battalions.models;
  */
 public class Tile implements IMapItem
 {
-    /**
-     * Contains bit-flags for tile effects.
-     */
-    public class Effects
-    {
-        /**
-         * This tile has no special effects on units.
-         */
-        public static final int NONE = 0;
-        
-        /**
-        * This tile prevents units from standing on or crossing it.
-        */
-       public static final int IMPASSABLE = 1;
-
-       /**
-        * This tile boosts a unit's chance of dodging an attack.
-        */
-       public static final int BOOSTS_DODGE = 1 << 1;
-
-       /**
-        * This tile reduces a unit's movement range.
-        */
-       public static final int REDUCES_MOVEMENT = 1 << 2;
-    }
-
-    // Adding an enum for the type of a tile, used for determining its sprite
-    public enum tileType
-    {
-        field, forest, wallHoriz, wallVert, wallCornerNW, wallCornerNE, wallCornerSW, wallCornerSE;
-    }
-    
     /**
      * The map in which this tile resides.
      */
@@ -66,81 +38,70 @@ public class Tile implements IMapItem
     private final Location _location;
 
     /**
-     * The effects this tile has when a unit stands on it.
+     * The type of this tile, containing the effectFlags it has on a unit.
      */
-    private final int _effects;
+    private final TileType _type;
 
-    // The type of the tile on the map
-    private final tileType _type;
-    
+    /**
+     * The direction this tile faces.
+     */
+    private final Orientation _orientation;
+
     /**
      * Initializes a new instance of the Tile class.
      * @param map the map in which this tile resides
      * @param l the initial location for this tile
-     * @param effectFlags the effect bit-flags for this tile
+     * @param type the type of this tile, containing the effectFlags it has on a unit
+     * @param orientation the direction this tile faces
      */
-    public Tile(Map map, Location l, int effectFlags, tileType type)
+    public Tile(Map map, Location l, TileType type, Orientation orientation)
     {
         assert map != null;
         assert map.inBounds(l);
-        
-        _type = type;
+
         _map = map;
         _location = l;
-        _effects = effectFlags;
+
+        _type = type;
+        _orientation = orientation;
     }
-    
+
     @Override
     public final Map getMap()
     {
         return _map;
     }
-    
+
     @Override
     public final Location getLocation()
     {
         return _location;
     }
 
-    // A simple return method for getting tile type
-    public final tileType getTileType()
+    /**
+     * Returns the type of this tile, containing the effectFlags it has on a unit.
+     * @return the type of this tile
+     */
+    public final TileType getType()
     {
         return _type;
     }
-    
-    /**
-     * Returns whether or not this tile is impassable.
-     * @return true, if this tile is impassable; false, otherwise
-     */
-    public boolean isImpassable()
-    {
-        return (_effects & Effects.IMPASSABLE) == Effects.IMPASSABLE;
-    }
 
     /**
-     * Returns whether or not this tile boosts a unit's chance of dodging an attack.
-     * @return true, if this tile boosts dodge chance; false, otherwise
+     * Returns the direction this tile faces.
+     * @return the orientation of this tile
      */
-    public boolean boostsDodge()
+    public final Orientation getOrientation()
     {
-        return (_effects & Effects.BOOSTS_DODGE) == Effects.BOOSTS_DODGE;
-    }
-
-    /**
-     * Returns whether or not this tile reduces a unit's movement range.
-     * @return true, if this tile reduces movement range; false, otherwise
-     */
-    public boolean reducesMovement()
-    {
-        return (_effects & Effects.REDUCES_MOVEMENT) == Effects.REDUCES_MOVEMENT;
+        return _orientation;
     }
 
     @Override
     public String toString()
     {
         return "Tile " + _location.toString()
-            + (isImpassable() ? " [WALL]" : "")
-            + (boostsDodge() ? " [+DODGE]" : "")
-            + (reducesMovement() ? " [-MOVE]" : "");
+            + (_type.isImpassable() ? " [WALL]" : "")
+            + (_type.boostsDodge() ? " [+DODGE]" : "")
+            + (_type.reducesMovement() ? " [-MOVE]" : "");
     }
 }

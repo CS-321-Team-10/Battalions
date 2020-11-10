@@ -14,7 +14,7 @@
  *                 Thomas Lemmons
  *                 Bryant Terry
  */
-package battalions.models;
+package battalions.data;
 
 /**
  * Stores an ordered (x, y) pair representing a location.

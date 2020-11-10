@@ -16,18 +16,12 @@
  */
 package battalions.controllers;
 
-import battalions.models.Location;
 import battalions.models.Map;
-import battalions.models.Tile.tileType;
 import battalions.views.MapView;
 import java.awt.Color;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JPanel;
 
 /**
  *

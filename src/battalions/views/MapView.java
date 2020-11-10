@@ -19,6 +19,7 @@ import java.awt.*;
 import javax.swing.*;
 import battalions.models.Map;
 import battalions.models.Tile;
+import battalions.util.Rng;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +27,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
-import java.util.Random;
 /**
  * Provides a view for the Map class, controlled by the MapController class.
  * @author Guess
@@ -89,61 +89,66 @@ public class MapView extends javax.swing.JPanel
     // A method to display a tile image corresponding to the passed tile
     public void displayMapTile(Tile tile) throws IOException
     {
-        // Determine the given tile's type, then sets the appropriate PNG path
-        String fileName = null;
-        Random r = new Random();
-	switch (tile.getTileType())
-	{
-		case field:
-			fileName = "\\Battalions\\src\\tiles\\Grass1.png";
-			break;
-		case forest:
-			fileName = "\\Battalions\\src\\tiles\\Forest.png";
-			break;
-		case wallHoriz:
-			fileName = "\\Battalions\\src\\tiles\\WallHorizontal.png";
-			break;
-		case wallVert:
-			fileName = "\\Battalions\\src\\tiles\\WallVertical.png";
-			break;
-		case wallCornerNW:
-			fileName = "\\Battalions\\src\\tiles\\WallCornerNW.png";
-			break;
-		case wallCornerNE:
-			fileName = "\\Battalions\\src\\tiles\\WallCornerNE.png";
-			break;
-		case wallCornerSW:
-			fileName = "\\Battalions\\src\\tiles\\WallCornerSW.png";
-			break;
-		case wallCornerSE:
-			fileName = "\\Battalions\\src\\tiles\\WallCornerSE.png";
-			break;
-		default:
-			// If you end up here, it's probably a code error:
-			//  e.g. the switch is missing a case
-			assert false;
-	}
+        // Path to tiles directory
+        String fileName = "\\Battalions\\src\\tiles\\";
 
-        // An if statement to randomize the grass tile used for visual interest
-        if(fileName == "\\Battalions\\src\\tiles\\Grass1.png")
-        {
-            int rand = r.nextInt();
-            switch(rand % 4)
-            {
-                case 0:
-                    fileName = "\\Battalions\\src\\tiles\\Grass1.png";
-                            break;
-                case 1:
-                    fileName = "\\Battalions\\src\\tiles\\Grass2.png";
-                            break;
-                case 2:
-                    fileName = "\\Battalions\\src\\tiles\\WheatGrass1.png";
-                            break;
-                case 3:
-                    fileName = "\\Battalions\\src\\tiles\\WheatGrass2.png";
-                            break;
-            }
-        }
+        // Determine the given tile's type, then sets the appropriate PNG path
+	switch (tile.getType())
+	{
+            case Field:
+                // Randomize which grass tile is chosen
+                switch (Rng.getInt(0, 3))
+                {
+                    case 0:
+                        fileName += "Grass1.png";
+                        break;
+                    case 1:
+                        fileName += "Grass2.png";
+                        break;
+                    case 2:
+                        fileName += "WheatGrass1.png";
+                        break;
+                    case 3:
+                        fileName += "WheatGrass2.png";
+                        break;
+                }
+                break;
+            case Forest:
+                fileName += "Forest.png";
+                break;
+            case Sand:
+                fileName += "Sand.png";
+                break;
+            case Wall:
+                switch (tile.getOrientation())
+                {
+                    case Up:
+                    case Down:
+                        fileName += "WallVertical.png";
+                        break;
+                    case Right:
+                    case Left:
+                        fileName += "WallHorizontal.png";
+                        break;
+                    case UpLeft:
+                        fileName += "WallCornerNW.png";
+                        break;
+                    case UpRight:
+                        fileName += "WallCornerNE.png";
+                        break;
+                    case DownLeft:
+                        fileName += "WallCornerSW.png";
+                        break;
+                    case DownRight:
+                        fileName += "WallCornerSE.png";
+                        break;
+                }
+                break;
+            default:
+                // If you end up here, it's probably a code error:
+                //  e.g. the switch is missing a case
+                assert false;
+	}
 
 	// Tile image and image object to hold it
 	File file;
@@ -159,29 +164,10 @@ public class MapView extends javax.swing.JPanel
 		return;
 	}
 
-        // Creates a graphics object that holds the png that we've now read into tileImage
         Graphics g = tileImage.getGraphics();
 
-        // TESTING TO SEE IF ANYTHING WILL DISPLAY
-        /*
-        JPanel tilePanel = new JPanel();
-        tilePanel.setSize(16, 16);
-        tilePanel.setBackground(Color.blue);
-        tilePanel.createImage(16, 16);
-        tilePanel.paint(g);
-        tilePanel.setVisible(true);
-        tileMap.add(tilePanel);
-        */
-
-        // FINALLY Panel draws the image within the map view. with the png itself, the xy position it should be drawn at, and an image observer
+        // Draw the image within the map view
         g.drawImage(tileImage, tile.getLocation().x, tile.getLocation().y, observer);
-        paintComponent(g);
-    }
-
-    @Override
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
     }
 
     /**
