@@ -165,15 +165,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         assert map != null;
         assert map.inBounds(l);
 
-        assert health > 0;
-        assert attack >= 0;
-        assert defense >= 0;
-        assert magicAttack >= 0;
-        assert magicDefense >= 0;
-        assert speed >= 0;
-        assert luck >= 0;
-        assert movement >= 0;
-        assert range >= 0;
+        
 
         // Unit must be able to attack either physically or magically
         assert attack > 0 || magicAttack > 0;
