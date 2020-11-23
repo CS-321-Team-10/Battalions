@@ -44,13 +44,25 @@ public class Location
     }
 
     /**
-     * Returns a new location based on this location with the specified offset.
-     * @param offset the offset between this location and the desired return location
-     * @return a new location offset from this location by the specified offset
+     * Returns a new location that is offset from this location by the specified amount.
+     * @param l the offset between this location and the desired return location
+     * @return a new location offset from this location by the specified amount
      */
-    public Location fromOffset(Location offset)
+    public Location plus(Location l)
     {
-        return new Location(x + offset.x, y + offset.y);
+        return new Location(x + l.x, y + l.y);
+    }
+
+    /**
+     * Returns a new location which is the relative offset to transform
+     * the specified location into this location.
+     * @param l the source location that, when added to the returned offset,
+     * would produce this location
+     * @return a new location which is the relative offset between the two locations
+     */
+    public Location minus(Location l)
+    {
+        return new Location(x - l.x, y - l.y);
     }
 
     @Override

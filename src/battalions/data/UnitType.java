@@ -16,194 +16,291 @@
  */
 package battalions.data;
 
+import battalions.util.LocationSets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
- * Contains information about the base stats of each unit.
+ * Contains information about the base stats of each unit type.
  * @author Blocker
+ * @author Scott
  */
 public enum UnitType
 {
-    //v Unit Name
-           //v Base Stats: HP, Str, Def, MStr, MDef, Speed
-    Infantry(20, 10, 5, 3, 4, 5, 2, 1,
-        //v Movement Mask
+    /**
+     * The infantry unit type.
+     */
+    Infantry(/* HP */ 20, /* ATK */ 10, /* DEF */ 5, /* MATK */ 3, /* MDEF */ 4, /* SPD */ 5, /* LUCK */ 1,
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* MOVES */
                     new Location(-2, -1), new Location(-2,  0), new Location(-2,  1),
                     new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2),
                     new Location( 0, -2), new Location( 0, -1), new Location( 0,  1), new Location( 0,  2),
                     new Location( 1, -2), new Location( 1, -1), new Location( 1,  0), new Location( 1,  1), new Location( 1,  2),
                     new Location( 2, -1), new Location( 2,  0), new Location( 2,  1)
-                }
-            )
-        ),
-        //v Action Mask
+                })),
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* ACTIONS */
                     new Location(-1, -1), new Location(-1,  0), new Location(-1,  1),
                     new Location( 0, -1), new Location( 0,  0), new Location( 0,  1),
                     new Location( 1, -1), new Location( 1,  0), new Location( 1,  1)
-                }
-            )
-        )
+                }))
     ),
-    
-    Mage(12, 3, 3, 10, 5, 4, 2, 2,
+
+    /**
+     * The mage unit type.
+     */
+    Mage(/* HP */ 12, /* ATK */ 3, /* DEF */ 3, /* MATK */ 10, /* MDEF */ 5, /* SPD */ 4, /* LUCK */ 2,
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* MOVES */
                     new Location(-2, -1), new Location(-2,  0), new Location(-2,  1),
                     new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2),
                     new Location( 0, -2), new Location( 0, -1), new Location( 0,  1), new Location( 0,  2),
                     new Location( 1, -2), new Location( 1, -1), new Location( 1,  0), new Location( 1,  1), new Location( 1,  2),
                     new Location( 2, -1), new Location( 2,  0), new Location( 2,  1)
-                }
-            )
-        ),
+                })),
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* ACTIONS */
                     new Location(-2, -1), new Location(-2,  0), new Location(-2,  1),
                     new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2),
                     new Location( 0, -2), new Location( 0, -1), new Location( 0,  1), new Location( 0,  2),
                     new Location( 1, -2), new Location( 1, -1), new Location( 1,  0), new Location( 1,  1), new Location( 1,  2),
                     new Location( 2, -1), new Location( 2,  0), new Location( 2,  1)
-                }
-            )
-        )
+                }))
     ),
-    
-    Knight(24, 7, 8, 0, 3, 2, 1, 1,
+
+    /**
+     * The knight unit type.
+     */
+    Knight(/* HP */ 24, /* ATK */ 7, /* DEF */ 8, /* MATK */ 0, /* MDEF */ 3, /* SPD */ 2, /* LUCK */ 1,
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* MOVES */
                     new Location(-1, -1), new Location(-1,  0), new Location(-1,  1),
                     new Location( 0, -1), new Location( 0,  1),
                     new Location( 1, -1), new Location( 1,  0), new Location( 1,  1)
-                }
-            )
-        ),
+                })),
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* ACTIONS */
                     new Location(-1, -1), new Location(-1,  0), new Location(-1,  1),
                     new Location( 0, -1), new Location( 0,  0), new Location( 0,  1),
                     new Location( 1, -1), new Location( 1,  0), new Location( 1,  1)
-                }
-            )
-        )
+                }))
     ),
-    
-    Warlock(16, 3, 2, 9, 9, 3, 1, 2,
+
+    /**
+     * The warlock unit type.
+     */
+    Warlock(/* HP */ 16, /* ATK */ 3, /* DEF */ 2, /* MATK */ 9, /* MDEF */ 9, /* SPD */ 3, /* LUCK */ 3,
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* MOVES */
                     new Location(-1, -1), new Location(-1,  0), new Location(-1,  1),
                     new Location( 0, -1), new Location( 0,  1),
                     new Location( 1, -1), new Location( 1,  0), new Location( 1,  1)
-                }
-            )
-        ),
+                })),
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* ACTIONS */
                     new Location(-2, -1), new Location(-2,  0), new Location(-2,  1),
                     new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2),
                     new Location( 0, -2), new Location( 0, -1), new Location( 0,  1), new Location( 0,  2),
                     new Location( 1, -2), new Location( 1, -1), new Location( 1,  0), new Location( 1,  1), new Location( 1,  2),
                     new Location( 2, -1), new Location( 2,  0), new Location( 2,  1)
-                }
-            )
-        )
+                }))
     ),
-    
-    Archer(12, 7, 4, 3, 5, 4, 2, 3,
+
+    /**
+     * The archer unit type.
+     */
+    Archer(/* HP */ 12, /* ATK */ 7, /* DEF */ 4, /* MATK */ 3, /* MDEF */ 5, /* SPD */ 4, /* LUCK */ 1,
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* MOVES */
                     new Location(-2, -1), new Location(-2,  0), new Location(-2,  1),
                     new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2),
                     new Location( 0, -2), new Location( 0, -1), new Location( 0,  1), new Location( 0,  2),
                     new Location( 1, -2), new Location( 1, -1), new Location( 1,  0), new Location( 1,  1), new Location( 1,  2),
                     new Location( 2, -1), new Location( 2,  0), new Location( 2,  1)
-                }
-            )
-        ),
+                })),
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* ACTIONS */
                     new Location(-3, -1), new Location(-3,  0), new Location(-3,  1),
                     new Location(-2, -2), new Location(-2, -1), new Location(-2,  0), new Location(-2,  1), new Location(-2,  2),
-                    new Location(-1, -3), new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2), new Location(-1,  3), 
+                    new Location(-1, -3), new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2), new Location(-1,  3),
                     new Location( 0, -3), new Location( 0, -2), new Location( 0, -1), new Location( 0,  1), new Location( 0,  2), new Location( 0,  3),
                     new Location( 1, -3), new Location( 1, -2), new Location( 1, -1), new Location( 1,  0), new Location( 1,  1), new Location( 1,  2), new Location( 1,  3),
                     new Location( 2, -2), new Location( 2, -1), new Location( 2,  0), new Location( 2,  1), new Location( 2,  2), new Location( 3, -1), new Location( 3,  0), new Location( 3,  1)
-                }
-            )
-        )
+                }))
     ),
-    
-    Healer(10, 2, 2, 8, 7, 4, 2, 1,
+
+    /**
+     * The healer unit type.
+     */
+    Healer(/* HP */ 10, /* ATK */ 2, /* DEF */ 2, /* MATK */ 8, /* MDEF */ 7, /* SPD */ 4, /* LUCK */ 1,
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* MOVES */
                     new Location(-2, -1), new Location(-2,  0), new Location(-2,  1),
                     new Location(-1, -2), new Location(-1, -1), new Location(-1,  0), new Location(-1,  1), new Location(-1,  2),
                     new Location( 0, -2), new Location( 0, -1), new Location( 0,  1), new Location( 0,  2),
                     new Location( 1, -2), new Location( 1, -1), new Location( 1,  0), new Location( 1,  1), new Location( 1,  2),
                     new Location( 2, -1), new Location( 2,  0), new Location( 2,  1)
-                }
-            )
-        ),
+                })),
         new HashSet<>(
             Arrays.asList(
-                new Location[]{
+                new Location[]
+                { /* ACTIONS */
                     new Location(-1, -1), new Location(-1,  0), new Location(-1,  1),
                     new Location( 0, -1), new Location( 0,  0), new Location( 0,  1),
                     new Location( 1, -1), new Location( 1,  0), new Location( 1,  1)
-                }
-            )
-        )
+                }))
     );
 
     /**
-     * Base States, Movement & Action Masks.
+     * The base amount of damage this unit type can sustain.
      */
     public final int baseHealth;
-    public final int baseAttack;
-    public final int baseDefense;
-    public final int baseMagicAttack;
-    public final int baseMagicDefense;
-    public final int baseSpeed;
-    public final int baseMovement;
-    public final int baseRange;
 
     /**
-     * Initializes a new value of the UnitType enumeration.
+     * The base damage dealt by this unit type's physical attacks.
      */
-    private UnitType(int baseHealth, int baseAttack, int baseDefense, int baseMagicAttack, int baseMagicDefense, int baseSpeed, int baseMovement, int baseRange, Set<Location> moveMask, Set<Location> attackMask)
+    public final int baseAttack;
+
+    /**
+     * This unit type's base reduction to damage from physical attacks.
+     */
+    public final int baseDefense;
+
+    /**
+     * The base damage dealt by this unit type's magical attacks.
+     */
+    public final int baseMagicAttack;
+
+    /**
+     * This unit type's base reduction to damage from magical attacks.
+     */
+    public final int baseMagicDefense;
+
+    /**
+     * The speed of this unit type for determining action order.
+     */
+    public final int baseSpeed;
+
+    /**
+     * This unit type's base stat for the relative rarity of performing lucky actions.
+     */
+    public final int baseLuck;
+
+    /**
+     * The set of relative movement options for this unit.
+     */
+    private final Set<Location> _moveMask;
+
+    /**
+     * The set of relative action options for this unit.
+     */
+    private final Set<Location> _actionMask;
+
+    /**
+     * Returns whether this unit type can perform the specified relative movement.
+     * @param relative the relative location to check
+     * @return true, if the movement can be made; false, otherwise
+     */
+    public final boolean canMove(Location relative)
     {
-        assert baseHealth > 0;
-        assert baseAttack >= 0;
-        assert baseDefense >= 0;
-        assert baseMagicAttack >= 0;
-        assert baseMagicDefense >= 0;
-        assert baseSpeed >= 0;
-        assert baseMovement >= 0;
-        assert baseRange >= 0;
-        
-        this.baseHealth = baseHealth;
-        this.baseAttack = baseAttack;
-        this.baseDefense = baseDefense;
-        this.baseMagicAttack = baseMagicAttack;
-        this.baseMagicDefense = baseMagicDefense;
-        this.baseSpeed = baseSpeed;
-        this.baseMovement = baseMovement;
-        this.baseRange = baseRange;        
+        return _moveMask.contains(relative);
+    }
+
+    /**
+     * Returns whether this unit type can perform the specified relative action.
+     * @param relative the relative location to check
+     * @return true, if the action can be made; false, otherwise
+     */
+    public final boolean canAct(Location relative)
+    {
+        return _actionMask.contains(relative);
+    }
+
+    /**
+     * Returns a sequence of this unit type's valid movements that can be
+     * used for aggregate operations.
+     * @return a stream of this unit type's valid movements
+     */
+    public final Stream<Location> moves()
+    {
+        return _moveMask.stream();
+    }
+
+    /**
+     * Returns a sequence of this unit type's valid action patterns that can be
+     * used for aggregate operations.
+     * @return a stream of this unit type's valid action patterns
+     */
+    public final Stream<Location> actions()
+    {
+        return _actionMask.stream();
+    }
+
+    /**
+     * Initializes a new instance of the UnitType enumeration.
+     * @param health the base health for this unit type
+     * @param attack the base attack for this unit type
+     * @param defense the base defense for this unit type
+     * @param magicAttack the base magic attack for this unit type
+     * @param magicDefense the base magic defense for this unit type
+     * @param speed the base speed for this unit type
+     * @param luck the base luck for this unit type
+     * @param moves the valid relative locations to which this unit type can move
+     * @param actions the valid relative locations at which this unit type can perform actions
+     */
+    private UnitType(int health, int attack, int defense,
+        int magicAttack, int magicDefense,
+        int speed, int luck,
+        Set<Location> moves, Set<Location> actions)
+    {
+        assert health > 0;
+        assert attack >= 0;
+        assert defense >= 0;
+        assert magicAttack >= 0;
+        assert magicDefense >= 0;
+        assert speed >= 0;
+        assert luck >= 0;
+
+        // Unit must be able to attack either physically or magically
+        assert attack > 0 || magicAttack > 0;
+
+        assert moves != null;
+        assert actions != null;
+
+        baseHealth = health;
+        baseAttack = attack;
+        baseDefense = defense;
+        baseMagicAttack = magicAttack;
+        baseMagicDefense = magicDefense;
+        baseSpeed = speed;
+        baseLuck = luck;
+
+        _moveMask = moves;
+        _actionMask = actions;
     }
 }

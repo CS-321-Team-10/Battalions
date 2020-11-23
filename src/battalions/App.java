@@ -99,9 +99,8 @@ public class App
         // Add movement reduce tiles
         map.addTile(new Tile(map, new Location(7, 7), TileType.Sand, Orientation.Up));
 
-        // Add units [TODO these units are not completely usable]
-        map.addUnit(new Unit(_player, map, new Location(5, 4), 15, 2, 1, 3, 2, 5, 3, 5, 1, new HashSet<>(), new HashSet<>()));
-        map.addUnit(new Unit(_player, map, new Location(2, 7), 10, 3, 2, 2, 1, 4, 5, 5, 1, new HashSet<>(), new HashSet<>()));
+        map.addUnit(new Unit(_player, map, new Location(5, 4), UnitType.Archer));
+        map.addUnit(new Unit(_player, map, new Location(2, 7), UnitType.Healer));
     }
 
     /**

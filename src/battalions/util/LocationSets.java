@@ -37,7 +37,7 @@ public final class LocationSets
     {
         Set<Location> result = new HashSet<>();
 
-        locations.forEach(x -> result.add(x.fromOffset(offset)));
+        locations.forEach(x -> result.add(x.plus(offset)));
 
         return result;
     }

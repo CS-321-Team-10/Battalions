@@ -18,7 +18,7 @@ package battalions.models;
 
 import battalions.data.Location;
 import battalions.data.ActionType;
-import battalions.util.LocationSets;
+import battalions.data.UnitType;
 import battalions.util.Stats;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,6 +44,11 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
      * The location of this unit on the map.
      */
     private Location _location;
+
+    /**
+     * The type of this unit.
+     */
+    private final UnitType _type;
 
     /**
      * Whether this unit has performed a move this turn.
@@ -73,128 +78,64 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     /**
      * The damage dealt by this unit's physical attacks.
      */
-    private final int _attack;
-
-    /**
-     * This unit's boost to physical attack power for the current turn.
-     */
-    private int _attackBoost;
+    private int _attack;
 
     /**
      * This unit's reduction to damage from physical attacks.
      */
-    private final int _defense;
-
-    /**
-     * This unit's boost to physical defense for the current turn.
-     */
-    private int _defenseBoost;
+    private int _defense;
 
     /**
      * The damage dealt by this unit's magical attacks.
      */
-    private final int _magicAttack;
-
-    /**
-     * This unit's boost to magical attack power for the current turn.
-     */
-    private int _magicAttackBoost;
+    private int _magicAttack;
 
     /**
      * This unit's reduction to damage from magical attacks.
      */
-    private final int _magicDefense;
-
-    /**
-     * This unit's boost to magical defense for the current turn.
-     */
-    private int _magicDefenseBoost;
+    private int _magicDefense;
 
     /**
      * The speed of this unit for determining action order.
      */
-    private final int _speed;
+    private int _speed;
 
     /**
      * This unit's stat for the relative rarity of performing lucky actions.
      */
-    private final int _luck;
-
-    /**
-     * The distance (in tiles) across which this unit can move.
-     */
-    private final int _movement;
-
-    /**
-     * The distance (in tiles) across which this unit can act.
-     */
-    private final int _range;
-
-    /**
-     * The set of relative movement options for this unit.
-     */
-    private final Set<Location> _moveMask;
-
-    /**
-     * The set of relative attack options for this unit.
-     */
-    private final Set<Location> _attackMask;
+    private int _luck;
 
     /**
      * Initializes a new instance of the Unit class.
      * @param player the player who owns this unit
      * @param map the map in which this unit resides
      * @param l the initial location for this unit
-     * @param health the base HP stat for this unit
-     * @param attack the base ATK stat for this unit
-     * @param defense the base DEF stat for this unit
-     * @param magicAttack the base MATK stat for this unit
-     * @param magicDefense the base MDEF stat for this unit
-     * @param speed the base SPEED stat for this unit
-     * @param luck the base LUCK stat for this unit
-     * @param movement the base MOVEMENT stat for this unit
-     * @param range the base RANGE stat for this unit
-     * @param moveMask the set of relative move options for this unit
-     * @param attackMask the set of relative attack options for this unit
+     * @param type the type of this unit
      */
-    public Unit(Player player, Map map, Location l,
-        int health, int attack, int defense, int magicAttack, int magicDefense, int speed, int luck, int movement, int range,
-        Set<Location> moveMask, Set<Location> attackMask)
+    public Unit(Player player, Map map, Location l, UnitType type)
     {
         assert player != null;
         assert map != null;
         assert map.inBounds(l);
 
-        
-
-        // Unit must be able to attack either physically or magically
-        assert attack > 0 || magicAttack > 0;
-
-        assert moveMask != null;
-        assert attackMask != null;
-
         _player = player;
         _map = map;
         _location = l;
+        _type = type;
 
-        _health = health;
+        _health = type.baseHealth;
         _maxHealth = _health;
 
-        _attack = attack;
-        _defense = defense;
-        _magicAttack = magicAttack;
-        _magicDefense = magicDefense;
-        _speed = speed;
-        _luck = luck;
-        _movement = movement;
-        _range = range;
+        _attack = type.baseAttack;
+        _defense = type.baseDefense;
+        _magicAttack = type.baseMagicAttack;
+        _magicDefense = type.baseMagicDefense;
+        _speed = type.baseSpeed;
+        _luck = type.baseLuck;
 
         _isAlive = true;
         _hasMoved = false;
         _hasActed = false;
-
-        _moveMask = moveMask;
-        _attackMask = attackMask;
     }
 
     /**
@@ -208,7 +149,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         //  and within valid movement range
         //  and move logic is valid
         return (_hasMoved == false) && (_hasActed == false)
-            && LocationSets.fromOffset(_moveMask, _location).contains(l)
+            && _type.canMove(l.minus(_location))
             && _map.canMoveTo(this, l);
     }
 
@@ -225,7 +166,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         //  and within valid attack range
         //  and attack logic is valid
         return (_hasActed == false)
-            && LocationSets.fromOffset(_attackMask, _location).contains(l)
+            && _type.canAct(l.minus(_location))
             && _map.canAttack(this, target);
     }
 
@@ -242,7 +183,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         //  and within valid assist range
         //  and assist logic is valid
         return (_hasActed == false)
-            && LocationSets.fromOffset(_attackMask, _location).contains(l)
+            && _type.canAct(l.minus(_location))
             && _map.canAssist(this, target);
     }
 
@@ -280,7 +221,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         }
 
         // Attack enemy unit
-        int actual = Stats.randomVariation(ActionType.Attack, _attack + _attackBoost, _luck);
+        int actual = Stats.randomVariation(ActionType.Attack, _attack, _luck);
         target.takeDamage(actual);
 
         _hasActed = true;
@@ -301,7 +242,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         }
 
         // Attack enemy unit
-        int actual = Stats.randomVariation(ActionType.MagicAttack, _magicAttack + _magicAttackBoost, _luck);
+        int actual = Stats.randomVariation(ActionType.MagicAttack, _magicAttack, _luck);
         target.takeMagicDamage(actual);
 
         _hasActed = true;
@@ -400,7 +341,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         Set<Location> valid = new HashSet<>();
 
-        _moveMask.stream()
+        _type.moves()
             .filter(x -> _map.canMoveTo(this, x))
             .forEach(x -> valid.add(x));
 
@@ -416,7 +357,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         Set<Location> valid = new HashSet<>();
 
-        _attackMask.stream()
+        _type.actions()
             .filter(x -> _map.canAttack(this, _map.getUnitAt(x)))
             .forEach(x -> valid.add(x));
 
@@ -484,7 +425,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         assert amount >= 0;
 
-        _attackBoost += amount;
+        _attack += amount;
     }
 
     /**
@@ -495,7 +436,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         assert amount >= 0;
 
-        _magicAttackBoost += amount;
+        _magicAttack += amount;
     }
 
     /**
@@ -506,7 +447,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         assert amount >= 0;
 
-        _defenseBoost += amount;
+        _defense += amount;
     }
 
     @Override
@@ -515,10 +456,11 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         _hasMoved = false;
         _hasActed = false;
 
-        _attackBoost = 0;
-        _defenseBoost = 0;
-        _magicAttackBoost = 0;
-        _magicDefenseBoost = 0;
+        // Clear attack/defense boosts
+        _attack = _type.baseAttack;
+        _defense = _type.baseDefense;
+        _magicAttack = _type.baseMagicAttack;
+        _magicDefense = _type.baseMagicDefense;
     }
 
     @Override
@@ -543,6 +485,16 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     public final Location getLocation()
     {
         return _location;
+    }
+
+    /**
+     * Returns the type of this unit, containing the base stats and
+     * movement/attack patterns of this unit.
+     * @return the type of this unit
+     */
+    public final UnitType getType()
+    {
+        return _type;
     }
 
     /**
@@ -633,24 +585,6 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     public final int getLuck()
     {
         return _luck;
-    }
-
-    /**
-     * Gets the current MOVEMENT stat of this unit.
-     * @return the current MOVEMENT stat of this unit
-     */
-    public final int getMovement()
-    {
-        return _movement;
-    }
-
-    /**
-     * Gets the current RANGE stat of this unit.
-     * @return the current RANGE stat of this unit
-     */
-    public final int getRange()
-    {
-        return _range;
     }
 
     /**
