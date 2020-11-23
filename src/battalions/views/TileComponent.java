@@ -21,6 +21,8 @@ import battalions.util.Rng;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -38,9 +40,30 @@ public class TileComponent extends JComponent
     public static final int TILE_SIZE = 32;
 
     /**
+     * The overlay image that indicates that a tile is selected.
+     */
+    private static final Image SELECTED_IMAGE;
+
+    /**
      * The tile model that this component draws.
      */
     private final Tile _tile;
+
+    /**
+     * Whether this tile should be highlighted as selected.
+     */
+    private boolean _isSelected = false;
+
+    /**
+     * The image to draw for this tile.
+     */
+    private final Image _image;
+
+    static
+    {
+        SELECTED_IMAGE = getSelectedImage();
+        assert SELECTED_IMAGE != null;
+    }
 
     /**
      * Initializes a new instance of the TileComponent class.
@@ -49,8 +72,34 @@ public class TileComponent extends JComponent
     public TileComponent(Tile tile)
     {
         assert tile != null;
-
         _tile = tile;
+
+        // Assign image once to prevent re-calculating random
+        //  variations (e.g. grass) upon each redraw.
+        _image = getImage(tile);
+        assert _image != null;
+
+        addMouseListener(
+            new MouseAdapter()
+            {
+                @Override
+                public void mouseClicked(MouseEvent e)
+                {
+                    super.mouseClicked(e);
+                    System.out.println("clicked on " + _tile);
+                    setIsSelected(_isSelected ^ true);
+                }
+            });
+    }
+
+    /**
+     * Sets whether this tile should be highlighted as selected.
+     * @param value true, if this tile should be highlighted; false, otherwise
+     */
+    public final void setIsSelected(boolean value)
+    {
+        _isSelected = value;
+        repaint();
     }
 
     @Override
@@ -58,22 +107,20 @@ public class TileComponent extends JComponent
     {
         super.paintComponent(g);
 
-        try
+        g.drawImage(_image, 0, 0, TILE_SIZE, TILE_SIZE, null);
+
+        if (_isSelected)
         {
-            g.drawImage(getImage(_tile), 0, 0, TILE_SIZE, TILE_SIZE, null);
-        }
-        catch (IOException ex)
-        {
-            // Draws nothing
+            g.drawImage(SELECTED_IMAGE, 0, 0, TILE_SIZE, TILE_SIZE, null);
         }
     }
 
     /**
-     * Return an image with the sprite corresponding to the specified tile.
+     * Returns an image with the sprite corresponding to the specified tile.
      * @param t the tile whose image to return
      * @return the specified tile sprite as an Image
      */
-    private static Image getImage(Tile t) throws IOException
+    private static Image getImage(Tile t)
     {
         // Path to tiles directory
         String fileName = null;
@@ -141,7 +188,33 @@ public class TileComponent extends JComponent
 
         // [TODO use platform-independent pathname]
         File f = new File("src/images/tiles/" + fileName);
-        return ImageIO.read(f);
+
+        try
+        {
+            return ImageIO.read(f);
+        }
+        catch (IOException ex)
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Returns an image that can act as an overlay indicating a tile is selected.
+     * @return the overlay image indicating a tile is selected
+     */
+    private static Image getSelectedImage()
+    {
+        File f = new File("src/images/ui/SelectTile.png");
+
+        try
+        {
+            return ImageIO.read(f);
+        }
+        catch (IOException ex)
+        {
+            return null;
+        }
     }
 
     /**
