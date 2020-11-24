@@ -78,18 +78,6 @@ public class TileComponent extends JComponent
         //  variations (e.g. grass) upon each redraw.
         _image = getImage(tile);
         assert _image != null;
-
-        addMouseListener(
-            new MouseAdapter()
-            {
-                @Override
-                public void mouseClicked(MouseEvent e)
-                {
-                    super.mouseClicked(e);
-                    System.out.println("clicked on " + _tile);
-                    setIsSelected(_isSelected ^ true);
-                }
-            });
     }
 
     /**
@@ -224,6 +212,15 @@ public class TileComponent extends JComponent
     public final Tile getTile()
     {
         return _tile;
+    }
+
+    /**
+     * Returns whether this tile is selected.
+     * @return true, if this tile is selected; false, otherwise
+     */
+    public final boolean isSelected()
+    {
+        return _isSelected;
     }
 
     @Override

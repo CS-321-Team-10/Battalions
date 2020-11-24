@@ -35,11 +35,11 @@ public class MapPanel extends JPanel
      * The tiles to be drawn by this panel.
      */
     private Tile[][] _tiles;
-    
+
     /**
      * The tile that is currently highlighted as selected.
      */
-    private Tile _selectedTile;
+    private TileComponent _selectedTile;
 
     /**
      * The number of rows in this panel's 2D array of tiles.
@@ -78,14 +78,30 @@ public class MapPanel extends JPanel
 
         draw();
     }
-    
+
     /**
-     * 
-     * @param t 
+     * Selects the specified tile and deselects the previously selected tile.
+     * @param tc the new tile to select
      */
-    public void selectTIle(Tile t)
+    public void selectTile(TileComponent tc)
     {
-        _selectedTile = t;
+        if (tc == _selectedTile)
+        {
+            // Toggle selection if already selected
+            _selectedTile.setIsSelected(_selectedTile.isSelected() ^ true);
+        }
+        else
+        {
+            if (_selectedTile != null)
+            {
+                // Deselect old tile
+                _selectedTile.setIsSelected(false);
+            }
+
+            // Select new tile
+            _selectedTile = tc;
+            _selectedTile.setIsSelected(_selectedTile.isSelected() ^ true);
+        }
     }
 
     /**
@@ -123,7 +139,18 @@ public class MapPanel extends JPanel
                             gbc.gridx = x;
 
                             // Add current tile
-                            add(new TileComponent(_tiles[y][x]), gbc);
+                            TileComponent tc = new TileComponent(_tiles[y][x]);
+                            tc.addMouseListener(
+                                new MouseAdapter()
+                                {
+                                    @Override
+                                    public void mouseClicked(MouseEvent e)
+                                    {
+                                        super.mouseClicked(e);
+                                        selectTile(tc);
+                                    }
+                                });
+                            add(tc, gbc);
                         }
                     }
                 }
