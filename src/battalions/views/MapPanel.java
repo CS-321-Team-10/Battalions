@@ -21,8 +21,10 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.function.Predicate;
 import javax.swing.JPanel;
 
 /**
@@ -53,6 +55,7 @@ public class MapPanel extends JPanel
 
     /**
      * Initializes a new instance of the MapPanel class.
+     * This empty constructor is present to allow this class to be used in the Swing Designer.
      */
     public MapPanel()
     {
@@ -89,6 +92,7 @@ public class MapPanel extends JPanel
         {
             // Toggle selection if already selected
             _selectedTile.setIsSelected(_selectedTile.isSelected() ^ true);
+            _selectedTile = null;
         }
         else
         {
@@ -105,6 +109,16 @@ public class MapPanel extends JPanel
     }
 
     /**
+     * When an event is triggered by a subcomponent of this MapPanel, it may
+     * use this method to dispatch the event up the chain.
+     * @param e the event to dispatch
+     */
+    private void passEvent(InputEvent e)
+    {
+        this.dispatchEvent(e);
+    }
+
+    /**
      * Draws this component.
      */
     private void draw()
@@ -116,7 +130,7 @@ public class MapPanel extends JPanel
         //  without stretching the inner panel and creating gaps between tiles.
         // There should be a better way to deal with resizing, but I haven't
         //  figured it out yet.
-        add(
+        JPanel innerPanel =
             new JPanel()
             {
                 { /* Anonymous Constructor */
@@ -146,16 +160,30 @@ public class MapPanel extends JPanel
                                     @Override
                                     public void mouseClicked(MouseEvent e)
                                     {
+                                        // When a tile is clicked, update the parent MapPanel
                                         super.mouseClicked(e);
                                         selectTile(tc);
+                                        passEvent(e);
                                     }
                                 });
                             add(tc, gbc);
                         }
                     }
                 }
-            });
+            };
+        add(innerPanel);
 
         revalidate();
+    }
+
+    /**
+     * Returns the tile that is currently selected.
+     * @return the tile that is currently selected, if one is selected; null, otherwise
+     */
+    public final Tile getSelectedTile()
+    {
+        return (_selectedTile == null)
+            ? null
+            : _selectedTile.getTile();
     }
 }
