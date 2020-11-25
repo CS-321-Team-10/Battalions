@@ -88,16 +88,16 @@ public class App
         _cpu = new Player();
 
         // Add walls
-        map.addTile(new Tile(map, new Location(4, 4), TileType.Wall, Orientation.Right));
-        map.addTile(new Tile(map, new Location(4, 5), TileType.Wall, Orientation.Up));
-        map.addTile(new Tile(map, new Location(7, 4), TileType.Wall, Orientation.UpLeft));
+        map.addTile(new TileWall(map, new Location(4, 4), Orientation.Right));
+        map.addTile(new TileWall(map, new Location(4, 5), Orientation.Up));
+        map.addTile(new TileWall(map, new Location(7, 4), Orientation.UpLeft));
 
         // Add dodge boost tiles
-        map.addTile(new Tile(map, new Location(5, 4), TileType.Forest, Orientation.Up));
-        map.addTile(new Tile(map, new Location(5, 3), TileType.Forest, Orientation.Up));
+        map.addTile(new TileForest(map, new Location(5, 4), Orientation.Up));
+        map.addTile(new TileForest(map, new Location(5, 3), Orientation.Up));
 
         // Add movement reduce tiles
-        map.addTile(new Tile(map, new Location(7, 7), TileType.Sand, Orientation.Up));
+        map.addTile(new TileSand(map, new Location(7, 7), Orientation.Up));
 
         map.addUnit(new Unit(_player, map, new Location(5, 4), UnitType.Archer));
         map.addUnit(new Unit(_player, map, new Location(2, 7), UnitType.Healer));

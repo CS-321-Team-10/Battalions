@@ -40,7 +40,7 @@ public class Tile implements IMapItem
     /**
      * The type of this tile, containing the effectFlags it has on a unit.
      */
-    private final TileType _type;
+    protected TileType _type;
 
     /**
      * The direction this tile faces.
@@ -51,18 +51,16 @@ public class Tile implements IMapItem
      * Initializes a new instance of the Tile class.
      * @param map the map in which this tile resides
      * @param l the initial location for this tile
-     * @param type the type of this tile, containing the effectFlags it has on a unit
      * @param orientation the direction this tile faces
      */
-    public Tile(Map map, Location l, TileType type, Orientation orientation)
+    public Tile(Map map, Location l, Orientation orientation)
     {
         assert map != null;
         assert map.inBounds(l);
 
         _map = map;
         _location = l;
-
-        _type = type;
+        _type = TileType.Field;
         _orientation = orientation;
     }
 
