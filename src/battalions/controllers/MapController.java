@@ -46,7 +46,7 @@ public class MapController
             _view.setMapText(_model.toString());
 
             // [TODO deal with try-catch]
-            _view.displayMap(_model.getTiles());
+            _view.displayMap(_model);
         }
     }
 

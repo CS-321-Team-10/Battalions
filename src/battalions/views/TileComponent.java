@@ -18,27 +18,14 @@ package battalions.views;
 
 import battalions.models.Tile;
 import battalions.util.Rng;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.JComponent;
 
 /**
  * A component that draws a tile sprite.
  * @author Scott
  */
-public class TileComponent extends JComponent
+public class TileComponent extends SpriteComponent
 {
-    /**
-     * The size (in pixels) of each tile.
-     */
-    public static final int TILE_SIZE = 32;
-
     /**
      * The overlay image that indicates that a tile is selected.
      */
@@ -50,18 +37,13 @@ public class TileComponent extends JComponent
     private final Tile _tile;
 
     /**
-     * Whether this tile should be highlighted as selected.
-     */
-    private boolean _isSelected = false;
-
-    /**
      * The image to draw for this tile.
      */
     private final Image _image;
 
     static
     {
-        SELECTED_IMAGE = getSelectedImage();
+        SELECTED_IMAGE = readImage("src/images/ui/", "SelectTile.png");
         assert SELECTED_IMAGE != null;
     }
 
@@ -76,31 +58,8 @@ public class TileComponent extends JComponent
 
         // Assign image once to prevent re-calculating random
         //  variations (e.g. grass) upon each redraw.
-        _image = getImage(tile);
+        _image = getTileImage(_tile);
         assert _image != null;
-    }
-
-    /**
-     * Sets whether this tile should be highlighted as selected.
-     * @param value true, if this tile should be highlighted; false, otherwise
-     */
-    public final void setIsSelected(boolean value)
-    {
-        _isSelected = value;
-        repaint();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-
-        g.drawImage(_image, 0, 0, TILE_SIZE, TILE_SIZE, null);
-
-        if (_isSelected)
-        {
-            g.drawImage(SELECTED_IMAGE, 0, 0, TILE_SIZE, TILE_SIZE, null);
-        }
     }
 
     /**
@@ -108,9 +67,8 @@ public class TileComponent extends JComponent
      * @param t the tile whose image to return
      * @return the specified tile sprite as an Image
      */
-    private static Image getImage(Tile t)
+    private static Image getTileImage(Tile t)
     {
-        // Path to tiles directory
         String fileName = null;
 
         // Determine the given tile's type, then sets the appropriate PNG path
@@ -174,35 +132,19 @@ public class TileComponent extends JComponent
             assert false;
         }
 
-        // [TODO use platform-independent pathname]
-        File f = new File("src/images/tiles/" + fileName);
-
-        try
-        {
-            return ImageIO.read(f);
-        }
-        catch (IOException ex)
-        {
-            return null;
-        }
+        return readImage("src/images/tiles/", fileName);
     }
 
-    /**
-     * Returns an image that can act as an overlay indicating a tile is selected.
-     * @return the overlay image indicating a tile is selected
-     */
-    private static Image getSelectedImage()
+    @Override
+    protected Image getImage()
     {
-        File f = new File("src/images/ui/SelectTile.png");
+        return _image;
+    }
 
-        try
-        {
-            return ImageIO.read(f);
-        }
-        catch (IOException ex)
-        {
-            return null;
-        }
+    @Override
+    protected Image getSelectedImage()
+    {
+        return SELECTED_IMAGE;
     }
 
     /**
@@ -212,20 +154,5 @@ public class TileComponent extends JComponent
     public final Tile getTile()
     {
         return _tile;
-    }
-
-    /**
-     * Returns whether this tile is selected.
-     * @return true, if this tile is selected; false, otherwise
-     */
-    public final boolean isSelected()
-    {
-        return _isSelected;
-    }
-
-    @Override
-    public java.awt.Dimension getPreferredSize()
-    {
-        return new Dimension(TILE_SIZE, TILE_SIZE);
     }
 }
