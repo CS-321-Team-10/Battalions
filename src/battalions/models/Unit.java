@@ -607,9 +607,9 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     @Override
     public String toString()
     {
-        return "Unit" + _location.toString()
+        return _type + " " + _location.toString()
             + (_isAlive ? "" : " [DEAD]")
-            + "\n  [%d HP] [%d SPEED] [%d LUCK]"
-            + "\n  [%d ATK] [%d DEF] [%d MATK] [%d MDEF]";
+            + "\n  [" + _health + " HP] [" + _speed + " SPEED] [" + _luck + " LUCK]"
+            + "\n  [" + _attack + " ATK] [" + _defense + " DEF] [" + _magicAttack + " MATK] [" + _magicDefense + " MDEF]";
     }
 }

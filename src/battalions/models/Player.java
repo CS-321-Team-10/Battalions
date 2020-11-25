@@ -16,6 +16,7 @@
  */
 package battalions.models;
 
+import battalions.App;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -73,6 +74,16 @@ public class Player implements ITurnBased
     public final int getUid()
     {
         return _uid;
+    }
+
+    /**
+     * Returns whether this player is a CPU player.
+     * @return true, if this player is a CPU player; false, otherwise
+     */
+    public boolean isCPU()
+    {
+        // [TODO Make this method of determining CPU more robust]
+        return getUid() == App.getInstance().getGame().getCpu().getUid();
     }
 
     @Override

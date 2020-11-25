@@ -16,7 +16,6 @@
  */
 package battalions.data;
 
-import battalions.util.LocationSets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

@@ -40,16 +40,6 @@ public class App
     private Game _game;
 
     /**
-     * The human player used by this App.
-     */
-    private Player _player;
-
-    /**
-     * The CPU player used by this App.
-     */
-    private Player _cpu;
-
-    /**
      * Initializes static members of this class.
      */
     static
@@ -84,8 +74,8 @@ public class App
         _game = new Game();
         Map map = _game.getMap();
 
-        _player = new Player();
-        _cpu = new Player();
+        Player player = _game.getPlayer();
+        Player cpu = _game.getCpu();
 
         // Add walls
         map.addTile(new Tile(map, new Location(4, 4), TileType.Wall, Orientation.Right));
@@ -99,8 +89,8 @@ public class App
         // Add movement reduce tiles
         map.addTile(new Tile(map, new Location(7, 7), TileType.Sand, Orientation.Up));
 
-        map.addUnit(new Unit(_player, map, new Location(5, 4), UnitType.Archer));
-        map.addUnit(new Unit(_player, map, new Location(2, 7), UnitType.Healer));
+        map.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
+        map.addUnit(new Unit(player, map, new Location(2, 7), UnitType.Healer));
     }
 
     /**
@@ -187,5 +177,14 @@ public class App
     public static final App getInstance()
     {
         return _instance;
+    }
+
+    /**
+     * Returns the current game used by this App.
+     * @return the current game
+     */
+    public final Game getGame()
+    {
+        return _game;
     }
 }
