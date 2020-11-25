@@ -23,7 +23,7 @@ import java.awt.Image;
  * A component that draws a unit sprite.
  * @author Scott
  */
-public class UnitComponent extends SpriteComponent
+public class UnitSprite extends SpriteComponent
 {
     /**
      * The overlay image that indicates that a unit is selected.
@@ -50,7 +50,7 @@ public class UnitComponent extends SpriteComponent
      * Initializes a new instance of the UnitComponent class.
      * @param unit the unit to draw
      */
-    public UnitComponent(Unit unit)
+    public UnitSprite(Unit unit)
     {
         assert unit != null;
         _unit = unit;

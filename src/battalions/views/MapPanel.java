@@ -44,12 +44,12 @@ public class MapPanel extends JPanel
     /**
      * The tile that is currently highlighted as selected.
      */
-    private TileComponent _selectedTile;
+    private TileSprite _selectedTile;
 
     /**
      * The unit that is currently highlighted as selected.
      */
-    private UnitComponent _selectedUnit;
+    private UnitSprite _selectedUnit;
 
     /**
      * Initializes a new instance of the MapPanel class.
@@ -75,7 +75,7 @@ public class MapPanel extends JPanel
      * Selects the specified tile and deselects the previously selected tile.
      * @param tc the new tile to select
      */
-    public void selectTile(TileComponent tc)
+    public void selectTile(TileSprite tc)
     {
         if (tc == _selectedTile)
         {
@@ -97,7 +97,7 @@ public class MapPanel extends JPanel
         }
     }
 
-    public void selectUnit(UnitComponent uc)
+    public void selectUnit(UnitSprite uc)
     {
         if (uc == _selectedUnit)
         {
@@ -142,8 +142,8 @@ public class MapPanel extends JPanel
 
         Tile[][] tiles = _map.getTiles();
 
-        TileComponent[][] tileComponents = new TileComponent[y][x];
-        UnitComponent[][] unitComponents = new UnitComponent[y][x];
+        TileSprite[][] tileComponents = new TileSprite[y][x];
+        UnitSprite[][] unitComponents = new UnitSprite[y][x];
 
         // Create sprites for all tiles
         for (int i = 0; i < y; i++)
@@ -176,9 +176,9 @@ public class MapPanel extends JPanel
      * @param t the tile model for the sprite
      * @return a new tile sprite with a mouse listener
      */
-    private TileComponent newTileSprite(Tile t)
+    private TileSprite newTileSprite(Tile t)
     {
-        TileComponent tc = new TileComponent(t);
+        TileSprite tc = new TileSprite(t);
         tc.addMouseListener(
             new MouseAdapter()
             {
@@ -200,9 +200,9 @@ public class MapPanel extends JPanel
      * @param u the unit model for the sprite
      * @return a new unit sprite with a mouse listener
      */
-    private UnitComponent newUnitSprite(Unit u)
+    private UnitSprite newUnitSprite(Unit u)
     {
-        UnitComponent uc = new UnitComponent(u);
+        UnitSprite uc = new UnitSprite(u);
         uc.addMouseListener(
             new MouseAdapter()
             {

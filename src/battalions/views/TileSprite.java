@@ -24,7 +24,7 @@ import java.awt.Image;
  * A component that draws a tile sprite.
  * @author Scott
  */
-public class TileComponent extends SpriteComponent
+public class TileSprite extends SpriteComponent
 {
     /**
      * The overlay image that indicates that a tile is selected.
@@ -51,7 +51,7 @@ public class TileComponent extends SpriteComponent
      * Initializes a new instance of the TileComponent class.
      * @param tile the tile to draw
      */
-    public TileComponent(Tile tile)
+    public TileSprite(Tile tile)
     {
         assert tile != null;
         _tile = tile;
