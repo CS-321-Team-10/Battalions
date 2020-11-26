@@ -28,9 +28,6 @@ public class TileField extends Tile
 {
     public TileField(Map map, Location l, Orientation orientation)
     {
-        super(map, l, orientation);
-        
-        _type = TileType.Field;
+        super(map, l, orientation, TileType.Field);
     }
-
 }

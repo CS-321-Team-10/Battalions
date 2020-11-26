@@ -28,9 +28,6 @@ public class TileForest extends Tile
 {
     public TileForest(Map map, Location l, Orientation orientation)
     {
-        super(map, l, orientation);
-        
-        _type = TileType.Forest;
+        super(map, l, orientation, TileType.Forest);
     }
-
 }

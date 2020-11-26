@@ -28,9 +28,6 @@ public class TileSand extends Tile
 {
     public TileSand(Map map, Location l, Orientation orientation)
     {
-        super(map, l, orientation);
-        
-        _type = TileType.Sand;
+        super(map, l, orientation, TileType.Sand);
     }
-
 }

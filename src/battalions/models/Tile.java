@@ -52,15 +52,16 @@ public class Tile implements IMapItem
      * @param map the map in which this tile resides
      * @param l the initial location for this tile
      * @param orientation the direction this tile faces
+     * @param type the type of this tile
      */
-    public Tile(Map map, Location l, Orientation orientation)
+    public Tile(Map map, Location l, Orientation orientation, TileType type)
     {
         assert map != null;
         assert map.inBounds(l);
 
         _map = map;
         _location = l;
-        _type = TileType.Field;
+        _type = type;
         _orientation = orientation;
     }
 

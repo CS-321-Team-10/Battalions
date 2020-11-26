@@ -17,17 +17,20 @@
 package battalions.models;
 
 import battalions.data.Location;
-import battalions.data.Orientation;
-import battalions.data.TileType;
+import battalions.data.ActionType;
+import battalions.data.UnitType;
+import battalions.util.Stats;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Constructor for a wall tile. Subclass of Tile.
+ * Constructor for an infantry unit. Subclass of Unit.
  * @author Bryant Terry
  */
-public class TileWall extends Tile
+public class UnitInfantry extends Unit
 {
-    public TileWall(Map map, Location l, Orientation orientation)
+    public UnitInfantry(Player player, Map map, Location l)
     {
-        super(map, l, orientation, TileType.Wall);
+        super(player, map, l, UnitType.Infantry);
     }
 }
