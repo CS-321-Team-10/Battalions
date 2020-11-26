@@ -36,6 +36,7 @@ public class MapController
         _view = view;
 
         _view.addUpdateButtonListener((ActionListener) new UpdateListener());
+        _view.setMap(_model);
     }
 
     private class UpdateListener implements ActionListener
@@ -43,10 +44,6 @@ public class MapController
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            _view.setMapText(_model.toString());
-
-            // [TODO deal with try-catch]
-            _view.displayMap(_model);
         }
     }
 

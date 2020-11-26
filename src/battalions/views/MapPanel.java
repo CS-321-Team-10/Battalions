@@ -20,265 +20,254 @@ import battalions.data.Location;
 import battalions.models.Map;
 import battalions.models.Tile;
 import battalions.models.Unit;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.InputEvent;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Set;
 import javax.swing.JPanel;
 
 /**
- * A panel that draws a 2D array of tiles.
+ * A panel that acts as a view, displaying a map model in the GUI.
  * @author Scott
  */
-public class MapPanel extends JPanel
+public final class MapPanel extends JPanel
 {
     /**
-     * The map to be drawn by this panel.
+     * The selection mode allowing nothing to be selected.
+     */
+    public static final int SELECT_NONE_MODE = 0;
+
+    /**
+     * The selection mode flag allowing tiles to be selected.
+     */
+    public static final int SELECT_TILE_MODE = 1;
+
+    /**
+     * The selection mode flag allowing friendly units to be selected.
+     */
+    public static final int SELECT_FRIENDLY_UNIT_MODE = 1 << 1;
+
+    /**
+     * The selection mode flag allowing enemy units to be selected.
+     */
+    public static final int SELECT_ENEMY_UNIT_MODE = 1 << 2;
+
+    /**
+     * The selection mode allowing anything to be selected.
+     */
+    public static final int SELECT_ANY_MODE = SELECT_TILE_MODE | SELECT_FRIENDLY_UNIT_MODE | SELECT_ENEMY_UNIT_MODE;
+
+    /**
+     * The map model to display.
      */
     private Map _map;
 
     /**
-     * The tile that is currently highlighted as selected.
+     * The current selection mode flags.
      */
-    private TileSprite _selectedTile;
+    private int _selectionMode = SELECT_ANY_MODE;
 
     /**
-     * The unit that is currently highlighted as selected.
+     * The currently selected tile, if one exists; null, otherwise.
      */
-    private UnitSprite _selectedUnit;
+    private Tile _selectedTile;
+
+    /**
+     * The currently selected unit, if one exists; null, otherwise.
+     */
+    private Unit _selectedFriendlyUnit;
+
+    /**
+     * The currently selected enemy unit, if one exists; null, otherwise.
+     */
+    private Unit _selectedEnemyUnit;
 
     /**
      * Initializes a new instance of the MapPanel class.
-     * This empty constructor is present to allow this class to be used in the Swing Designer.
+     * This constructor exists so this class may be used with the Swing GUI Designer.
      */
     public MapPanel()
     {
     }
 
     /**
-     * Sets the map to be drawn by this panel.
-     * @param map the map to be drawn by this panel
+     * Sets the map model that this view displays.
+     * @param map the map model to display
      */
     public void setMap(Map map)
     {
         assert map != null;
         _map = map;
 
-        draw();
+        this.addMouseListener(new MapPanelMouseAdapter());
     }
 
     /**
-     * Selects the specified tile and deselects the previously selected tile.
-     * @param tc the new tile to select
+     * Selects a unit or tile at the specified location.
+     * @param l the location at which to select a unit or tile
      */
-    public void selectTile(TileSprite tc)
+    public void select(Location l)
     {
-        if (tc == _selectedTile)
-        {
-            // Toggle selection if already selected
-            _selectedTile.setIsSelected(_selectedTile.isSelected() ^ true);
-            _selectedTile = null;
-        }
-        else
-        {
-            if (_selectedTile != null)
-            {
-                // Deselect old tile
-                _selectedTile.setIsSelected(false);
-            }
+        Unit unit = _map.getUnitAt(l);
+        Tile tile = _map.getTileAt(l);
 
-            // Select new tile
-            _selectedTile = tc;
-            _selectedTile.setIsSelected(true);
+        if ((_selectionMode & SELECT_FRIENDLY_UNIT_MODE) != 0
+            && unit != null
+            && unit.getPlayer().isCPU() == false)
+        {
+            _selectedFriendlyUnit = (_selectedFriendlyUnit != unit)
+                ? unit
+                : null;
+        }
+        else if ((_selectionMode & SELECT_ENEMY_UNIT_MODE) != 0
+            && unit != null
+            && unit.getPlayer().isCPU())
+        {
+            _selectedEnemyUnit = (_selectedEnemyUnit != unit)
+                ? unit
+                : null;
+        }
+        else if ((_selectionMode & SELECT_TILE_MODE) != 0
+            && tile != null)
+        {
+            _selectedTile = (_selectedTile != tile)
+                ? tile
+                : null;
         }
     }
 
-    public void selectUnit(UnitSprite uc)
+    @Override
+    protected void paintComponent(Graphics g)
     {
-        if (uc == _selectedUnit)
+        super.paintComponent(g);
+
+        final int height = _map.getHeight();
+        final int width = _map.getWidth();
+        final int spritePx = getSpriteSize();
+
+        final Tile[][] tiles = _map.getTiles();
+        final Set<Unit> units = _map.getUnits();
+
+        // Draw tiles
+        for (int y = 0; y < height; y++)
         {
-            // Toggle selection if already selected
-            _selectedUnit.setIsSelected(_selectedUnit.isSelected() ^ true);
-            _selectedUnit = null;
-        }
-        else
-        {
-            if (_selectedUnit != null)
+            for (int x = 0; x < width; x++)
             {
-                // Deselect old unit
-                _selectedUnit.setIsSelected(false);
-            }
-
-            // Select new unit
-            _selectedUnit = uc;
-            _selectedUnit.setIsSelected(true);
-        }
-    }
-
-    /**
-     * When an event is triggered by a subcomponent of this MapPanel, it may
-     * use this method to dispatch the event up the chain.
-     * @param e the event to dispatch
-     */
-    private void passEvent(InputEvent e)
-    {
-        this.dispatchEvent(e);
-    }
-
-    /**
-     * Draws this component.
-     */
-    private void draw()
-    {
-        removeAll();
-        setLayout(new FlowLayout());
-
-        final int y = _map.getHeight();
-        final int x = _map.getWidth();
-
-        Tile[][] tiles = _map.getTiles();
-
-        TileSprite[][] tileComponents = new TileSprite[y][x];
-        UnitSprite[][] unitComponents = new UnitSprite[y][x];
-
-        // Create sprites for all tiles
-        for (int i = 0; i < y; i++)
-        {
-            for (int j = 0; j < x; j++)
-            {
-                tileComponents[i][j] = newTileSprite(tiles[i][j]);
+                g.drawImage(Sprites.getImage(tiles[y][x]), spritePx * x, spritePx * y, spritePx, spritePx, this);
             }
         }
 
-        // Create sprites for all units
-        _map.getUnits()
-            .forEach(u ->
+        // Draw units
+        units.forEach(
+            x ->
             {
-                Location l = u.getLocation();
-                unitComponents[l.y][l.x] = newUnitSprite(u);
+                Location l = x.getLocation();
+                g.drawImage(Sprites.getImage(x), spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
             });
 
-        JPanel tileGrid = new GridPanel<>(tileComponents);
-        JPanel unitGrid = new GridPanel<>(unitComponents);
+        // Draw selection overlays
+        if (_selectedTile != null)
+        {
+            Location l = _selectedTile.getLocation();
+            g.drawImage(Sprites.SELECTED_TILE, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
+        }
 
-        add(tileGrid);
-        add(unitGrid);
+        if (_selectedFriendlyUnit != null)
+        {
+            Location l = _selectedFriendlyUnit.getLocation();
+            g.drawImage(Sprites.SELECTED_UNIT, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
+        }
 
-        revalidate();
+        if (_selectedEnemyUnit != null)
+        {
+            Location l = _selectedEnemyUnit.getLocation();
+            g.drawImage(Sprites.SELECTED_ENEMY_UNIT, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
+        }
     }
 
     /**
-     * Creates a new tile sprite with a mouse listener.
-     * @param t the tile model for the sprite
-     * @return a new tile sprite with a mouse listener
+     * Calculates the size (in pixels) for the width and height of a tile.
+     * @return the size (in pixels) for the width and height of a tile
      */
-    private TileSprite newTileSprite(Tile t)
+    private int getSpriteSize()
     {
-        TileSprite tc = new TileSprite(t);
-        tc.addMouseListener(
-            new MouseAdapter()
-            {
-                @Override
-                public void mouseClicked(MouseEvent e)
-                {
-                    super.mouseClicked(e);
-
-                    // When a tile is clicked, update the parent MapPanel
-                    selectTile(tc);
-                    passEvent(e);
-                }
-            });
-        return tc;
+        return Math.min(
+            (int) (getWidth() / _map.getWidth()),
+            (int) (getHeight() / _map.getHeight()));
     }
 
     /**
-     * Creates a new unit sprite with a mouse listener.
-     * @param u the unit model for the sprite
-     * @return a new unit sprite with a mouse listener
+     * Converts a coordinate from pixels to a location on the map model.
+     * @param x the x-position relative to the source component
+     * @param y the y-position relative to the source component
+     * @return the map model location in which the provided pixel coordinate lay
      */
-    private UnitSprite newUnitSprite(Unit u)
+    private Location toLocation(int x, int y)
     {
-        UnitSprite uc = new UnitSprite(u);
-        uc.addMouseListener(
-            new MouseAdapter()
-            {
-                @Override
-                public void mouseClicked(MouseEvent e)
-                {
-                    super.mouseClicked(e);
-
-                    // When a unit is clicked, update the parent MapPanel
-                    selectUnit(uc);
-                    passEvent(e);
-                }
-            });
-        return uc;
+        final int spriteSize = getSpriteSize();
+        return new Location(
+            (int) (x / spriteSize),
+            (int) (y / spriteSize));
     }
 
     /**
-     * A panel that can display components in a grid with no overlap.
-     * @param <T> the type of component to display
+     * Defines the response of a MapPanel to mouse events.
      */
-    private class GridPanel<T extends Component> extends JPanel
+    private final class MapPanelMouseAdapter extends MouseAdapter
     {
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            // Calculate map model location and select unit/tile there
+            select(getLocation(e));
+            repaint();
+        }
+
         /**
-         * Initializes a new instance of the GridPanel class.
-         * @param array the components to be displayed in the grid
+         * Gets the coordinate at which a mouse event occurred and
+         * converts it from pixels to a location on the map model.
+         * @param e the mouse event
+         * @return the map model location at which the mouse event occurred
          */
-        public GridPanel(T[][] array)
+        private Location getLocation(MouseEvent e)
         {
-            setLayout(new GridBagLayout());
-
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.insets = new Insets(0, 0, 0, 0);
-            gbc.weightx = 1;
-            gbc.weighty = 1;
-            gbc.fill = GridBagConstraints.BOTH;
-
-            for (int y = 0; y < array[0].length; y++)
-            {
-                // Set y-location in layout
-                gbc.gridy = y;
-
-                for (int x = 0; x < array.length; x++)
-                {
-                    // Set x-location in layout
-                    gbc.gridx = x;
-
-                    T element = array[y][x];
-                    if (element != null)
-                    {
-                        // Add current element
-                        add(element, gbc);
-                    }
-                }
-            }
+            return toLocation(e.getX(), e.getY());
         }
     }
 
     /**
-     * Returns the tile that is currently selected.
-     * @return the tile that is currently selected, if one is selected; null, otherwise
+     * Sets the current selection mode flags.
+     * @param selectionMode the new selection mode flags
+     */
+    public final void setSelectionMode(int selectionMode)
+    {
+        _selectionMode = selectionMode;
+    }
+
+    /**
+     * Returns the currently selected tile.
+     * @return the currently selected tile, if one exists; null, otherwise
      */
     public final Tile getSelectedTile()
     {
-        return (_selectedTile == null)
-            ? null
-            : _selectedTile.getTile();
+        return _selectedTile;
     }
 
     /**
-     * Returns the unit that is currently selected.
-     * @return the unit that is currently selected, if one is selected; null, otherwise
+     * Returns the currently selected friendly unit.
+     * @return the currently selected friendly unit, if one exists; null, otherwise
      */
-    public final Unit getSelectedUnit()
+    public final Unit getSelectedFriendlyUnit()
     {
-        return (_selectedUnit == null)
-            ? null
-            : _selectedUnit.getUnit();
+        return _selectedFriendlyUnit;
+    }
+
+    /**
+     * Returns the currently selected enemy unit.
+     * @return the currently selected enemy unit, if one exists; null, otherwise
+     */
+    public final Unit getSelectedEnemyUnit()
+    {
+        return _selectedEnemyUnit;
     }
 }
