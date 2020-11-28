@@ -16,10 +16,18 @@
  */
 package battalions.controllers;
 
+import battalions.data.Location;
+import battalions.models.Game;
 import battalions.models.Map;
+import battalions.models.MapOverlay;
+import battalions.models.Tile;
+import battalions.models.Unit;
+import battalions.views.MapPanel;
 import battalions.views.MapView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -27,24 +35,124 @@ import java.awt.event.ActionListener;
  */
 public class MapController
 {
-    private final Map _model;
+    private final Game _game;
+    private final Map _map;
+    private final MapOverlay _overlay;
+
     private final MapView _view;
+    private final MapPanel _mapPanel;
 
-    public MapController(Map model, MapView view)
+    public MapController(Game game, Map map, MapView view)
     {
-        _model = model;
-        _view = view;
+        assert game != null;
+        assert map != null;
+        assert view != null;
 
-        _view.addUpdateButtonListener((ActionListener) new UpdateListener());
-        _view.setMap(_model);
+        _game = game;
+        _map = map;
+        _overlay = new MapOverlay(map);
+
+        _view = view;
+        _mapPanel = _view.getMapPanel();
+
+        _view.setMap(_overlay);
+
+        _view.addMapMouseListener(new MapPanelMouseAdapter());
+        _view.addMoveButtonListener(new MoveListener());
+        _view.addAttackButtonListener(new AttackListener());
+        _view.addEndTurnButtonListener(new EndTurnListener());
+
+        update();
     }
 
-    private class UpdateListener implements ActionListener
+    private void update()
+    {
+        _mapPanel.repaint();
+
+        _view.showSelectedTile(_overlay.getSelectedTile());
+        _view.showSelectedFriendlyUnit(_overlay.getSelectedFriendlyUnit());
+        _view.showSelectedEnemyUnit(_overlay.getSelectedEnemyUnit());
+
+        Tile tile = _overlay.getSelectedTile();
+        Unit unit = _overlay.getSelectedFriendlyUnit();
+        Unit enemy = _overlay.getSelectedEnemyUnit();
+
+        _view.setMoveButtonEnabled(
+            unit != null && tile != null
+            && unit.canMoveTo(tile.getLocation()));
+        _view.setAttackButtonEnabled(
+            unit != null && enemy != null
+            && unit.canAttack(enemy));
+    }
+
+    /**
+     * Defines the response of a MapPanel to mouse events.
+     */
+    private final class MapPanelMouseAdapter extends MouseAdapter
+    {
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            // Calculate map model location and select unit/tile there
+            _overlay.toggleSelect(getLocation(e));
+            update();
+        }
+
+        /**
+         * Gets the coordinate at which a mouse event occurred and
+         * converts it from pixels to a location on the map model.
+         * @param e the mouse event
+         * @return the map model location at which the mouse event occurred
+         */
+        private Location getLocation(MouseEvent e)
+        {
+            return _mapPanel.toLocation(e.getX(), e.getY());
+        }
+    }
+
+    private class MoveListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
+            Unit unit = _overlay.getSelectedFriendlyUnit();
+            Tile destination = _overlay.getSelectedTile();
+
+            if (unit != null && destination != null)
+            {
+                unit.tryMoveTo(destination.getLocation());
+            }
+
+            update();
         }
     }
 
+    private class AttackListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            Unit attacker = _overlay.getSelectedFriendlyUnit();
+            Unit enemy = _overlay.getSelectedEnemyUnit();
+
+            if (attacker != null && enemy != null)
+            {
+                attacker.tryAttack(enemy);
+            }
+
+            update();
+        }
+    }
+
+    private class EndTurnListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            _overlay.clearSelection();
+            _game.nextTurn();
+
+            update();
+        }
+    }
 }

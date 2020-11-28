@@ -128,6 +128,11 @@ public class Sprites
                         return SOUTHEAST_WALL_TILE;
                 }
         }
+        
+        if (tile.getLocation().equals(new battalions.data.Location(7, 4)))
+        {
+            System.out.println(tile);
+        }
 
         return null;
     }

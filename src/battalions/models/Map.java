@@ -19,9 +19,9 @@ package battalions.models;
 import battalions.data.Location;
 import battalions.data.Orientation;
 import battalions.data.TileType;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Contains a grid of tiles.
@@ -48,7 +48,7 @@ public class Map
     /**
      * The set of units on the map.
      */
-    private final java.util.Map<Location, Unit> _units;
+    private final Set<Unit> _units;
 
     /**
      * Initializes a new instance of the Map class at the specified size.
@@ -68,11 +68,11 @@ public class Map
         {
             for (int y = 0; y < _height; y++)
             {
-                _tiles[x][y] = new Tile(this, new Location(x, y), TileType.Field, Orientation.Up);
+                _tiles[y][x] = new Tile(this, new Location(x, y), TileType.Field, Orientation.Up);
             }
         }
 
-        _units = new HashMap<>();
+        _units = new HashSet<>();
     }
 
     /**
@@ -102,7 +102,7 @@ public class Map
     {
         assert inBounds(l);
 
-        return _tiles[l.x][l.y];
+        return _tiles[l.y][l.x];
     }
 
     /**
@@ -114,7 +114,12 @@ public class Map
     {
         assert inBounds(l);
 
-        return _units.get(l);
+        Stream<Unit> units = _units.stream().filter(x -> x.getLocation().equals(l));
+
+        // This currently returns only the first unit at this location,
+        //  even if multiple units are present.
+        //  [TODO support multiple units at a single location.]
+        return units.findFirst().orElse(null);
     }
 
     /**
@@ -124,7 +129,7 @@ public class Map
      */
     public Tile getTileUnder(Unit u)
     {
-        assert _units.containsValue(u);
+        assert _units.contains(u);
 
         return getTileAt(u.getLocation());
     }
@@ -143,7 +148,7 @@ public class Map
         // Cannot place wall on top of unit
         assert getUnitAt(l) == null;
 
-        _tiles[l.x][l.y] = t;
+        _tiles[l.y][l.x] = t;
     }
 
     /**
@@ -160,7 +165,7 @@ public class Map
         // Cannot place unit on top of wall
         assert getTileAt(l).getType().isImpassable() == false;
 
-        _units.put(l, u);
+        _units.add(u);
     }
 
     /**
@@ -173,7 +178,7 @@ public class Map
     public boolean canMoveTo(Unit u, Location l)
     {
         // Unit must be a child of this map
-        if (_units.containsValue(u) == false)
+        if (_units.contains(u) == false)
         {
             return false;
         }
@@ -207,8 +212,8 @@ public class Map
     public boolean canAttack(Unit attacker, Unit defender)
     {
         // Both units must be children of this map
-        if ((_units.containsValue(attacker) == false)
-            || (_units.containsValue(defender) == false))
+        if ((_units.contains(attacker) == false)
+            || (_units.contains(defender) == false))
         {
             return false;
         }
@@ -235,8 +240,8 @@ public class Map
     public boolean canAssist(Unit assister, Unit assisted)
     {
         // Both units must be children of this map
-        if (_units.containsValue(assister) == false
-            || _units.containsValue(assisted) == false)
+        if (_units.contains(assister) == false
+            || _units.contains(assisted) == false)
         {
             return false;
         }
@@ -291,7 +296,7 @@ public class Map
     {
         Set<Unit> result = new HashSet<>();
 
-        _units.entrySet().forEach(x -> result.add(x.getValue()));
+        _units.stream().forEach(x -> result.add(x));
 
         return result;
     }

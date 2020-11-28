@@ -89,11 +89,15 @@ public class App
         map.addTile(new Tile(map, new Location(7, 7), TileType.Sand, Orientation.Up));
 
         // Add friendly units
-        map.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
-        map.addUnit(new Unit(player, map, new Location(2, 7), UnitType.Healer));
+        player.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
+        player.addUnit(new Unit(player, map, new Location(2, 7), UnitType.Healer));
 
         // Add enemy units
-        map.addUnit(new Unit(cpu, map, new Location(9, 3), UnitType.Knight));
+        cpu.addUnit(new Unit(cpu, map, new Location(9, 3), UnitType.Knight));
+
+        // Add all units to map
+        player.getUnits().forEach(x -> map.addUnit(x));
+        cpu.getUnits().forEach(x -> map.addUnit(x));
     }
 
     /**
@@ -167,9 +171,11 @@ public class App
 
         Map map = _game.getMap();
         MapView mapView = gameView.getMapView();
-        MapController mapController = new MapController(map, mapView);
+        MapController mapController = new MapController(_game, map, mapView);
 
         gameView.setVisible(true);
+
+        _game.start();
     }
 
 

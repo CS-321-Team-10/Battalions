@@ -21,7 +21,7 @@ package battalions.models;
  * @author Bryant
  * @author Scott
  */
-public class Game
+public class Game implements ITurnBased
 {
     /**
      * The width of the main map.
@@ -83,5 +83,36 @@ public class Game
     public final Player getCpu()
     {
         return _cpu;
+    }
+
+    /**
+     * Begins the game.
+     */
+    public void start()
+    {
+        beginTurn();
+    }
+
+    /**
+     * Ends the current turn and begins the next turn.
+     */
+    public void nextTurn()
+    {
+        endTurn();
+        beginTurn();
+    }
+
+    @Override
+    public void beginTurn()
+    {
+        _player.beginTurn();
+        _cpu.beginTurn();
+    }
+
+    @Override
+    public void endTurn()
+    {
+        _player.endTurn();
+        _cpu.endTurn();
     }
 }

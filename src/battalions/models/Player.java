@@ -103,4 +103,17 @@ public class Player implements ITurnBased
             u.endTurn();
         }
     }
+
+    /**
+     * Returns the set of all units owned by this player.
+     * @return a copy of the set of all units owned by this player
+     */
+    public Set<Unit> getUnits()
+    {
+        Set<Unit> result = new HashSet<>();
+
+        _units.stream().forEach(x -> result.add(x));
+
+        return result;
+    }
 }
