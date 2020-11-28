@@ -141,6 +141,12 @@ public final class MapPanel extends JPanel
     {
         super.paintComponent(g);
 
+        // For drawing in the Swing Form Designer
+        if (_map == null)
+        {
+            return;
+        }
+
         final int height = _map.getHeight();
         final int width = _map.getWidth();
         final int spritePx = getSpriteSize();
