@@ -20,7 +20,6 @@ import battalions.data.*;
 import battalions.controllers.*;
 import battalions.models.*;
 import battalions.views.*;
-import java.util.HashSet;
 
 /**
  * Serves as the entry point of the program.
@@ -89,8 +88,12 @@ public class App
         // Add movement reduce tiles
         map.addTile(new Tile(map, new Location(7, 7), TileType.Sand, Orientation.Up));
 
+        // Add friendly units
         map.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
         map.addUnit(new Unit(player, map, new Location(2, 7), UnitType.Healer));
+
+        // Add enemy units
+        map.addUnit(new Unit(cpu, map, new Location(9, 3), UnitType.Knight));
     }
 
     /**

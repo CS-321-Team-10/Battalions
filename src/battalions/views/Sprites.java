@@ -60,9 +60,9 @@ public class Sprites
     private static final Image ENEMY_MAGE_UNIT = readImage(UNITS_DIRECTORY + "EnemyMage.png");
     private static final Image ENEMY_WARLOCK_UNIT = readImage(UNITS_DIRECTORY + "EnemyWarlock.png");
 
-    public static final Image SELECTED_TILE = readImage(UI_DIRECTORY + "SelectTile.png");
-    public static final Image SELECTED_UNIT = readImage(UI_DIRECTORY + "SelectUnit.png");
-    public static final Image SELECTED_ENEMY_UNIT = readImage(UI_DIRECTORY + "SelectUnit.png");
+    public static final Image SELECTED_TILE = readImage(UI_DIRECTORY + "SelectedTile.png");
+    public static final Image SELECTED_UNIT = readImage(UI_DIRECTORY + "SelectedFriendlyUnit.png");
+    public static final Image SELECTED_ENEMY_UNIT = readImage(UI_DIRECTORY + "SelectedEnemyUnit.png");
 
     /**
      * Reads an image with the specified path.
