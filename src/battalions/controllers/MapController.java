@@ -94,7 +94,12 @@ public class MapController
         public void mouseClicked(MouseEvent e)
         {
             // Calculate map model location and select unit/tile there
-            _overlay.toggleSelect(getLocation(e));
+            Location l = getLocation(e);
+            if (_map.inBounds(l))
+            {
+                _overlay.toggleSelect(l);
+            }
+
             update();
         }
 
@@ -138,6 +143,12 @@ public class MapController
             if (attacker != null && enemy != null)
             {
                 attacker.tryAttack(enemy);
+
+                // If enemy dies, deselect it
+                if (enemy.isAlive() == false)
+                {
+                    _overlay.selectEnemyUnit(null);
+                }
             }
 
             update();

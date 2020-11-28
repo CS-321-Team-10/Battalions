@@ -98,24 +98,24 @@ public class MapOverlay
             && unit != null
             && unit.getPlayer().isCPU() == false)
         {
-            _selectedFriendlyUnit = (_selectedFriendlyUnit != unit)
+            selectFriendlyUnit((_selectedFriendlyUnit != unit)
                 ? unit
-                : null;
+                : null);
         }
         else if ((_selectionMode & SELECT_ENEMY_UNIT_MODE) != 0
             && unit != null
             && unit.getPlayer().isCPU())
         {
-            _selectedEnemyUnit = (_selectedEnemyUnit != unit)
+            selectEnemyUnit((_selectedEnemyUnit != unit)
                 ? unit
-                : null;
+                : null);
         }
         else if ((_selectionMode & SELECT_TILE_MODE) != 0
             && tile != null)
         {
-            _selectedTile = (_selectedTile != tile)
+            selectTile((_selectedTile != tile)
                 ? tile
-                : null;
+                : null);
         }
     }
 
@@ -124,9 +124,9 @@ public class MapOverlay
      */
     public void clearSelection()
     {
-        _selectedTile = null;
-        _selectedFriendlyUnit = null;
-        _selectedEnemyUnit = null;
+        selectTile(null);
+        selectFriendlyUnit(null);
+        selectEnemyUnit(null);
     }
 
     /**
@@ -148,6 +148,15 @@ public class MapOverlay
     }
 
     /**
+     * Sets the currently selected tile.
+     * @param tile the tile to select
+     */
+    public final void selectTile(Tile tile)
+    {
+        _selectedTile = tile;
+    }
+
+    /**
      * Returns the currently selected tile.
      * @return the currently selected tile, if one exists; null, otherwise
      */
@@ -157,12 +166,30 @@ public class MapOverlay
     }
 
     /**
+     * Sets the currently selected friendly unit.
+     * @param unit the friendly unit to select
+     */
+    public final void selectFriendlyUnit(Unit unit)
+    {
+        _selectedFriendlyUnit = unit;
+    }
+
+    /**
      * Returns the currently selected friendly unit.
      * @return the currently selected friendly unit, if one exists; null, otherwise
      */
     public final Unit getSelectedFriendlyUnit()
     {
         return _selectedFriendlyUnit;
+    }
+
+    /**
+     * Sets the currently selected enemy unit.
+     * @param unit the enemy unit to select
+     */
+    public final void selectEnemyUnit(Unit unit)
+    {
+        _selectedEnemyUnit = unit;
     }
 
     /**

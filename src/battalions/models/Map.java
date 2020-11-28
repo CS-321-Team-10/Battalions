@@ -169,6 +169,17 @@ public class Map
     }
 
     /**
+     * Removes a unit from this map.
+     * @param u the unit to remove from the map
+     */
+    public void removeUnit(Unit u)
+    {
+        assert u != null;
+
+        _units.remove(u);
+    }
+
+    /**
      * Returns whether it is possible for the specified unit to move to
      * the specified location.
      * @param u the unit performing the hypothetical movement

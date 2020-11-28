@@ -372,8 +372,8 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         assert damage >= 0;
 
-        // Ensure damage taken is non-negative
-        int actualDamage = Math.max(0, damage - _defense);
+        // Ensure damage taken is non-negative and at least 1
+        int actualDamage = Math.max(1, damage - _defense);
 
         // Ensure health remains >= 0
         _health = Math.max(0, _health - actualDamage);
@@ -597,11 +597,12 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     }
 
     /**
-     * Set this unit's alive status to false.
+     * Set this unit's alive status to false and removes it from the map.
      */
     private void die()
     {
         _isAlive = false;
+        _map.removeUnit(this);
     }
 
     @Override
