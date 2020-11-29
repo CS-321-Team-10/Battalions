@@ -63,6 +63,8 @@ public class Sprites
     public static final Image SELECTED_TILE = readImage(UI_DIRECTORY + "SelectedTile.png");
     public static final Image SELECTED_UNIT = readImage(UI_DIRECTORY + "SelectedFriendlyUnit.png");
     public static final Image SELECTED_ENEMY_UNIT = readImage(UI_DIRECTORY + "SelectedEnemyUnit.png");
+    public static final Image SELECTED_FRIENDLY_UNIT_RANGE = readImage(UI_DIRECTORY + "SelectedFriendlyUnitRange.png");
+    public static final Image SELECTED_ENEMY_UNIT_RANGE = readImage(UI_DIRECTORY + "SelectedEnemyUnitRange.png");
 
     /**
      * Reads an image with the specified path.

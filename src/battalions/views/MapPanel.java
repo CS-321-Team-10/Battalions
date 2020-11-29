@@ -106,12 +106,43 @@ public final class MapPanel extends JPanel
         {
             Location l = selectedUnit.getLocation();
             g.drawImage(Sprites.SELECTED_UNIT, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
+            
+        }
+        
+        // Draws the selected friendly unit's move range overlay
+        if (selectedUnit != null && selectedUnit.hasMoved() == false)
+        {
+            Location l = selectedUnit.getLocation();
+            for(int xl = -6; xl < 6; xl ++)
+            {
+                for(int yl = -6; yl < 6; yl ++)
+                {
+                    Location temp1 = new Location(l.x + xl, l.y + yl); // Create a temp location for this loop
+                    // Check if unit can move to this temp location. If they can, draw an overlay there
+                    if(selectedUnit.canMoveTo(temp1)) {g.drawImage(Sprites.SELECTED_FRIENDLY_UNIT_RANGE, spritePx * temp1.x, spritePx * temp1.y, spritePx, spritePx, this);}
+                }
+            }
         }
 
         if (selectedEnemyUnit != null)
         {
             Location l = selectedEnemyUnit.getLocation();
             g.drawImage(Sprites.SELECTED_ENEMY_UNIT, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
+        }
+        
+        // Draws the slected enemy unit's move range overlay
+        if (selectedEnemyUnit != null && selectedEnemyUnit.hasMoved() == false)
+        {
+            Location l = selectedEnemyUnit.getLocation();
+            for(int xl = -6; xl < 6; xl ++)
+            {
+                for(int yl = -6; yl < 6; yl ++)
+                {
+                    Location temp1 = new Location(l.x + xl, l.y + yl); // Create a temp location for this loop
+                    // Check if unit can move to this temp location. If they can, draw an overlay there
+                    if(selectedEnemyUnit.canMoveTo(temp1)) {g.drawImage(Sprites.SELECTED_ENEMY_UNIT_RANGE, spritePx * temp1.x, spritePx * temp1.y, spritePx, spritePx, this);}
+                }
+            }
         }
     }
 
