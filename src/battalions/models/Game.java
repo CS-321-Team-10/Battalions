@@ -18,6 +18,7 @@ package battalions.models;
 
 /**
  * Manages turns and controls the flow of the game.
+ * @author Blocker
  * @author Bryant
  * @author Scott
  */
@@ -115,26 +116,24 @@ public class Game implements ITurnBased
         _player.endTurn();
         _cpu.endTurn();
     }
-    
+
     /**
-     * Checks each player's to determine if either has lost all of their units.
-     * If either player does not have any remaining units, the other player is declared the winner.
-     * Otherwise, the winner is undetermined, or null.
-     * @author Blocker
+     * If a player has lost all units, returns the opposing player as the winner.
+     * If neither player has lost all units, returns null.
+     * @return the winning player, if a player has won; null, otherwise
      */
     public Player getWinner()
     {
-        if(_cpu.getLivingUnits().size() == 0)
+        if (_cpu.getLivingUnits().isEmpty())
         {
             return _player;
         }
-        
-        else if(_player.getLivingUnits().size() == 0)
+
+        if (_player.getLivingUnits().isEmpty())
         {
             return _cpu;
         }
-        
-        else
-            return null;
+
+        return null;
     }
 }

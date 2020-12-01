@@ -21,6 +21,10 @@ import battalions.models.Unit;
 import battalions.util.Rng;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -29,42 +33,38 @@ import javax.imageio.ImageIO;
  */
 public class Sprites
 {
-    private static final String TILES_DIRECTORY = "src/images/tiles/";
-    private static final String UNITS_DIRECTORY = "src/images/units/";
-    private static final String UI_DIRECTORY = "src/images/ui/";
+    public static final Image GRASS_1_TILE = readImage("/images/tiles/Grass1.png");
+    public static final Image GRASS_2_TILE = readImage("/images/tiles/Grass2.png");
+    public static final Image WHEAT_GRASS_1_TILE = readImage("/images/tiles/WheatGrass1.png");
+    public static final Image WHEAT_GRASS_2_TILE = readImage("/images/tiles/WheatGrass2.png");
+    public static final Image FOREST_TILE = readImage("/images/tiles/Forest.png");
+    public static final Image SAND_TILE = readImage("/images/tiles/Sand.png");
+    public static final Image VERTICAL_WALL_TILE = readImage("/images/tiles/WallVertical.png");
+    public static final Image HORIZONTAL_WALL_TILE = readImage("/images/tiles/WallHorizontal.png");
+    public static final Image NORTHWEST_WALL_TILE = readImage("/images/tiles/WallCornerNW.png");
+    public static final Image NORTHEAST_WALL_TILE = readImage("/images/tiles/WallCornerNE.png");
+    public static final Image SOUTHWEST_WALL_TILE = readImage("/images/tiles/WallCornerSW.png");
+    public static final Image SOUTHEAST_WALL_TILE = readImage("/images/tiles/WallCornerSE.png");
 
-    private static final Image GRASS_1_TILE = readImage(TILES_DIRECTORY + "Grass1.png");
-    private static final Image GRASS_2_TILE = readImage(TILES_DIRECTORY + "Grass2.png");
-    private static final Image WHEAT_GRASS_1_TILE = readImage(TILES_DIRECTORY + "WheatGrass1.png");
-    private static final Image WHEAT_GRASS_2_TILE = readImage(TILES_DIRECTORY + "WheatGrass2.png");
-    private static final Image FOREST_TILE = readImage(TILES_DIRECTORY + "Forest.png");
-    private static final Image SAND_TILE = readImage(TILES_DIRECTORY + "Sand.png");
-    private static final Image VERTICAL_WALL_TILE = readImage(TILES_DIRECTORY + "WallVertical.png");
-    private static final Image HORIZONTAL_WALL_TILE = readImage(TILES_DIRECTORY + "WallHorizontal.png");
-    private static final Image NORTHWEST_WALL_TILE = readImage(TILES_DIRECTORY + "WallCornerNW.png");
-    private static final Image NORTHEAST_WALL_TILE = readImage(TILES_DIRECTORY + "WallCornerNE.png");
-    private static final Image SOUTHWEST_WALL_TILE = readImage(TILES_DIRECTORY + "WallCornerSW.png");
-    private static final Image SOUTHEAST_WALL_TILE = readImage(TILES_DIRECTORY + "WallCornerSE.png");
+    public static final Image INFANTRY_UNIT = readImage("/images/units/FriendlyInfantry.png");
+    public static final Image HEALER_UNIT = readImage("/images/units/FriendlyHealer.png");
+    public static final Image ARCHER_UNIT = readImage("/images/units/FriendlyArcher.png");
+    public static final Image KNIGHT_UNIT = readImage("/images/units/FriendlyKnight.png");
+    public static final Image MAGE_UNIT = readImage("/images/units/FriendlyMage.png");
+    public static final Image WARLOCK_UNIT = readImage("/images/units/FriendlyWarlock.png");
 
-    private static final Image INFANTRY_UNIT = readImage(UNITS_DIRECTORY + "FriendlyInfantry.png");
-    private static final Image HEALER_UNIT = readImage(UNITS_DIRECTORY + "FriendlyHealer.png");
-    private static final Image ARCHER_UNIT = readImage(UNITS_DIRECTORY + "FriendlyArcher.png");
-    private static final Image KNIGHT_UNIT = readImage(UNITS_DIRECTORY + "FriendlyKnight.png");
-    private static final Image MAGE_UNIT = readImage(UNITS_DIRECTORY + "FriendlyMage.png");
-    private static final Image WARLOCK_UNIT = readImage(UNITS_DIRECTORY + "FriendlyWarlock.png");
+    public static final Image ENEMY_INFANTRY_UNIT = readImage("/images/units/EnemyInfantry.png");
+    public static final Image ENEMY_HEALER_UNIT = readImage("/images/units/EnemyHealer.png");
+    public static final Image ENEMY_ARCHER_UNIT = readImage("/images/units/EnemyArcher.png");
+    public static final Image ENEMY_KNIGHT_UNIT = readImage("/images/units/EnemyKnight.png");
+    public static final Image ENEMY_MAGE_UNIT = readImage("/images/units/EnemyMage.png");
+    public static final Image ENEMY_WARLOCK_UNIT = readImage("/images/units/EnemyWarlock.png");
 
-    private static final Image ENEMY_INFANTRY_UNIT = readImage(UNITS_DIRECTORY + "EnemyInfantry.png");
-    private static final Image ENEMY_HEALER_UNIT = readImage(UNITS_DIRECTORY + "EnemyHealer.png");
-    private static final Image ENEMY_ARCHER_UNIT = readImage(UNITS_DIRECTORY + "EnemyArcher.png");
-    private static final Image ENEMY_KNIGHT_UNIT = readImage(UNITS_DIRECTORY + "EnemyKnight.png");
-    private static final Image ENEMY_MAGE_UNIT = readImage(UNITS_DIRECTORY + "EnemyMage.png");
-    private static final Image ENEMY_WARLOCK_UNIT = readImage(UNITS_DIRECTORY + "EnemyWarlock.png");
-
-    public static final Image SELECTED_TILE = readImage(UI_DIRECTORY + "SelectedTile.png");
-    public static final Image SELECTED_UNIT = readImage(UI_DIRECTORY + "SelectedFriendlyUnit.png");
-    public static final Image SELECTED_ENEMY_UNIT = readImage(UI_DIRECTORY + "SelectedEnemyUnit.png");
-    public static final Image SELECTED_FRIENDLY_UNIT_RANGE = readImage(UI_DIRECTORY + "SelectedFriendlyUnitRange.png");
-    public static final Image SELECTED_ENEMY_UNIT_RANGE = readImage(UI_DIRECTORY + "SelectedEnemyUnitRange.png");
+    public static final Image SELECTED_TILE = readImage("/images/ui/SelectedTile.png");
+    public static final Image SELECTED_UNIT = readImage("/images/ui/SelectedFriendlyUnit.png");
+    public static final Image SELECTED_ENEMY_UNIT = readImage("/images/ui/SelectedEnemyUnit.png");
+    public static final Image SELECTED_FRIENDLY_UNIT_RANGE = readImage("/images/ui/SelectedFriendlyUnitRange.png");
+    public static final Image SELECTED_ENEMY_UNIT_RANGE = readImage("/images/ui/SelectedEnemyUnitRange.png");
 
     /**
      * Reads an image with the specified path.
@@ -73,11 +73,11 @@ public class Sprites
      */
     public static Image readImage(String path)
     {
-        File f = new File(path);
+        URL url = Sprites.class.getResource(path);
 
         try
         {
-            return ImageIO.read(f);
+            return ImageIO.read(url);
         }
         catch (java.io.IOException ex)
         {
@@ -130,7 +130,7 @@ public class Sprites
                         return SOUTHEAST_WALL_TILE;
                 }
         }
-        
+
         if (tile.getLocation().equals(new battalions.data.Location(7, 4)))
         {
             System.out.println(tile);
