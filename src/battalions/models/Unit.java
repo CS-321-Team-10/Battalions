@@ -343,6 +343,16 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     }
 
     /**
+     * Returns whether this unit has at least one valid move or action available.
+     * @return true, if this unit has any actions available; false, otherwise
+     */
+    public boolean hasAvailableOptions()
+    {
+        return getValidMoves().size() >= 1
+            || getValidAttacks().size() >= 1;
+    }
+
+    /**
      * Uses this unit's movement pattern mask and the current map state
      * to return its possible moves.
      * @return the set of absolute move options for this unit

@@ -116,4 +116,30 @@ public class Player implements ITurnBased
 
         return result;
     }
+
+    /**
+     * Returns whether this player has at least one unit who has a valid
+     * movement or action option.
+     * @return true, if this player has a unit who can move or act; false, otherwise
+     */
+    public boolean hasAvailableUnits()
+    {
+        return getAvailableUnits().size() >= 1;
+    }
+
+    /**
+     * Returns the set of all units owned by this player who have at least
+     * one valid movement or action available.
+     * @return a copy of the set of units available to move or attack
+     */
+    public Set<Unit> getAvailableUnits()
+    {
+        Set<Unit> valid = new HashSet<>();
+
+        getUnits().stream()
+            .filter(x -> x.hasAvailableOptions())
+            .forEach(x -> valid.add(x));
+
+        return valid;
+    }
 }
