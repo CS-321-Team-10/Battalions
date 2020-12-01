@@ -19,6 +19,7 @@ package battalions.models;
 import battalions.data.Location;
 import battalions.data.Orientation;
 import battalions.data.TileType;
+import battalions.util.LocationSets;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -305,11 +306,7 @@ public class Map
      */
     public Set<Unit> getUnits()
     {
-        Set<Unit> result = new HashSet<>();
-
-        _units.stream().forEach(x -> result.add(x));
-
-        return result;
+        return LocationSets.clone(_units);
     }
 
     @Override

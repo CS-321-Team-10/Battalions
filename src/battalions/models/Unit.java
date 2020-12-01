@@ -160,6 +160,11 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
      */
     public boolean canAttack(Unit target)
     {
+        if (target == null)
+        {
+            return false;
+        }
+
         Location l = target.getLocation();
 
         // Check if has not already acted
@@ -177,6 +182,11 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
      */
     public boolean canAssist(Unit target)
     {
+        if (target == null)
+        {
+            return false;
+        }
+
         Location l = target.getLocation();
 
         // Check if has not already acted
@@ -341,8 +351,8 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         Set<Location> valid = new HashSet<>();
 
-        _type.moves()
-            .filter(x -> _map.canMoveTo(this, x))
+        _type.movesAbsolute(_location).stream()
+            .filter(x -> canMoveTo(x))
             .forEach(x -> valid.add(x));
 
         return valid;
@@ -357,8 +367,8 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         Set<Location> valid = new HashSet<>();
 
-        _type.actions()
-            .filter(x -> _map.canAttack(this, _map.getUnitAt(x)))
+        _type.actionsAbsolute(_location).stream()
+            .filter(x -> canAttack(_map.getUnitAt(x)))
             .forEach(x -> valid.add(x));
 
         return valid;

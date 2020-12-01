@@ -16,6 +16,7 @@
  */
 package battalions.data;
 
+import battalions.util.LocationSets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -241,23 +242,49 @@ public enum UnitType
     }
 
     /**
-     * Returns a sequence of this unit type's valid movements that can be
-     * used for aggregate operations.
-     * @return a stream of this unit type's valid movements
+     * Returns the set of this unit type's valid relative movements.
+     * @return a copy of the set of this unit type's valid relative movements
      */
-    public final Stream<Location> moves()
+    public final Set<Location> moves()
     {
-        return _moveMask.stream();
+        return LocationSets.clone(_moveMask);
     }
 
     /**
-     * Returns a sequence of this unit type's valid action patterns that can be
-     * used for aggregate operations.
-     * @return a stream of this unit type's valid action patterns
+     * Returns the set of this unit type's valid relative action patterns.
+     * @return a copy of the set of this unit type's valid relative action patterns
      */
-    public final Stream<Location> actions()
+    public final Set<Location> actions()
     {
-        return _actionMask.stream();
+        return LocationSets.clone(_actionMask);
+    }
+
+    /**
+     * Returns the set of this unit type's valid movements, offset by an absolute location.
+     * @param offset the location by which to offset all moves
+     * @return a copy of the set of this unit type's movements at an absolute location
+     */
+    public Set<Location> movesAbsolute(Location offset)
+    {
+        Set<Location> moves = new HashSet<>();
+
+        _moveMask.forEach(x -> moves.add(x.plus(offset)));
+
+        return moves;
+    }
+
+    /**
+     * Returns the set of this unit type's valid action patterns, offset by an absolute location.
+     * @param offset the location by which to offset all actions
+     * @return a copy of the set of this unit type's action patterns at an absolute location
+     */
+    public Set<Location> actionsAbsolute(Location offset)
+    {
+        Set<Location> actions = new HashSet<>();
+
+        _moveMask.forEach(x -> actions.add(x.plus(offset)));
+
+        return actions;
     }
 
     /**
