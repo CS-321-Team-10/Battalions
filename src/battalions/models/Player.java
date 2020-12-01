@@ -112,7 +112,7 @@ public class Player implements ITurnBased
     {
         Set<Unit> result = new HashSet<>();
 
-        getUnits().stream()
+        _units.stream()
             .forEach(x -> result.add(x));
 
         return result;
