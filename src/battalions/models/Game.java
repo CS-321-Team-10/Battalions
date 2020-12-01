@@ -115,4 +115,26 @@ public class Game implements ITurnBased
         _player.endTurn();
         _cpu.endTurn();
     }
+    
+    /**
+     * Checks each player's to determine if either has lost all of their units.
+     * If either player does not have any remaining units, the other player is declared the winner.
+     * Otherwise, the winner is undetermined, or null.
+     * @author Blocker
+     */
+    public Player getWinner()
+    {
+        if(_cpu.getLivingUnits().size() == 0)
+        {
+            return _player;
+        }
+        
+        else if(_player.getLivingUnits().size() == 0)
+        {
+            return _cpu;
+        }
+        
+        else
+            return null;
+    }
 }
