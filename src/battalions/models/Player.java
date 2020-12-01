@@ -112,9 +112,26 @@ public class Player implements ITurnBased
     {
         Set<Unit> result = new HashSet<>();
 
-        _units.stream().forEach(x -> result.add(x));
+        getUnits().stream()
+            .forEach(x -> result.add(x));
 
         return result;
+    }
+
+    /**
+     * Returns the set of all living units owned by this player.
+     * @return a copy of the set of all units owned by this player
+     * who are still alive
+     */
+    public Set<Unit> getLivingUnits()
+    {
+        Set<Unit> living = new HashSet<>();
+
+        getUnits().stream()
+            .filter(x -> x.isAlive())
+            .forEach(x -> living.add(x));
+
+        return living;
     }
 
     /**
