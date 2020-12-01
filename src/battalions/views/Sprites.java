@@ -107,7 +107,7 @@ public class Sprites
     private static final Map<UnitType, Image> ENEMY_UNITS;
 
     /**
-     * The static constructor for the Sprites class.
+     * Initializes static members of this class.
      */
     static
     {
@@ -123,7 +123,16 @@ public class Sprites
         tiles.put(TileType.BridgeVertical, readImage("/images/tiles/BridgeVertical.png"));
 
         tiles.put(TileType.Forest, readImage("/images/tiles/Forest.png"));
+
         tiles.put(TileType.Sand, readImage("/images/tiles/Sand.png"));
+        tiles.put(TileType.SandNorthEast, readImage("/images/tiles/SandNorthEast.png"));
+        tiles.put(TileType.SandNorthWest, readImage("/images/tiles/SandNorthWest.png"));
+        tiles.put(TileType.SandSouthEast, readImage("/images/tiles/SandSouthEast.png"));
+        tiles.put(TileType.SandSouthWest, readImage("/images/tiles/SandSouthWest.png"));
+        tiles.put(TileType.SandInwardNorthEast, readImage("/images/tiles/SandInwardNorthEast.png"));
+        tiles.put(TileType.SandInwardNorthWest, readImage("/images/tiles/SandInwardNorthWest.png"));
+        tiles.put(TileType.SandInwardSouthEast, readImage("/images/tiles/SandInwardSouthEast.png"));
+        tiles.put(TileType.SandInwardSouthWest, readImage("/images/tiles/SandInwardSouthWest.png"));
 
         tiles.put(TileType.WallHorizontal, readImage("/images/tiles/WallHorizontal.png"));
         tiles.put(TileType.WallVertical, readImage("/images/tiles/WallVertical.png"));

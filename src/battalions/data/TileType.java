@@ -63,6 +63,46 @@ public enum TileType
     Sand(TileEffectFlags.REDUCES_MOVEMENT),
 
     /**
+     * A northeast corner sand tile variant that reduces a unit's movement range.
+     */
+    SandNorthEast(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
+     * A northwest corner sand tile variant that reduces a unit's movement range.
+     */
+    SandNorthWest(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
+     * A southeast corner sand tile variant that reduces a unit's movement range.
+     */
+    SandSouthEast(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
+     * A southwest corner sand tile variant that reduces a unit's movement range.
+     */
+    SandSouthWest(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
+     * An inward northeast corner sand tile variant that reduces a unit's movement range.
+     */
+    SandInwardNorthEast(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
+     * An inward northwest corner sand tile variant that reduces a unit's movement range.
+     */
+    SandInwardNorthWest(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
+     * An inward southeast corner sand tile variant that reduces a unit's movement range.
+     */
+    SandInwardSouthEast(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
+     * An inward southwest corner sand tile variant that reduces a unit's movement range.
+     */
+    SandInwardSouthWest(TileEffectFlags.REDUCES_MOVEMENT),
+
+    /**
      * A horizontal wall tile variant that blocks unit movement.
      */
     WallHorizontal(TileEffectFlags.IMPASSABLE),
