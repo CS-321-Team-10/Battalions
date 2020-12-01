@@ -77,16 +77,16 @@ public class App
         Player cpu = _game.getCpu();
 
         // Add walls
-        map.addTile(new Tile(map, new Location(4, 4), TileType.Wall, Orientation.Right));
-        map.addTile(new Tile(map, new Location(4, 5), TileType.Wall, Orientation.Up));
-        map.addTile(new Tile(map, new Location(7, 4), TileType.Wall, Orientation.UpLeft));
+        map.addTile(new Tile(map, new Location(4, 4), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(4, 5), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(7, 4), TileType.WallNorthWest, TileType.FieldLight));
 
         // Add dodge boost tiles
-        map.addTile(new Tile(map, new Location(5, 4), TileType.Forest, Orientation.Up));
-        map.addTile(new Tile(map, new Location(5, 3), TileType.Forest, Orientation.Up));
+        map.addTile(new Tile(map, new Location(5, 4), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(5, 3), TileType.Forest, TileType.FieldLight));
 
         // Add movement reduce tiles
-        map.addTile(new Tile(map, new Location(7, 7), TileType.Sand, Orientation.Up));
+        map.addTile(new Tile(map, new Location(7, 7), TileType.Sand));
 
         // Add friendly units
         player.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
@@ -155,10 +155,11 @@ public class App
         System.out.println(map);
 
         // Display all unit stats
-        for (Unit unit : map.getUnits())
-        {
-            System.out.println(unit);
-        }
+        map.getUnits()
+            .forEach((unit) ->
+            {
+                System.out.println(unit);
+            });
     }
 
     /**

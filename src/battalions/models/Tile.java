@@ -43,6 +43,11 @@ public class Tile implements IMapItem
     private final TileType _type;
 
     /**
+     * The type of tile to display underneath this tile.
+     */
+    private final TileType _underlay;
+
+    /**
      * The direction this tile faces.
      */
     private final Orientation _orientation;
@@ -52,18 +57,62 @@ public class Tile implements IMapItem
      * @param map the map in which this tile resides
      * @param l the initial location for this tile
      * @param type the type of this tile, containing the effectFlags it has on a unit
+     */
+    public Tile(Map map, Location l, TileType type)
+    {
+        this(map, l, type, null, Orientation.NONE);
+    }
+
+    /**
+     * Initializes a new instance of the Tile class.
+     * @param map the map in which this tile resides
+     * @param l the initial location for this tile
+     * @param type the type of this tile, containing the effectFlags it has on a unit
+     * @param underlay the type of tile to display underneath this tile
+     */
+    public Tile(Map map, Location l, TileType type, TileType underlay)
+    {
+        this(map, l, type, underlay, Orientation.NONE);
+    }
+
+    /**
+     * Initializes a new instance of the Tile class.
+     * @param map the map in which this tile resides
+     * @param l the initial location for this tile
+     * @param type the type of this tile, containing the effectFlags it has on a unit
+     * @param underlay the type of tile to display underneath this tile
      * @param orientation the direction this tile faces
      */
-    public Tile(Map map, Location l, TileType type, Orientation orientation)
+    public Tile(Map map, Location l, TileType type, TileType underlay, Orientation orientation)
     {
         assert map != null;
         assert map.inBounds(l);
+        assert type != null;
 
         _map = map;
         _location = l;
 
         _type = type;
+        _underlay = underlay;
         _orientation = orientation;
+    }
+
+    /**
+     * Returns the type of this tile, containing the effectFlags it has on a unit.
+     * @return the type of this tile
+     */
+    public final TileType getType()
+    {
+        return _type;
+    }
+
+    /**
+     * Returns the type of tile to display underneath this tile.
+     * @return the type of the tile that displays underneath this tile
+     */
+    public final TileType getUnderlayType()
+    {
+        return _underlay;
     }
 
     @Override
@@ -78,19 +127,7 @@ public class Tile implements IMapItem
         return _location;
     }
 
-    /**
-     * Returns the type of this tile, containing the effectFlags it has on a unit.
-     * @return the type of this tile
-     */
-    public final TileType getType()
-    {
-        return _type;
-    }
-
-    /**
-     * Returns the direction this tile faces.
-     * @return the orientation of this tile
-     */
+    @Override
     public final Orientation getOrientation()
     {
         return _orientation;

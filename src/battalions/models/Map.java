@@ -69,7 +69,7 @@ public class Map
         {
             for (int y = 0; y < _height; y++)
             {
-                _tiles[y][x] = new Tile(this, new Location(x, y), TileType.Field, Orientation.Up);
+                _tiles[y][x] = new Tile(this, new Location(x, y), TileType.FieldLight);
             }
         }
 

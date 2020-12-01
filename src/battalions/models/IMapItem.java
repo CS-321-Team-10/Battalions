@@ -2,11 +2,11 @@
  * School:         University of Alabama in Huntsville
  * Course Title:   Object-Oriented Programming in Java
  * Instructor:     Dr. Dan Rochowiak
- * 
+ *
  * Course Number:  CS 321
  * Course Section: 01
  * Term:           Fall 2020
- * 
+ *
  * Team:           10
  * Team Members:   Scott Clarke
  *                 Guess Crow
@@ -17,6 +17,7 @@
 package battalions.models;
 
 import battalions.data.Location;
+import battalions.data.Orientation;
 
 /**
  * Represents an object that is located at a coordinate on a map.
@@ -30,10 +31,16 @@ public interface IMapItem
      * @return the parent map of this object
      */
     Map getMap();
-    
+
     /**
      * Returns the current location of this object on the map.
      * @return the current location of this object on the map
      */
     Location getLocation();
+
+    /**
+     * Returns the direction this object faces.
+     * @return the orientation of this object
+     */
+    Orientation getOrientation();
 }

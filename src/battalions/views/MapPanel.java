@@ -17,6 +17,7 @@
 package battalions.views;
 
 import battalions.data.Location;
+import battalions.data.TileType;
 import battalions.models.Map;
 import battalions.models.MapOverlay;
 import battalions.models.Tile;
@@ -83,23 +84,36 @@ public final class MapPanel extends JPanel
         {
             for (int x = 0; x < width; x++)
             {
-                g.drawImage(Sprites.getImage(tiles[y][x]), spritePx * x, spritePx * y, spritePx, spritePx, this);
+                Tile tile = tiles[y][x];
+                TileType underlayType = tile.getUnderlayType();
+                TileType mainType = tile.getType();
+
+                int xPx = spritePx * x;
+                int yPx = spritePx * y;
+
+                // If main tile type is transparent, draw underlaid tile type
+                if (underlayType != null)
+                {
+                    g.drawImage(Sprites.getImage(underlayType), xPx, yPx, spritePx, spritePx, this);
+                }
+
+                // Draw main tile type
+                g.drawImage(Sprites.getImage(mainType), xPx, yPx, spritePx, spritePx, this);
             }
         }
 
         // Draw units
-        units.forEach(
-            x ->
+        units.forEach(unit ->
             {
-                Location l = x.getLocation();
-                g.drawImage(Sprites.getImage(x), spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
+                Location l = unit.getLocation();
+                g.drawImage(Sprites.getImage(unit.getType(), !unit.getPlayer().isCPU()), spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
             });
 
         // Draw selected tile overlay
         if (selectedTile != null)
         {
             Location l = selectedTile.getLocation();
-            g.drawImage(Sprites.SELECTED_TILE, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
+            g.drawImage(Sprites.SELECTED_MOVE, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
         }
 
         // Draw selected friendly unit overlays
@@ -107,16 +121,16 @@ public final class MapPanel extends JPanel
         {
             Location l = selectedUnit.getLocation();
 
+            // Draw available moves overlay
+            selectedUnit.getValidMoves()
+                .forEach(m -> g.drawImage(Sprites.AVAILABLE_MOVE, spritePx * m.x, spritePx * m.y, spritePx, spritePx, this));
+
+            // Draw available attacks overlay
+            selectedUnit.getValidAttacks()
+                .forEach(a -> g.drawImage(Sprites.AVAILABLE_ATTACK, spritePx * a.x, spritePx * a.y, spritePx, spritePx, this));
+
             // Draw selection overlay
             g.drawImage(Sprites.SELECTED_UNIT, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
-
-            // Draw valid moves overlay
-            selectedUnit.getValidMoves()
-                .forEach(m -> g.drawImage(Sprites.SELECTED_FRIENDLY_UNIT_RANGE, spritePx * m.x, spritePx * m.y, spritePx, spritePx, this));
-
-            // Draw valid attacks overlay
-            selectedUnit.getValidAttacks()
-                .forEach(a -> g.drawImage(Sprites.SELECTED_FRIENDLY_UNIT_RANGE, spritePx * a.x, spritePx * a.y, spritePx, spritePx, this));
         }
 
         // Draw selected enemy unit overlays
@@ -124,16 +138,16 @@ public final class MapPanel extends JPanel
         {
             Location l = selectedEnemyUnit.getLocation();
 
+//            // Draw available moves overlay
+//            selectedEnemyUnit.getValidMoves()
+//                .forEach(m -> g.drawImage(Sprites.AVAILABLE_MOVE, spritePx * m.x, spritePx * m.y, spritePx, spritePx, this));
+//
+//            // Draw available attacks overlay
+//            selectedEnemyUnit.getValidAttacks()
+//                .forEach(a -> g.drawImage(Sprites.AVAILABLE_ASSIST, spritePx * a.x, spritePx * a.y, spritePx, spritePx, this));
+
             // Draw selection overlay
-            g.drawImage(Sprites.SELECTED_ENEMY_UNIT, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
-
-            // Draw valid moves overlay
-            selectedEnemyUnit.getValidMoves()
-                .forEach(m -> g.drawImage(Sprites.SELECTED_FRIENDLY_UNIT_RANGE, spritePx * m.x, spritePx * m.y, spritePx, spritePx, this));
-
-            // Draw valid attacks overlay
-            selectedEnemyUnit.getValidAttacks()
-                .forEach(a -> g.drawImage(Sprites.SELECTED_FRIENDLY_UNIT_RANGE, spritePx * a.x, spritePx * a.y, spritePx, spritePx, this));
+            g.drawImage(Sprites.SELECTED_ATTACK, spritePx * l.x, spritePx * l.y, spritePx, spritePx, this);
         }
     }
 

@@ -20,45 +20,24 @@ package battalions.data;
  * Specifies the direction an object faces.
  * @author Scott
  */
-public enum Orientation
+public class Orientation
 {
     /**
-     * The object faces up.
+     * The object will be displayed without any flipping.
      */
-    Up,
+    public static final Orientation NONE = new Orientation(false);
 
     /**
-     * The object faces up and right.
+     * Whether this object should be flipped horizontally.
      */
-    UpRight,
+    public final boolean flipHorizontal;
 
     /**
-     * The object faces right.
+     * Initializes a new instance of the Orientation class.
+     * @param flipHorizontal whether this object should be flipped horizontally
      */
-    Right,
-
-    /**
-     * The object faces down and right.
-     */
-    DownRight,
-
-    /**
-     * The object faces down.
-     */
-    Down,
-
-    /**
-     * The object faces down and left.
-     */
-    DownLeft,
-
-    /**
-     * The object faces left.
-     */
-    Left,
-
-    /**
-     * The object faces up and left.
-     */
-    UpLeft,
+    public Orientation(boolean flipHorizontal)
+    {
+        this.flipHorizontal = flipHorizontal;
+    }
 }

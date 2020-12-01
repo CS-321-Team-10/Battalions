@@ -18,6 +18,7 @@ package battalions.models;
 
 import battalions.data.Location;
 import battalions.data.ActionType;
+import battalions.data.Orientation;
 import battalions.data.UnitType;
 import battalions.util.Stats;
 import java.util.HashSet;
@@ -49,6 +50,11 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
      * The type of this unit.
      */
     private final UnitType _type;
+
+    /**
+     * The direction this unit faces.
+     */
+    private final Orientation _orientation;
 
     /**
      * Whether this unit has performed a move this turn.
@@ -114,14 +120,29 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
      */
     public Unit(Player player, Map map, Location l, UnitType type)
     {
+        this(player, map, l, type, Orientation.NONE);
+    }
+
+    /**
+     * Initializes a new instance of the Unit class.
+     * @param player the player who owns this unit
+     * @param map the map in which this unit resides
+     * @param l the initial location for this unit
+     * @param type the type of this unit
+     * @param orientation the direction this unit faces
+     */
+    public Unit(Player player, Map map, Location l, UnitType type, Orientation orientation)
+    {
         assert player != null;
         assert map != null;
         assert map.inBounds(l);
+        assert orientation != null;
 
         _player = player;
         _map = map;
         _location = l;
         _type = type;
+        _orientation = orientation;
 
         _health = type.baseHealth;
         _maxHealth = _health;
@@ -505,6 +526,12 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     public final Location getLocation()
     {
         return _location;
+    }
+
+    @Override
+    public final Orientation getOrientation()
+    {
+        return _orientation;
     }
 
     /**
