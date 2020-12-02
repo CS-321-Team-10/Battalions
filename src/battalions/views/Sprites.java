@@ -18,6 +18,7 @@ package battalions.views;
 
 import battalions.data.TileType;
 import battalions.data.UnitType;
+import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
 import java.util.Collections;
@@ -31,45 +32,62 @@ import javax.imageio.ImageIO;
  */
 public class Sprites
 {
+    public static final Color TRANSPARENT = new Color(0xFF, 0xFF, 0xFF, 0x00);
+
+    /**
+     * A sprite overlay representing a cursor.
+     */
+    public static final Image CURSOR;
+
     /**
      * A sprite overlay representing an available unit.
      */
-    public static final Image AVAILABLE_UNIT;
+    public static final Image SELECTABLE_UNIT;
 
     /**
-     * A sprite overlay representing an available move target.
-     */
-    public static final Image AVAILABLE_MOVE;
-
-    /**
-     * A sprite overlay representing an available attack target.
-     */
-    public static final Image AVAILABLE_ATTACK;
-
-    /**
-     * A sprite overlay representing an available assist target.
-     */
-    public static final Image AVAILABLE_ASSIST;
-
-    /**
-     * A sprite overlay representing a selected friendly unit.
+     * A sprite overlay representing a selected unit.
      */
     public static final Image SELECTED_UNIT;
 
     /**
-     * A sprite overlay representing a selected move target.
+     * A sprite overlay representing an available move target for a selected unit.
      */
-    public static final Image SELECTED_MOVE;
+    public static final Image SELECTABLE_MOVE;
 
     /**
-     * A sprite overlay representing a selected assist target.
+     * A sprite overlay representing an available attack target for a selected unit.
      */
-    public static final Image SELECTED_ASSIST;
+    public static final Image SELECTABLE_ATTACK;
 
     /**
-     * A sprite overlay representing a selected attack target.
+     * A sprite overlay representing an available assist target for a selected unit.
      */
-    public static final Image SELECTED_ATTACK;
+    public static final Image SELECTABLE_ASSIST;
+
+    /**
+     * A sprite overlay representing a highlighted tile.
+     */
+    public static final Image HIGHLIGHTED_TILE;
+
+    /**
+     * A sprite overlay representing a highlighted unit.
+     */
+    public static final Image HIGHLIGHTED_UNIT;
+
+    /**
+     * A sprite overlay representing an available move target for a highlighted unit.
+     */
+    public static final Image HIGHLIGHTED_MOVE;
+
+    /**
+     * A sprite overlay representing an available attack target for a highlighted unit.
+     */
+    public static final Image HIGHLIGHTED_ATTACK;
+
+    /**
+     * A sprite overlay representing an available assist target for a highlighted unit.
+     */
+    public static final Image HIGHLIGHTED_ASSIST;
 
     /**
      * A sprite indicating a unit is attacking.
@@ -189,17 +207,20 @@ public class Sprites
 
         ENEMY_UNITS = Collections.unmodifiableMap(enemyUnits);
 
-        // Initialize availability overlays
-        AVAILABLE_UNIT = readImage("/images/ui/BlueHighlight.png");
-        AVAILABLE_MOVE = readImage("/images/ui/YellowHighlight.png");
-        AVAILABLE_ATTACK = readImage("/images/ui/RedHighlight.png");
-        AVAILABLE_ASSIST = readImage("/images/ui/GreenHighlight.png");
+        // Initialize highlighted overlays
+        CURSOR = readImage("/images/ui/Cursor1.png");
+        HIGHLIGHTED_TILE = readImage("/images/ui/GreyHighlight.png");
+        HIGHLIGHTED_UNIT = readImage("/images/ui/BlueHighlight.png");
+        HIGHLIGHTED_MOVE = readImage("/images/ui/YellowHighlight.png");
+        HIGHLIGHTED_ATTACK = readImage("/images/ui/RedHighlight.png");
+        HIGHLIGHTED_ASSIST = readImage("/images/ui/GreenHighlight.png");
 
         // Initialize selection overlays
+        SELECTABLE_UNIT = readImage("/images/ui/GreySelect.png");
         SELECTED_UNIT = readImage("/images/ui/BlueSelect.png");
-        SELECTED_MOVE = readImage("/images/ui/YellowSelect.png");
-        SELECTED_ATTACK = readImage("/images/ui/RedSelect.png");
-        SELECTED_ASSIST = readImage("/images/ui/GreenSelect.png");
+        SELECTABLE_MOVE = readImage("/images/ui/YellowSelect.png");
+        SELECTABLE_ATTACK = readImage("/images/ui/RedSelect.png");
+        SELECTABLE_ASSIST = readImage("/images/ui/GreenSelect.png");
 
         // Initialize UI sprites
         UI_ATTACKING = readImage("/images/ui/CrossedSwords.png");
