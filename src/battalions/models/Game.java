@@ -16,24 +16,18 @@
  */
 package battalions.models;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Set;
+
 /**
  * Manages turns and controls the flow of the game.
  * @author Blocker
  * @author Bryant
  * @author Scott
  */
-public class Game implements ITurnBased
+public class Game implements ITurnBased, PropertyChangeListener
 {
-    /**
-     * The width of the main map.
-     */
-    public static final int MAP_WIDTH = 10;
-
-    /**
-     * The height of the main map.
-     */
-    public static final int MAP_HEIGHT = 10;
-
     /**
      * The main map, containing a grid of tiles and all units.
      */
@@ -52,11 +46,58 @@ public class Game implements ITurnBased
     /**
      * Initializes a new instance of the Game class.
      */
-    public Game()
+    public Game(Map map, Player player, Player cpu)
     {
-        _map = new Map(MAP_WIDTH, MAP_HEIGHT);
-        _player = new Player();
-        _cpu = new Player();
+        assert map != null;
+        assert player != null;
+        assert cpu != null;
+
+        _map = map;
+        _player = player;
+        _cpu = cpu;
+    }
+
+    /**
+     * Begins the game.
+     */
+    public void start()
+    {
+        beginTurn();
+    }
+
+    /**
+     * Ends the current turn and begins the next turn.
+     */
+    public void nextTurn()
+    {
+        endTurn();
+        beginTurn();
+    }
+
+    /**
+     * If a player has lost all units, returns the opposing player as the winner.
+     * If neither player has lost all units, returns null.
+     * @return the winning player, if a player has won; null, otherwise
+     */
+    public Player getWinner()
+    {
+        if (_cpu.getLivingUnits().isEmpty())
+        {
+            return _player;
+        }
+
+        if (_player.getLivingUnits().isEmpty())
+        {
+            return _cpu;
+        }
+
+        return null;
+    }
+
+    public void winGame(Player winner)
+    {
+        // [TODO] Indicate that the game is over
+        System.out.println("Player " + (winner.isCPU() ? "2" : "1") + " wins the game!");
     }
 
     /**
@@ -81,26 +122,9 @@ public class Game implements ITurnBased
      * Returns the CPU player of the game.
      * @return the CPU player
      */
-    public final Player getCpu()
+    public final Player getCPU()
     {
         return _cpu;
-    }
-
-    /**
-     * Begins the game.
-     */
-    public void start()
-    {
-        beginTurn();
-    }
-
-    /**
-     * Ends the current turn and begins the next turn.
-     */
-    public void nextTurn()
-    {
-        endTurn();
-        beginTurn();
     }
 
     @Override
@@ -117,23 +141,37 @@ public class Game implements ITurnBased
         _cpu.endTurn();
     }
 
-    /**
-     * If a player has lost all units, returns the opposing player as the winner.
-     * If neither player has lost all units, returns null.
-     * @return the winning player, if a player has won; null, otherwise
-     */
-    public Player getWinner()
+    @Override
+    public void propertyChange(PropertyChangeEvent evt)
     {
-        if (_cpu.getLivingUnits().isEmpty())
-        {
-            return _player;
-        }
+        Object source = evt.getSource();
+        String propertyName = evt.getPropertyName();
 
-        if (_player.getLivingUnits().isEmpty())
+        if (source instanceof MapSelector)
         {
-            return _cpu;
-        }
+            MapSelector mapSelector = (MapSelector) source;
 
-        return null;
+            // If some action was just performed
+            if (propertyName.equals(MapSelector.MOVING_EVENT)
+                || propertyName.equals(MapSelector.ATTACKING_EVENT)
+                || propertyName.equals(MapSelector.ASSISTING_EVENT))
+            {
+                Player currentPlayer = mapSelector.getCurrentPlayer();
+
+                Player winner = getWinner();
+                if (winner instanceof Player)
+                {
+                    winGame(winner);
+                }
+                else if (currentPlayer.getAvailableUnits().isEmpty())
+                {
+                    Player nextPlayer = currentPlayer.isCPU() ? _player : _cpu;
+                    mapSelector.setCurrentPlayer(nextPlayer);
+
+                    currentPlayer.endTurn();
+                    nextPlayer.beginTurn();
+                }
+            }
+        }
     }
 }

@@ -21,8 +21,10 @@ import battalions.data.ActionType;
 import battalions.data.Orientation;
 import battalions.data.UnitType;
 import battalions.util.Stats;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A single troop who has particular stat values and can attack and be attacked.
@@ -372,21 +374,29 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         return getValidMoves().size() >= 1
             || getValidAttacks().size() >= 1;
     }
+    
+//    public Set<Location> getValidMoveLocations()
+//    {
+//        return this._type
+//            .movesAbsolute(this._location)
+//            .stream()
+//            .filter(location -> this.canMoveTo(location))
+//            .collect(Collectors.toUnmodifiableSet());
+//    }
 
     /**
      * Uses this unit's movement pattern mask and the current map state
      * to return its possible moves.
      * @return the set of absolute move options for this unit
      */
-    public Set<Location> getValidMoves()
+    public Set<Tile> getValidMoves()
     {
-        Set<Location> valid = new HashSet<>();
-
-        _type.movesAbsolute(_location).stream()
-            .filter(x -> canMoveTo(x))
-            .forEach(x -> valid.add(x));
-
-        return valid;
+        return this._type
+            .movesAbsolute(this._location)
+            .stream()
+            .filter(location -> this.canMoveTo(location))
+            .map(location -> this._map.getTileAt(location))
+            .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -394,15 +404,29 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
      * to return its possible attacks.
      * @return the set of absolute attack options for this unit
      */
-    public Set<Location> getValidAttacks()
+    public Set<Unit> getValidAttacks()
     {
-        Set<Location> valid = new HashSet<>();
-
-        _type.actionsAbsolute(_location).stream()
-            .filter(x -> canAttack(_map.getUnitAt(x)))
-            .forEach(x -> valid.add(x));
-
-        return valid;
+        return this._type
+            .actionsAbsolute(this._location)
+            .stream()
+            .map(location -> this._map.getUnitAt(location))
+            .filter(enemy -> this.canAttack(enemy))
+            .collect(Collectors.toUnmodifiableSet());
+    }
+    
+    /**
+     * Uses this unit's attack pattern mask and the current map state
+     * to return its possible attacks.
+     * @return the set of absolute attack options for this unit
+     */
+    public Set<Unit> getValidAssists()
+    {
+        return this._type
+            .actionsAbsolute(this._location)
+            .stream()
+            .map(location -> this._map.getUnitAt(location))
+            .filter(friendly -> this.canAssist(friendly))
+            .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
