@@ -130,16 +130,20 @@ public class MapSelector extends PropertyChangeNotifier
             return;
         }
 
-        if (acted && !selectedUnit.hasAvailableOptions())
+        // If still selected
+        if (selectedUnit instanceof Unit)
         {
-            // Used up last option for this turn
-            deselect();
-            return;
-        }
-        else if (selectedUnit instanceof Unit)
-        {
-            // Hide selectable units
-            setSelectableUnits(Collections.EMPTY_SET);
+            if (acted && !selectedUnit.hasAvailableOptions())
+            {
+                // Used up last option for this turn
+                deselect();
+                return;
+            }
+            else
+            {
+                // Hide selectable units
+                setSelectableUnits(Collections.EMPTY_SET);
+            }
         }
     }
 

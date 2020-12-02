@@ -123,6 +123,24 @@ public class App
 
         MapView mapView = gameView.getMapView();
 
+        // [TODO] this should go in a controller and is just here temporarily
+        mapView.addEndTurnButtonListener(
+            new java.awt.event.ActionListener()
+            {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent event)
+                {
+                    Player currentPlayer = mapSelector.getCurrentPlayer();
+                    Player nextPlayer = currentPlayer.isCPU() ? _game.getPlayer() : _game.getCPU();
+
+                    currentPlayer.endTurn();
+                    nextPlayer.beginTurn();
+
+                    mapSelector.setCurrentPlayer(nextPlayer);
+                    mapSelector.deselect();
+                }
+            });
+
         MapSelectorView mapSelectorView = mapView.getMapSelectorView();
         MapSelectorController mapSelectorController = new MapSelectorController(mapSelector, mapSelectorView);
 

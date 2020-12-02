@@ -144,16 +144,16 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
                     drawSprite(g, Sprites.HIGHLIGHTED_MOVE, move.getLocation()));
             }
 
-            if (drawAttacks)
-            {
-                highlightedUnit.getValidAttacks().forEach(attack ->
-                    drawSprite(g, Sprites.HIGHLIGHTED_ATTACK, attack.getLocation()));
-            }
-
             if (drawAssists)
             {
                 highlightedUnit.getValidAssists().forEach(assist ->
                     drawSprite(g, Sprites.HIGHLIGHTED_ASSIST, assist.getLocation()));
+            }
+
+            if (drawAttacks)
+            {
+                highlightedUnit.getValidAttacks().forEach(attack ->
+                    drawSprite(g, Sprites.HIGHLIGHTED_ATTACK, attack.getLocation()));
             }
         }
     }
@@ -177,18 +177,18 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
                     drawSprite(g, Sprites.SELECTABLE_MOVE, move.getLocation()));
             }
 
-            if (drawAttacks)
-            {
-                // Draw available attacks
-                selectedUnit.getValidAttacks().forEach(attack ->
-                    drawSprite(g, Sprites.SELECTABLE_ATTACK, attack.getLocation()));
-            }
-
             if (drawAssists)
             {
                 // Draw available assists
                 selectedUnit.getValidAssists().forEach(assist ->
                     drawSprite(g, Sprites.SELECTABLE_ASSIST, assist.getLocation()));
+            }
+
+            if (drawAttacks)
+            {
+                // Draw available attacks
+                selectedUnit.getValidAttacks().forEach(attack ->
+                    drawSprite(g, Sprites.SELECTABLE_ATTACK, attack.getLocation()));
             }
         }
     }

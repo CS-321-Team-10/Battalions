@@ -71,7 +71,9 @@ public class MapSelectorController implements PropertyChangeListener
         view.drawHighlighted(model.getHighlightedTile());
         view.drawUnits(map.getUnits());
         view.drawSelectableUnits(model.getSelectableUnits());
-        view.drawHighlighted(model.getHighlightedUnit(), true, true, true, true);
+
+        boolean drawHighlighted = model.getSelectedUnit() == null;
+        view.drawHighlighted(model.getHighlightedUnit(), true, drawHighlighted, drawHighlighted, drawHighlighted);
         view.drawSelected(model.getSelectedUnit(), true, true, true, true);
         view.drawCursor(model.getCursorLocation());
 

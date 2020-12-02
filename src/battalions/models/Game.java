@@ -166,10 +166,12 @@ public class Game implements ITurnBased, PropertyChangeListener
                 else if (currentPlayer.getAvailableUnits().isEmpty())
                 {
                     Player nextPlayer = currentPlayer.isCPU() ? _player : _cpu;
-                    mapSelector.setCurrentPlayer(nextPlayer);
 
                     currentPlayer.endTurn();
                     nextPlayer.beginTurn();
+
+                    mapSelector.setCurrentPlayer(nextPlayer);
+                    mapSelector.deselect();
                 }
             }
         }

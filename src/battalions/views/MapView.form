@@ -207,11 +207,13 @@
             <Component class="javax.swing.JButton" name="moveButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Move"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="attackButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Attack"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="assistButton">

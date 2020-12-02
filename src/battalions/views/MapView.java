@@ -189,8 +189,10 @@ public class MapView extends javax.swing.JPanel
         actionsBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Actions"));
 
         moveButton.setText("Move");
+        moveButton.setEnabled(false);
 
         attackButton.setText("Attack");
+        attackButton.setEnabled(false);
 
         assistButton.setText("Assist");
         assistButton.setEnabled(false);
