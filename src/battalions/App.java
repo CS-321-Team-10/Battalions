@@ -98,6 +98,11 @@ public class App
         // Add all units to map
         player.getUnits().forEach(x -> map.addUnit(x));
         cpu.getUnits().forEach(x -> map.addUnit(x));
+        
+        // Testing save system
+        SaveSystem saving = new SaveSystem();
+        saving.SaveAndQuit(map);
+        saving.Load();
     }
 
     /**
