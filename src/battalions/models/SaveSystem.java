@@ -18,7 +18,9 @@ package battalions.models;
 
 import battalions.data.Location;
 import battalions.data.TileType;
+import battalions.data.UnitType;
 import battalions.data.Orientation;
+import java.util.Set;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
@@ -55,13 +57,31 @@ public class SaveSystem
                     TileType underlay = t.getUnderlayType();
                     Orientation o = t.getOrientation();
                     
-                    writer.write("x" + i + " ");
-                    writer.write("y" + j + " ");
-                    writer.write("type" + type + " ");
-                    writer.write("underlay" + underlay + " \n");
-                    //writer.write("orientation" + o + " \n");
+                    writer.write("x:" + i + " ");
+                    writer.write("y:" + j + " ");
+                    writer.write("type:" + type + " ");
+                    writer.write("underlay:" + underlay + " \n");
+                    //writer.write("orientation" + o.flipHorizontal + " \n");
                 }
             }
+            
+            Set<Unit> unitlist = map.getUnits();
+            for(Unit unit: unitlist)
+            {
+                Player player = unit.getPlayer();
+                Location l = unit.getLocation();
+                UnitType type = unit.getType();
+                int health = unit.getHealth();
+                
+                writer.write("player:" + player.getUid() + " ");
+                writer.write("x:" + l.x + " ");
+                writer.write("y:" + l.y + " ");
+                writer.write("type:" + type + " ");
+                writer.write("health:" + health + " ");
+                writer.write("moved:" + unit.hasMoved() + " ");
+                writer.write("acted:" + unit.hasActed() + " \n");
+            }
+            
             writer.close();
             filewriter.close();
         }

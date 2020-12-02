@@ -1,100 +1,103 @@
-x0 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y4 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x0 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y4 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x1 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y4 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x2 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y4 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x3 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y4 typeWallHorizontal underlayFieldLight orientationbattalions.data.Orientation@1218025c 
-x4 y5 typeWallVertical underlayFieldLight orientationbattalions.data.Orientation@1218025c 
-x4 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x4 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y3 typeForest underlayFieldLight orientationbattalions.data.Orientation@1218025c 
-x5 y4 typeForest underlayFieldLight orientationbattalions.data.Orientation@1218025c 
-x5 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x5 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y4 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x6 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y4 typeWallNorthWest underlayFieldLight orientationbattalions.data.Orientation@1218025c 
-x7 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y7 typeSand underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x7 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y4 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x8 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y0 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y1 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y2 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y3 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y4 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y5 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y6 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y7 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y8 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
-x9 y9 typeFieldLight underlaynull orientationbattalions.data.Orientation@1218025c 
+x:0 y:0 type:FieldLight underlay:null 
+x:0 y:1 type:FieldLight underlay:null 
+x:0 y:2 type:FieldLight underlay:null 
+x:0 y:3 type:FieldLight underlay:null 
+x:0 y:4 type:FieldLight underlay:null 
+x:0 y:5 type:FieldLight underlay:null 
+x:0 y:6 type:FieldLight underlay:null 
+x:0 y:7 type:FieldLight underlay:null 
+x:0 y:8 type:FieldLight underlay:null 
+x:0 y:9 type:FieldLight underlay:null 
+x:1 y:0 type:FieldLight underlay:null 
+x:1 y:1 type:FieldLight underlay:null 
+x:1 y:2 type:FieldLight underlay:null 
+x:1 y:3 type:FieldLight underlay:null 
+x:1 y:4 type:FieldLight underlay:null 
+x:1 y:5 type:FieldLight underlay:null 
+x:1 y:6 type:FieldLight underlay:null 
+x:1 y:7 type:FieldLight underlay:null 
+x:1 y:8 type:FieldLight underlay:null 
+x:1 y:9 type:FieldLight underlay:null 
+x:2 y:0 type:FieldLight underlay:null 
+x:2 y:1 type:FieldLight underlay:null 
+x:2 y:2 type:FieldLight underlay:null 
+x:2 y:3 type:FieldLight underlay:null 
+x:2 y:4 type:FieldLight underlay:null 
+x:2 y:5 type:FieldLight underlay:null 
+x:2 y:6 type:FieldLight underlay:null 
+x:2 y:7 type:FieldLight underlay:null 
+x:2 y:8 type:FieldLight underlay:null 
+x:2 y:9 type:FieldLight underlay:null 
+x:3 y:0 type:FieldLight underlay:null 
+x:3 y:1 type:FieldLight underlay:null 
+x:3 y:2 type:FieldLight underlay:null 
+x:3 y:3 type:FieldLight underlay:null 
+x:3 y:4 type:FieldLight underlay:null 
+x:3 y:5 type:FieldLight underlay:null 
+x:3 y:6 type:FieldLight underlay:null 
+x:3 y:7 type:FieldLight underlay:null 
+x:3 y:8 type:FieldLight underlay:null 
+x:3 y:9 type:FieldLight underlay:null 
+x:4 y:0 type:FieldLight underlay:null 
+x:4 y:1 type:FieldLight underlay:null 
+x:4 y:2 type:FieldLight underlay:null 
+x:4 y:3 type:FieldLight underlay:null 
+x:4 y:4 type:WallHorizontal underlay:FieldLight 
+x:4 y:5 type:WallVertical underlay:FieldLight 
+x:4 y:6 type:FieldLight underlay:null 
+x:4 y:7 type:FieldLight underlay:null 
+x:4 y:8 type:FieldLight underlay:null 
+x:4 y:9 type:FieldLight underlay:null 
+x:5 y:0 type:FieldLight underlay:null 
+x:5 y:1 type:FieldLight underlay:null 
+x:5 y:2 type:FieldLight underlay:null 
+x:5 y:3 type:Forest underlay:FieldLight 
+x:5 y:4 type:Forest underlay:FieldLight 
+x:5 y:5 type:FieldLight underlay:null 
+x:5 y:6 type:FieldLight underlay:null 
+x:5 y:7 type:FieldLight underlay:null 
+x:5 y:8 type:FieldLight underlay:null 
+x:5 y:9 type:FieldLight underlay:null 
+x:6 y:0 type:FieldLight underlay:null 
+x:6 y:1 type:FieldLight underlay:null 
+x:6 y:2 type:FieldLight underlay:null 
+x:6 y:3 type:FieldLight underlay:null 
+x:6 y:4 type:FieldLight underlay:null 
+x:6 y:5 type:FieldLight underlay:null 
+x:6 y:6 type:FieldLight underlay:null 
+x:6 y:7 type:FieldLight underlay:null 
+x:6 y:8 type:FieldLight underlay:null 
+x:6 y:9 type:FieldLight underlay:null 
+x:7 y:0 type:FieldLight underlay:null 
+x:7 y:1 type:FieldLight underlay:null 
+x:7 y:2 type:FieldLight underlay:null 
+x:7 y:3 type:FieldLight underlay:null 
+x:7 y:4 type:WallNorthWest underlay:FieldLight 
+x:7 y:5 type:FieldLight underlay:null 
+x:7 y:6 type:FieldLight underlay:null 
+x:7 y:7 type:Sand underlay:null 
+x:7 y:8 type:FieldLight underlay:null 
+x:7 y:9 type:FieldLight underlay:null 
+x:8 y:0 type:FieldLight underlay:null 
+x:8 y:1 type:FieldLight underlay:null 
+x:8 y:2 type:FieldLight underlay:null 
+x:8 y:3 type:FieldLight underlay:null 
+x:8 y:4 type:FieldLight underlay:null 
+x:8 y:5 type:FieldLight underlay:null 
+x:8 y:6 type:FieldLight underlay:null 
+x:8 y:7 type:FieldLight underlay:null 
+x:8 y:8 type:FieldLight underlay:null 
+x:8 y:9 type:FieldLight underlay:null 
+x:9 y:0 type:FieldLight underlay:null 
+x:9 y:1 type:FieldLight underlay:null 
+x:9 y:2 type:FieldLight underlay:null 
+x:9 y:3 type:FieldLight underlay:null 
+x:9 y:4 type:FieldLight underlay:null 
+x:9 y:5 type:FieldLight underlay:null 
+x:9 y:6 type:FieldLight underlay:null 
+x:9 y:7 type:FieldLight underlay:null 
+x:9 y:8 type:FieldLight underlay:null 
+x:9 y:9 type:FieldLight underlay:null 
+player:2 x:9 y:3 type:Knight health:24 moved:false acted:false 
+player:1 x:5 y:4 type:Archer health:12 moved:false acted:false 
+player:1 x:2 y:7 type:Healer health:10 moved:false acted:false 
