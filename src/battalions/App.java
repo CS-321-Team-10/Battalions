@@ -101,7 +101,7 @@ public class App
         // Testing save system
         SaveSystem saving = new SaveSystem();
         saving.SaveAndQuit(map);
-        saving.Load();
+        saving.Load(map, player, cpu);
 
         // Create game
         _game = new Game(map, player, cpu);
