@@ -50,15 +50,15 @@ public class SaveSystem
                 for(int j = 0; j < map.getHeight(); j++)
                 {
                     Location l = new Location(i, j);
-                    //Tile t = map.getTileAt(l);
-                    //TileType type = t.getType();
-                    //TileType underlay = t.getUnderlayType();
-                    //Orientation o = t.getOrientation();
+                    Tile t = map.getTileAt(l);
+                    TileType type = t.getType();
+                    TileType underlay = t.getUnderlayType();
+                    Orientation o = t.getOrientation();
                     
                     writer.write("x" + i + " ");
                     writer.write("y" + j + " ");
-                    //writer.write("type" + type + " ");
-                    //writer.write("underlay" + underlay + " ");
+                    writer.write("type" + type + " ");
+                    writer.write("underlay" + underlay + " \n");
                     //writer.write("orientation" + o + " \n");
                 }
             }
