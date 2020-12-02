@@ -60,7 +60,6 @@ public class App
      */
     public static void main(String[] args)
     {
-//        _instance.testConsole();
         _instance.testGui();
     }
 
@@ -69,12 +68,8 @@ public class App
      */
     private void testSetup()
     {
-        // Create game
-        _game = new Game();
-        Map map = _game.getMap();
-
-        Player player = _game.getPlayer();
-        Player cpu = _game.getCpu();
+        // Create map
+        Map map = new Map(10, 10);
 
         // Add walls
         map.addTile(new Tile(map, new Location(4, 4), TileType.WallHorizontal, TileType.FieldLight));
@@ -88,6 +83,10 @@ public class App
         // Add movement reduce tiles
         map.addTile(new Tile(map, new Location(7, 7), TileType.Sand));
 
+        // Create players
+        Player player = new Player();
+        Player cpu = new Player();
+
         // Add friendly units
         player.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
         player.addUnit(new Unit(player, map, new Location(2, 7), UnitType.Healer));
@@ -98,73 +97,14 @@ public class App
         // Add all units to map
         player.getUnits().forEach(x -> map.addUnit(x));
         cpu.getUnits().forEach(x -> map.addUnit(x));
-        
+
         // Testing save system
         SaveSystem saving = new SaveSystem();
         saving.SaveAndQuit(map);
         saving.Load();
-    }
 
-    /**
-     * Tests unit movements.
-     */
-    private void testMovement()
-    {
-        // [TODO fix move tests]
-//        _map.moveUnitCalculations(5, 4, 5, 7); // Should work
-//        _map.moveUnitCalculations(2, 7, 1, 1); // Exceeds movement stat
-//        _map.moveUnitCalculations(2, 7, 5, 6); // Should work
-    }
-
-    /**
-     * Tests unit attacks.
-     */
-    private void testAttacks()
-    {
-        // [TODO fix attack tests]
-//        _map.runAttackSequence(5, 7, 5, 6, true); // Turn already used;
-//        _map.runAttackSequence(5, 7, 5, 6, true); // These shouldn't work.
-//        _map.runAttackSequence(5, 7, 5, 6, true);
-//        _map.runAttackSequence(5, 7, 5, 6, true);
-    }
-
-    /**
-     * Tests a sequence of several actions in a game using the console as the UI.
-     */
-    private void testConsole()
-    {
-        System.out.println("Battalions & Besiegement!\n");
-
-        System.out.println("# = Unit");
-        System.out.println("| = Wall Tile");
-        System.out.println("~ = Tile Boosts Dodge Chance");
-        System.out.println("_ = Tile Reduces Movement Range\n");
-
-        printConsole();
-
-        testMovement();
-        printConsole();
-
-        testAttacks();
-        printConsole();
-    }
-
-    /**
-     * Prints useful game-state information to the console.
-     */
-    private void printConsole()
-    {
-        Map map = _game.getMap();
-
-        // Display map
-        System.out.println(map);
-
-        // Display all unit stats
-        map.getUnits()
-            .forEach((unit) ->
-            {
-                System.out.println(unit);
-            });
+        // Create game
+        _game = new Game(map, player, cpu);
     }
 
     /**
@@ -176,8 +116,33 @@ public class App
         GameView gameView = new GameView();
 
         Map map = _game.getMap();
+
+        MapSelector mapSelector = new MapSelector(map);
+        mapSelector.setCurrentPlayer(this._game.getPlayer());
+        mapSelector.addPropertyChangeListener(_game);
+
         MapView mapView = gameView.getMapView();
-        MapController mapController = new MapController(_game, map, mapView);
+
+        // [TODO] this should go in a controller and is just here temporarily
+        mapView.addEndTurnButtonListener(
+            new java.awt.event.ActionListener()
+            {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent event)
+                {
+                    Player currentPlayer = mapSelector.getCurrentPlayer();
+                    Player nextPlayer = currentPlayer.isCPU() ? _game.getPlayer() : _game.getCPU();
+
+                    currentPlayer.endTurn();
+                    nextPlayer.beginTurn();
+
+                    mapSelector.setCurrentPlayer(nextPlayer);
+                    mapSelector.deselect();
+                }
+            });
+
+        MapSelectorView mapSelectorView = mapView.getMapSelectorView();
+        MapSelectorController mapSelectorController = new MapSelectorController(mapSelector, mapSelectorView);
 
         gameView.setVisible(true);
 

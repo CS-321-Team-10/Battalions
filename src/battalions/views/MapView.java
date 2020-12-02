@@ -15,9 +15,10 @@
  *                 Bryant Terry
  */
 package battalions.views;
-import battalions.models.MapOverlay;
 import battalions.models.Tile;
 import battalions.models.Unit;
+import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
@@ -42,25 +43,6 @@ public class MapView extends javax.swing.JPanel
      */
     private void postInitComponents()
     {
-    }
-
-    /**
-     * Displays a map's tiles and units.
-     * @param overlay the map to be displayed
-     */
-    public void setMap(MapOverlay overlay)
-    {
-        mapPanel.setMap(overlay);
-    }
-
-    /**
-     * Adds a mouse listener that will be used to select tiles and units
-     * on the map.
-     * @param l the mouse listener for the map
-     */
-    public void addMapMouseListener(MouseListener l)
-    {
-        mapPanel.addMouseListener(l);
     }
 
     public void setMoveButtonEnabled(boolean enabled)
@@ -94,11 +76,6 @@ public class MapView extends javax.swing.JPanel
             : unit.toString());
     }
 
-    public MapPanel getMapPanel()
-    {
-        return mapPanel;
-    }
-
     /**
      * Adds an action listener that will be used to move the selected
      * friendly unit to the selected tile upon clicking the Move button.
@@ -129,6 +106,11 @@ public class MapView extends javax.swing.JPanel
         endTurnButton.addActionListener(l);
     }
 
+    public final MapSelectorView getMapSelectorView()
+    {
+        return mapSelectorView2;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -156,9 +138,9 @@ public class MapView extends javax.swing.JPanel
         tempSelectedTileInfo = new javax.swing.JLabel();
         tempSelectedFriendlyUnitInfo = new javax.swing.JLabel();
         tempSelectedEnemyUnitInfo = new javax.swing.JLabel();
-        mapPanel = new battalions.views.MapPanel();
         optionsBorder = new javax.swing.JPanel();
         endTurnButton = new javax.swing.JButton();
+        mapSelectorView2 = new battalions.views.MapSelectorView();
 
         mapBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Map"));
 
@@ -207,8 +189,10 @@ public class MapView extends javax.swing.JPanel
         actionsBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Actions"));
 
         moveButton.setText("Move");
+        moveButton.setEnabled(false);
 
         attackButton.setText("Attack");
+        attackButton.setEnabled(false);
 
         assistButton.setText("Assist");
         assistButton.setEnabled(false);
@@ -275,17 +259,6 @@ public class MapView extends javax.swing.JPanel
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
-        mapPanel.setLayout(mapPanelLayout);
-        mapPanelLayout.setHorizontalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 715, Short.MAX_VALUE)
-        );
-        mapPanelLayout.setVerticalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 229, Short.MAX_VALUE)
-        );
-
         optionsBorder.setBorder(javax.swing.BorderFactory.createTitledBorder("Options"));
 
         endTurnButton.setText("End Turn");
@@ -307,29 +280,41 @@ public class MapView extends javax.swing.JPanel
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout mapSelectorView2Layout = new javax.swing.GroupLayout(mapSelectorView2);
+        mapSelectorView2.setLayout(mapSelectorView2Layout);
+        mapSelectorView2Layout.setHorizontalGroup(
+            mapSelectorView2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        mapSelectorView2Layout.setVerticalGroup(
+            mapSelectorView2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 229, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout mapBorderLayout = new javax.swing.GroupLayout(mapBorder);
         mapBorder.setLayout(mapBorderLayout);
         mapBorderLayout.setHorizontalGroup(
             mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapBorderLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(mapBorderLayout.createSequentialGroup()
-                        .addComponent(showBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selectedTileBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(actionsBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(optionsBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(showBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selectedTileBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(actionsBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionsBorder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(140, 140, 140))
+            .addGroup(mapBorderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mapSelectorView2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         mapBorderLayout.setVerticalGroup(
             mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mapBorderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mapSelectorView2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mapBorderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(selectedTileBorder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -364,7 +349,7 @@ public class MapView extends javax.swing.JPanel
     private javax.swing.ButtonGroup destinationSelectButtonGroup;
     private javax.swing.JButton endTurnButton;
     private javax.swing.JPanel mapBorder;
-    private battalions.views.MapPanel mapPanel;
+    private battalions.views.MapSelectorView mapSelectorView2;
     private javax.swing.JButton moveButton;
     private javax.swing.JPanel optionsBorder;
     private javax.swing.JPanel selectedTileBorder;

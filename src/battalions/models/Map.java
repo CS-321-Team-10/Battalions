@@ -17,9 +17,9 @@
 package battalions.models;
 
 import battalions.data.Location;
-import battalions.data.Orientation;
 import battalions.data.TileType;
-import battalions.util.LocationSets;
+import battalions.properties.PropertyChangeNotifier;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -29,8 +29,10 @@ import java.util.stream.Stream;
  * @author Bryant
  * @author Scott
  */
-public class Map
+public class Map extends PropertyChangeNotifier
 {
+    public static final String SIZE_PROPERTY = "size";
+
     /**
      * The size of this map (in tiles) along the x-axis.
      */
@@ -74,6 +76,8 @@ public class Map
         }
 
         _units = new HashSet<>();
+
+        this.registerProperty(SIZE_PROPERTY, () -> this.getSize());
     }
 
     /**
@@ -92,6 +96,11 @@ public class Map
     public final int getHeight()
     {
         return _height;
+    }
+
+    public final Location getSize()
+    {
+        return new Location(this._width, this._height);
     }
 
     /**
@@ -306,7 +315,7 @@ public class Map
      */
     public Set<Unit> getUnits()
     {
-        return LocationSets.clone(_units);
+        return Collections.unmodifiableSet(_units);
     }
 
     @Override

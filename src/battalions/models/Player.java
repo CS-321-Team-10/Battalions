@@ -19,6 +19,7 @@ package battalions.models;
 import battalions.App;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents a player of the game.
@@ -83,7 +84,7 @@ public class Player implements ITurnBased
     public boolean isCPU()
     {
         // [TODO Make this method of determining CPU more robust]
-        return getUid() == App.getInstance().getGame().getCpu().getUid();
+        return getUid() == App.getInstance().getGame().getCPU().getUid();
     }
 
     @Override
@@ -102,6 +103,13 @@ public class Player implements ITurnBased
         {
             u.endTurn();
         }
+    }
+
+    public boolean owns(Unit unit)
+    {
+        assert unit instanceof Unit;
+
+        return this._units.contains(unit);
     }
 
     /**
@@ -151,12 +159,9 @@ public class Player implements ITurnBased
      */
     public Set<Unit> getAvailableUnits()
     {
-        Set<Unit> valid = new HashSet<>();
-
-        getUnits().stream()
-            .filter(x -> x.hasAvailableOptions())
-            .forEach(x -> valid.add(x));
-
-        return valid;
+        return this._units
+            .stream()
+            .filter(unit -> unit.hasAvailableOptions())
+            .collect(Collectors.toUnmodifiableSet());
     }
 }
