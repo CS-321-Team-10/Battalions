@@ -21,6 +21,7 @@ import battalions.data.TileType;
 import battalions.data.Orientation;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -41,7 +42,8 @@ public class SaveSystem
         try
         {
             save_data.createNewFile();
-            FileWriter writer = new FileWriter(save_data);
+            FileWriter filewriter = new FileWriter(save_data);
+            BufferedWriter writer = new BufferedWriter(filewriter);
             
             for(int i = 0; i < map.getWidth(); i++)
             {
@@ -60,6 +62,8 @@ public class SaveSystem
                     //writer.write("orientation" + o + " \n");
                 }
             }
+            writer.close();
+            filewriter.close();
         }
         catch(IOException exception)
         {
