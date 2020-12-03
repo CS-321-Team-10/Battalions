@@ -46,7 +46,6 @@ public class SaveSystem
     public static void save(Game game)
     {
         Map map = game.getMap();
-        MapSelector mapSelector = game.getMapSelector();
 
         try (FileWriter filewriter = new FileWriter(SAVE_DATA);
             BufferedWriter writer = new BufferedWriter(filewriter))
@@ -56,9 +55,7 @@ public class SaveSystem
             // Writes turn state
             writer.write(game.getMapSelector().getCurrentPlayer().getUid() + "\n");
 
-            /*
-             * Copies map data to text file.
-            */
+            // Copies map data to text file
             writer.write(map.getWidth() + "\n");
             writer.write(map.getHeight() + "\n");
             for (int i = 0; i < map.getWidth(); i++)
@@ -75,13 +72,10 @@ public class SaveSystem
                     writer.write(j + " ");
                     writer.write(type + " ");
                     writer.write(underlay + " \n");
-                    //writer.write("orientation" + o.flipHorizontal + " \n");
                 }
             }
 
-            /*
-             * Copies unit data to text file.
-            */
+            // Copies unit data to text file
             Set<Unit> unitlist = map.getUnits();
             int size = unitlist.size();
             writer.write(size + "\n");
@@ -118,92 +112,83 @@ public class SaveSystem
     {
         Map map = game.getMap();
         MapSelector mapSelector = game.getMapSelector();
-        Player player1 = game.getPlayer();
-        Player player2 = game.getCPU();
+        Player player1 = game.getPlayer1();
+        Player player2 = game.getPlayer2();
 
         game.clear();
 
         try (Scanner reader = new Scanner(SAVE_DATA))
         {
-             // Reads turn state
-             int uid = Integer.parseInt(reader.nextLine());
-             mapSelector.setCurrentPlayer(uid == 0 ? player1 : player2);
+            // Reads turn state
+            int uid = Integer.parseInt(reader.nextLine());
+            mapSelector.setCurrentPlayer(uid == 0 ? player1 : player2);
 
-             String widthstring = reader.nextLine();
-             String heightstring = reader.nextLine();
-             int width = Integer.parseInt(widthstring);
-             int height = Integer.parseInt(heightstring);
+            String widthstring = reader.nextLine();
+            String heightstring = reader.nextLine();
+            int width = Integer.parseInt(widthstring);
+            int height = Integer.parseInt(heightstring);
 
-             /*
-              * Loading the map data.
-             */
-             for (int i = 0; i < (width * height); i++)
-             {
-                 String data = reader.nextLine();
-                 String[] split_data = data.split(" ");
-                 TileType type;
-                 TileType underlay;
-                 int x = Integer.parseInt(split_data[0]);
-                 int y = Integer.parseInt(split_data[1]);
-                 Location l = new Location(x, y);
-                 String typeString = split_data[2];
-                 type = typeString.equals("null") ? null : TileType.valueOf(typeString);
-                 typeString = split_data[3];
-                 underlay = typeString.equals("null") ? null : TileType.valueOf(typeString);
+            // Loading the map data
+            for (int i = 0; i < (width * height); i++)
+            {
+                String data = reader.nextLine();
+                String[] split_data = data.split(" ");
+                TileType type;
+                TileType underlay;
+                int x = Integer.parseInt(split_data[0]);
+                int y = Integer.parseInt(split_data[1]);
+                Location l = new Location(x, y);
+                String typeString = split_data[2];
+                type = typeString.equals("null") ? null : TileType.valueOf(typeString);
+                typeString = split_data[3];
+                underlay = typeString.equals("null") ? null : TileType.valueOf(typeString);
 
-                 Tile t = new Tile(map, l, type, underlay);
-                 map.addTile(t);
-             }
+                Tile t = new Tile(map, l, type, underlay);
+                map.addTile(t);
+            }
 
-             /*
-              * Loading the unit data.
-             */
-             String sizestring = reader.nextLine();
-             int size = Integer.parseInt(sizestring);
-             for (int i = 0; i < size; i++)
-             {
-                 String data = reader.nextLine();
-                 String[] split_data = data.split(" ");
-                 int player_uid = Integer.parseInt(split_data[0]);
-                 int x = Integer.parseInt(split_data[1]);
-                 int y = Integer.parseInt(split_data[2]);
-                 Location l = new Location(x, y);
-                 String typeString = split_data[3];
-                 UnitType type = typeString.equals("null") ? null : UnitType.valueOf(typeString);
-                 int health = Integer.parseInt(split_data[4]);
-                 boolean move = Boolean.parseBoolean(split_data[5]);
-                 boolean act = Boolean.parseBoolean(split_data[6]);
+            // Loading the unit data
+            String sizestring = reader.nextLine();
+            int size = Integer.parseInt(sizestring);
+            for (int i = 0; i < size; i++)
+            {
+                String data = reader.nextLine();
+                String[] split_data = data.split(" ");
+                int player_uid = Integer.parseInt(split_data[0]);
+                int x = Integer.parseInt(split_data[1]);
+                int y = Integer.parseInt(split_data[2]);
+                Location l = new Location(x, y);
+                String typeString = split_data[3];
+                UnitType type = typeString.equals("null") ? null : UnitType.valueOf(typeString);
+                int health = Integer.parseInt(split_data[4]);
+                boolean move = Boolean.parseBoolean(split_data[5]);
+                boolean act = Boolean.parseBoolean(split_data[6]);
 
-                 /*
-                  * Determines wheter unit is attributed to player1 or
-                  * player2
-                 */
-                 Unit unit;
-                 if(player_uid == 1)
-                 {
-                     unit = new Unit(player1, map, l, type);
-                     unit.sethasMoved(move);
-                     unit.sethasActed(act);
-                     unit.setHealth(health);
-                     player1.addUnit(unit);
-                 }
-                 else
-                 {
-                     unit = new Unit(player2, map, l, type);
-                     unit.sethasMoved(move);
-                     unit.sethasActed(act);
-                     unit.setHealth(health);
-                     player2.addUnit(unit);
-                 }
-             }
+                // Determines wheter unit is attributed to player1 or player2
+                Unit unit;
+                if(player_uid == 1)
+                {
+                    unit = new Unit(player1, map, l, type);
+                    unit.setHasMoved(move);
+                    unit.setHasActed(act);
+                    unit.setHealth(health);
+                    player1.addUnit(unit);
+                }
+                else
+                {
+                    unit = new Unit(player2, map, l, type);
+                    unit.setHasMoved(move);
+                    unit.setHasActed(act);
+                    unit.setHealth(health);
+                    player2.addUnit(unit);
+                }
+            }
 
-             /*
-              * Add all the units to the map.
-             */
-             player1.getUnits().forEach(x -> map.addUnit(x));
-             player2.getUnits().forEach(x -> map.addUnit(x));
+            // Add all the units to the map
+            player1.getUnits().forEach(x -> map.addUnit(x));
+            player2.getUnits().forEach(x -> map.addUnit(x));
 
-             reader.close();
+            reader.close();
         }
         catch (FileNotFoundException exception)
         {

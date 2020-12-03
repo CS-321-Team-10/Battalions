@@ -95,13 +95,12 @@ public class Player implements ITurnBased
     }
 
     /**
-     * Returns whether this player is a CPU player.
-     * @return true, if this player is a CPU player; false, otherwise
+     * Returns whether this player is the first player of the game.
+     * @return true, if this player is the first player; false, otherwise
      */
-    public boolean isCPU()
+    public boolean isPlayer1()
     {
-        // [TODO Make this method of determining CPU more robust]
-        return getUid() == App.getInstance().getGame().getCPU().getUid();
+        return getUid() == App.getInstance().getGame().getPlayer1().getUid();
     }
 
     @Override
@@ -122,6 +121,11 @@ public class Player implements ITurnBased
         }
     }
 
+    /**
+     * Returns whether this player owns a unit.
+     * @param unit the unit to check if it is a child of this player
+     * @return true, if the unit is owned by this player; false, otherwise
+     */
     public boolean owns(Unit unit)
     {
         assert unit instanceof Unit;
@@ -135,12 +139,8 @@ public class Player implements ITurnBased
      */
     public Set<Unit> getUnits()
     {
-        Set<Unit> result = new HashSet<>();
-
-        _units.stream()
-            .forEach(x -> result.add(x));
-
-        return result;
+        return _units.stream()
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -150,13 +150,9 @@ public class Player implements ITurnBased
      */
     public Set<Unit> getLivingUnits()
     {
-        Set<Unit> living = new HashSet<>();
-
-        getUnits().stream()
+        return getUnits().stream()
             .filter(x -> x.isAlive())
-            .forEach(x -> living.add(x));
-
-        return living;
+            .collect(Collectors.toSet());
     }
 
     /**

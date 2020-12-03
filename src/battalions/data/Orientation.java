@@ -17,7 +17,7 @@
 package battalions.data;
 
 /**
- * Specifies the direction an object faces.
+ * A struct that specifies the direction an object faces.
  * @author Scott
  */
 public class Orientation

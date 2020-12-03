@@ -28,7 +28,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- *
+ * A controller that delegates between a game model and view.
  * @author Scott
  */
 public class GameController implements PropertyChangeListener
@@ -73,7 +73,7 @@ public class GameController implements PropertyChangeListener
     }
 
     /**
-     * Updates info on the view.
+     * Updates info on the view and repaints it.
      */
     public final void update()
     {
@@ -98,7 +98,7 @@ public class GameController implements PropertyChangeListener
             switch (propertyName)
             {
                 case (Game.WINNER_PROPERTY):
-                    // When a player has just won
+                    // Show winning dialog when player wins
                     Player winner = model.getWinner();
                     if (winner instanceof Player)
                     {
@@ -149,7 +149,7 @@ public class GameController implements PropertyChangeListener
     }
 
     /**
-     * Saves to a save file when the Load button is clicked.
+     * Saves to a save file when the Save button is clicked.
      */
     private class SaveActionListener implements ActionListener
     {

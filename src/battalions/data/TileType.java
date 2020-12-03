@@ -58,49 +58,49 @@ public enum TileType
     Forest(TileEffectFlags.BOOSTS_DODGE),
 
     /**
-     * A sand tile variant that reduces a unit's movement range.
+     * A sand tile variant that has no effect.
      */
-    Sand(TileEffectFlags.REDUCES_MOVEMENT),
+    Sand(TileEffectFlags.NONE),
 
     /**
-     * A northeast corner sand tile variant that reduces a unit's movement range.
+     * A northeast corner sand tile variant that has no effect.
      */
-    SandNorthEast(TileEffectFlags.REDUCES_MOVEMENT),
+    SandNorthEast(TileEffectFlags.NONE),
 
     /**
-     * A northwest corner sand tile variant that reduces a unit's movement range.
+     * A northwest corner sand tile variant that has no effect.
      */
-    SandNorthWest(TileEffectFlags.REDUCES_MOVEMENT),
+    SandNorthWest(TileEffectFlags.NONE),
 
     /**
-     * A southeast corner sand tile variant that reduces a unit's movement range.
+     * A southeast corner sand tile variant that has no effect.
      */
-    SandSouthEast(TileEffectFlags.REDUCES_MOVEMENT),
+    SandSouthEast(TileEffectFlags.NONE),
 
     /**
-     * A southwest corner sand tile variant that reduces a unit's movement range.
+     * A southwest corner sand tile variant that has no effect.
      */
-    SandSouthWest(TileEffectFlags.REDUCES_MOVEMENT),
+    SandSouthWest(TileEffectFlags.NONE),
 
     /**
-     * An inward northeast corner sand tile variant that reduces a unit's movement range.
+     * An inward northeast corner sand tile variant that has no effect.
      */
-    SandInwardNorthEast(TileEffectFlags.REDUCES_MOVEMENT),
+    SandInwardNorthEast(TileEffectFlags.NONE),
 
     /**
-     * An inward northwest corner sand tile variant that reduces a unit's movement range.
+     * An inward northwest corner sand tile variant that has no effect.
      */
-    SandInwardNorthWest(TileEffectFlags.REDUCES_MOVEMENT),
+    SandInwardNorthWest(TileEffectFlags.NONE),
 
     /**
-     * An inward southeast corner sand tile variant that reduces a unit's movement range.
+     * An inward southeast corner sand tile variant that has no effect.
      */
-    SandInwardSouthEast(TileEffectFlags.REDUCES_MOVEMENT),
+    SandInwardSouthEast(TileEffectFlags.NONE),
 
     /**
-     * An inward southwest corner sand tile variant that reduces a unit's movement range.
+     * An inward southwest corner sand tile variant that has no effect.
      */
-    SandInwardSouthWest(TileEffectFlags.REDUCES_MOVEMENT),
+    SandInwardSouthWest(TileEffectFlags.NONE),
 
     /**
      * A horizontal wall tile variant that blocks unit movement.
@@ -242,7 +242,7 @@ public enum TileType
      */
     public boolean isImpassable()
     {
-        return (effectFlags & TileEffectFlags.IMPASSABLE) == TileEffectFlags.IMPASSABLE;
+        return TileEffectFlags.includes(effectFlags, TileEffectFlags.IMPASSABLE);
     }
 
     /**
@@ -251,7 +251,7 @@ public enum TileType
      */
     public boolean boostsDodge()
     {
-        return (effectFlags & TileEffectFlags.BOOSTS_DODGE) == TileEffectFlags.BOOSTS_DODGE;
+        return TileEffectFlags.includes(effectFlags, TileEffectFlags.BOOSTS_DODGE);
     }
 
     /**
@@ -260,6 +260,6 @@ public enum TileType
      */
     public boolean reducesMovement()
     {
-        return (effectFlags & TileEffectFlags.REDUCES_MOVEMENT) == TileEffectFlags.REDUCES_MOVEMENT;
+        return TileEffectFlags.includes(effectFlags, TileEffectFlags.REDUCES_MOVEMENT);
     }
 }

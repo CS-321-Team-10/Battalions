@@ -25,12 +25,15 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * Contains a grid of tiles.
+ * Contains a grid of tiles and a set of units.
  * @author Bryant
  * @author Scott
  */
 public class Map extends PropertyChangeNotifier
 {
+    /**
+     * The property indicating the size of the map.
+     */
     public static final String SIZE_PROPERTY = "size";
 
     /**
@@ -66,6 +69,7 @@ public class Map extends PropertyChangeNotifier
         _width = width;
         _height = height;
 
+        // Initialize tiles
         _tiles = new Tile[_height][_width];
         for (int x = 0; x < _width; x++)
         {
@@ -98,6 +102,10 @@ public class Map extends PropertyChangeNotifier
         return _height;
     }
 
+    /**
+     * Returns the size of this map.
+     * @return the number of tiles for the width and height of this map
+     */
     public final Location getSize()
     {
         return new Location(this._width, this._height);
@@ -126,9 +134,6 @@ public class Map extends PropertyChangeNotifier
 
         Stream<Unit> units = _units.stream().filter(x -> x.getLocation().equals(l));
 
-        // This currently returns only the first unit at this location,
-        //  even if multiple units are present.
-        //  [TODO support multiple units at a single location.]
         return units.findFirst().orElse(null);
     }
 
@@ -167,6 +172,7 @@ public class Map extends PropertyChangeNotifier
      */
     public void setTiles(Tile[][] tiles)
     {
+        // Assert parameter array is same size as map
         assert tiles.length >= 1 && tiles[0].length >= 1;
         assert tiles.length == _tiles.length && tiles[0].length == _tiles[0].length;
 
@@ -347,6 +353,8 @@ public class Map extends PropertyChangeNotifier
     @Override
     public String toString()
     {
+        // Used for printing the map or testing in the console without a GUI
+
         final int capacity = (2 + _height * 2) * (5 + _width * 4);
         java.lang.StringBuilder sb = new java.lang.StringBuilder(capacity);
 

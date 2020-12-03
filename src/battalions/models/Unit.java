@@ -21,8 +21,6 @@ import battalions.data.ActionType;
 import battalions.data.Orientation;
 import battalions.data.UnitType;
 import battalions.util.Stats;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -375,15 +373,6 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
             || getValidAttacks().size() >= 1;
     }
 
-//    public Set<Location> getValidMoveLocations()
-//    {
-//        return this._type
-//            .movesAbsolute(this._location)
-//            .stream()
-//            .filter(location -> this.canMoveTo(location))
-//            .collect(Collectors.toUnmodifiableSet());
-//    }
-
     /**
      * Uses this unit's movement pattern mask and the current map state
      * to return its possible moves.
@@ -657,30 +646,26 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         return _luck;
     }
-    
-    /*
-     * The following 3 functions are to be utilized by SaveSystem
-    */
-    
-    /*
+
+    /**
      * Set _hasMoved to true or false
      * @param hasmoved a boolean value
     */
-    public void sethasMoved(boolean hasmoved)
+    public void setHasMoved(boolean hasmoved)
     {
         _hasMoved = hasmoved;
     }
-    
-    /*
+
+    /**
      * Set _hasActed to true or false
      * @param hasacted a boolean value
     */
-    public void sethasActed(boolean hasacted)
+    public void setHasActed(boolean hasacted)
     {
         _hasActed = hasacted;
     }
-    
-    /*
+
+    /**
      * Set _health to the given integer
      * @param h an integer value
     */

@@ -20,7 +20,7 @@ import battalions.util.LocationSets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  * Contains information about the base stats of each unit type.
@@ -256,7 +256,7 @@ public enum UnitType
      */
     public final Set<Location> actions()
     {
-        return LocationSets.clone(_actionMask);
+        return  LocationSets.clone(_actionMask);
     }
 
     /**
@@ -266,11 +266,10 @@ public enum UnitType
      */
     public Set<Location> movesAbsolute(Location offset)
     {
-        Set<Location> moves = new HashSet<>();
-
-        _moveMask.forEach(x -> moves.add(x.plus(offset)));
-
-        return moves;
+        return _moveMask
+            .stream()
+            .map(move -> move.plus(offset))
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -280,11 +279,10 @@ public enum UnitType
      */
     public Set<Location> actionsAbsolute(Location offset)
     {
-        Set<Location> actions = new HashSet<>();
-
-        _moveMask.forEach(x -> actions.add(x.plus(offset)));
-
-        return actions;
+        return _actionMask
+            .stream()
+            .map(action -> action.plus(offset))
+            .collect(Collectors.toSet());
     }
 
     /**

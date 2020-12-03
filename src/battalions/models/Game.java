@@ -44,14 +44,14 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
     private final Map map;
 
     /**
-     * The human player for the game.
+     * The first player of the game.
      */
-    private final Player player;
+    private final Player player1;
 
     /**
-     * The CPU player for the game.
+     * The second player of the game.
      */
-    private final Player cpu;
+    private final Player player2;
 
     /**
      * The current player whose turn it is.
@@ -66,21 +66,21 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
     /**
      * Initializes a new instance of the Game class.
      * @param mapSelector the map selector for the game
-     * @param player the first player for the game
-     * @param cpu the second player for the game
+     * @param player1 the first player for the game
+     * @param player2 the second player for the game
      */
-    public Game(MapSelector mapSelector, Player player, Player cpu)
+    public Game(MapSelector mapSelector, Player player1, Player player2)
     {
         assert mapSelector != null;
-        assert player != null;
-        assert cpu != null;
+        assert player1 != null;
+        assert player2 != null;
 
         this.mapSelector = mapSelector;
         this.map = mapSelector.getMap();
-        this.player = player;
-        this.cpu = cpu;
+        this.player1 = player1;
+        this.player2 = player2;
 
-        this.mapSelector.setCurrentPlayer(this.player);
+        this.mapSelector.setCurrentPlayer(this.player1);
 
         this.registerProperty(WINNER_PROPERTY, () -> this.getWinner());
     }
@@ -91,8 +91,8 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
     public void clear()
     {
         map.clearUnits();
-        player.clearUnits();
-        cpu.clearUnits();
+        player1.clearUnits();
+        player2.clearUnits();
     }
 
     /**
@@ -126,13 +126,13 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
      */
     public Player checkWinGame()
     {
-        if (cpu.getLivingUnits().isEmpty())
+        if (player2.getLivingUnits().isEmpty())
         {
-            setWinner(player);
+            setWinner(player1);
         }
-        else if (player.getLivingUnits().isEmpty())
+        else if (player1.getLivingUnits().isEmpty())
         {
-            setWinner(cpu);
+            setWinner(player2);
         }
 
         return winner;
@@ -144,7 +144,7 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
      */
     public Player nextPlayer()
     {
-        return currentPlayer.isCPU() ? getPlayer() : getCPU();
+        return currentPlayer.isPlayer1() ? getPlayer2() : getPlayer1();
     }
 
     /**
@@ -166,21 +166,21 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
     }
 
     /**
-     * Returns the human player of the game.
-     * @return the human player
+     * Returns the first player of the game.
+     * @return the first player
      */
-    public final Player getPlayer()
+    public final Player getPlayer1()
     {
-        return player;
+        return player1;
     }
 
     /**
-     * Returns the CPU player of the game.
-     * @return the CPU player
+     * Returns the second player of the game.
+     * @return the second player
      */
-    public final Player getCPU()
+    public final Player getPlayer2()
     {
-        return cpu;
+        return player2;
     }
 
     /**
@@ -216,15 +216,16 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
         {
             MapSelector selector = (MapSelector) source;
 
-            // If some action was just performed
             if (propertyName.equals(MapSelector.CURRENT_PLAYER_PROPERTY))
             {
+                // If current player changed, update
                 currentPlayer = (Player) newValue;
             }
             else if (propertyName.equals(MapSelector.MOVING_EVENT)
                 || propertyName.equals(MapSelector.ATTACKING_EVENT)
                 || propertyName.equals(MapSelector.ASSISTING_EVENT))
             {
+                // If some action was just performed
                 currentPlayer = selector.getCurrentPlayer();
 
                 // Check for win conditions

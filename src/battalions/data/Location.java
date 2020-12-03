@@ -17,7 +17,7 @@
 package battalions.data;
 
 /**
- * Stores an ordered (x, y) pair representing a location.
+ * A struct that stores an ordered (x, y) pair representing a location.
  * @author Scott
  */
 public class Location
@@ -85,6 +85,7 @@ public class Location
     @Override
     public int hashCode()
     {
+        // Overridden along with .equals
         int hash = 5;
         hash = 73 * hash + this.x;
         hash = 73 * hash + this.y;

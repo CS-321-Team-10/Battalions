@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 public class GameView extends javax.swing.JFrame
 {
     /**
-     * Creates new form GameView
+     * Creates new form GameView.
      */
     public GameView()
     {
@@ -74,7 +74,7 @@ public class GameView extends javax.swing.JFrame
         {
             highlightedUnitTypeLabel.setText(unit.getType().toString());
 
-            highlightedUnitPlayerLabel.setText(unit.getPlayer().isCPU() ? "Player 2" : "Player 1");
+            highlightedUnitPlayerLabel.setText(unit.getPlayer().isPlayer1() ? "Player 1" : "Player 2");
 
             highlightedUnitLocationLabel.setText(unit.getLocation().toString());
 
@@ -103,7 +103,7 @@ public class GameView extends javax.swing.JFrame
         {
             selectedUnitTypeLabel.setText(unit.getType().toString());
 
-            selectedUnitPlayerLabel.setText(unit.getPlayer().isCPU() ? "Player 2" : "Player 1");
+            selectedUnitPlayerLabel.setText(unit.getPlayer().isPlayer1() ? "Player 1" : "Player 2");
 
             selectedUnitLocationLabel.setText(unit.getLocation().toString());
 
@@ -128,7 +128,7 @@ public class GameView extends javax.swing.JFrame
      */
     public void setWinner(Player player)
     {
-        JOptionPane.showMessageDialog(this, "Player " + (player.isCPU() ? "2" : "1") + " wins!",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Player " + (player.isPlayer1() ? "1" : "2") + " wins!",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**

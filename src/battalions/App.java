@@ -107,7 +107,7 @@ public class App
         map.addTile(new Tile(map, new Location(23,1), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(24,2), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(25,2), TileType.Forest, TileType.FieldLight));
-        
+
         // Add walls
         // Fort 1
         map.addTile(new Tile(map, new Location(1, 4), TileType.WallNorthWest, TileType.FieldLight));
@@ -159,7 +159,7 @@ public class App
         map.addTile(new Tile(map, new Location(26, 10), TileType.WallVertical, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(26, 11), TileType.WallVertical, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(26, 13), TileType.WallVertical, TileType.FieldLight));
-        
+
         // Rivers
         map.addTile(new Tile(map, new Location(15, 0), TileType.WaterVertical, TileType.Sand));
         map.addTile(new Tile(map, new Location(15, 1), TileType.WaterVertical, TileType.Sand));
@@ -195,7 +195,7 @@ public class App
         map.addTile(new Tile(map, new Location(13, 13), TileType.WaterVertical, TileType.Sand));
         map.addTile(new Tile(map, new Location(13, 14), TileType.WaterSouthEast, TileType.Sand));
         map.addTile(new Tile(map, new Location(12, 14), TileType.WaterNorthWest, TileType.Sand));
-        
+
         // Sand
         map.addTile(new Tile(map, new Location(15, 4), TileType.Sand, TileType.Sand));
         map.addTile(new Tile(map, new Location(16, 4), TileType.Sand, TileType.Sand));
@@ -207,11 +207,11 @@ public class App
         map.addTile(new Tile(map, new Location(17, 9), TileType.SandNorthWest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(12, 13), TileType.SandNorthWest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(11, 14), TileType.SandNorthWest, TileType.FieldLight));
-        
+
         // Bridges
         map.addTile(new Tile(map, new Location(14, 8), TileType.BridgeHorizontal, TileType.WaterVertical));
         map.addTile(new Tile(map, new Location(16, 10), TileType.BridgeVertical, TileType.WaterHorizontal));
-        
+
         // Towers
         map.addTile(new Tile(map, new Location(25, 5), TileType.BrokenTower, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(4, 11), TileType.BrokenTower, TileType.FieldLight));
@@ -261,12 +261,11 @@ public class App
 
         MapSelector mapSelector = game.getMapSelector();
         MapSelectorView mapSelectorView = gameView.getMapSelectorView();
-        MapSelectorController mapSelectorController = new MapSelectorController(mapSelector, mapSelectorView);
+        MapController mapSelectorController = new MapController(mapSelector, mapSelectorView);
 
         gameView.setVisible(true);
         game.start();
     }
-
 
     /**
      * Returns the static singleton instance of the App class.

@@ -34,10 +34,13 @@ public abstract class PropertyChangeNotifier implements IPropertyChangeNotifier
      */
     protected final PropertyChangeSupport propertyChangeSupport;
 
+    /**
+     * The getters for the registered properties.
+     */
     protected final Map<String, Supplier<Object>> propertyGetters;
 
     /**
-     * Initializes a new instance of the {@link PropertyChangeNotifier} class.
+     * Initializes a new instance of the PropertyChangeNotifier class.
      */
     public PropertyChangeNotifier()
     {
@@ -45,6 +48,11 @@ public abstract class PropertyChangeNotifier implements IPropertyChangeNotifier
         this.propertyGetters = new HashMap<>();
     }
 
+    /**
+     * Registers a property with this property change notifier.
+     * @param propertyName the name of the property
+     * @param getter the getter function for the property
+     */
     protected final void registerProperty(String propertyName, Supplier<Object> getter)
     {
         assert propertyName instanceof String;
@@ -54,6 +62,10 @@ public abstract class PropertyChangeNotifier implements IPropertyChangeNotifier
         this.propertyChangeSupport.firePropertyChange(propertyName, null, getter.get());
     }
 
+    /**
+     * Fires a property change event for the specified property.
+     * @param propertyName the name of the property
+     */
     protected void firePropertyChange(String propertyName)
     {
         assert this.propertyGetters.containsKey(propertyName);
@@ -62,6 +74,10 @@ public abstract class PropertyChangeNotifier implements IPropertyChangeNotifier
         this.propertyChangeSupport.firePropertyChange(propertyName, null, value);
     }
 
+    /**
+     * Fires all property change events to a listener.
+     * @param listener the listener to receive the events
+     */
     private void firePropertyChanges(PropertyChangeListener listener)
     {
         this.propertyGetters.entrySet().forEach(entry ->
@@ -73,14 +89,16 @@ public abstract class PropertyChangeNotifier implements IPropertyChangeNotifier
     }
 
     @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener)
+    public final void addPropertyChangeListener(PropertyChangeListener listener)
     {
         this.propertyChangeSupport.addPropertyChangeListener(listener);
+
+        // Fire all property changes to give listener initial values
         firePropertyChanges(listener);
     }
 
     @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener)
+    public final void removePropertyChangeListener(PropertyChangeListener listener)
     {
         this.propertyChangeSupport.removePropertyChangeListener(listener);
     }
