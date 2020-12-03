@@ -374,7 +374,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         return getValidMoves().size() >= 1
             || getValidAttacks().size() >= 1;
     }
-    
+
 //    public Set<Location> getValidMoveLocations()
 //    {
 //        return this._type
@@ -396,7 +396,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
             .stream()
             .filter(location -> this.canMoveTo(location))
             .map(location -> this._map.getTileAt(location))
-            .collect(Collectors.toUnmodifiableSet());
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -411,9 +411,9 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
             .stream()
             .map(location -> this._map.getUnitAt(location))
             .filter(enemy -> this.canAttack(enemy))
-            .collect(Collectors.toUnmodifiableSet());
+            .collect(Collectors.toSet());
     }
-    
+
     /**
      * Uses this unit's attack pattern mask and the current map state
      * to return its possible attacks.
@@ -426,7 +426,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
             .stream()
             .map(location -> this._map.getUnitAt(location))
             .filter(friendly -> this.canAssist(friendly))
-            .collect(Collectors.toUnmodifiableSet());
+            .collect(Collectors.toSet());
     }
 
     /**

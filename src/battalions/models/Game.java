@@ -16,9 +16,9 @@
  */
 package battalions.models;
 
+import battalions.properties.PropertyChangeNotifier;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Set;
 
 /**
  * Manages turns and controls the flow of the game.
@@ -26,35 +26,63 @@ import java.util.Set;
  * @author Bryant
  * @author Scott
  */
-public class Game implements ITurnBased, PropertyChangeListener
+public class Game extends PropertyChangeNotifier implements PropertyChangeListener
 {
+    /**
+     * The property indicating the player who has won the game.
+     */
+    public static final String WINNER_PROPERTY = "winner";
+
+    /**
+     * The map selector for the game, keeping track of highlights and selections.
+     */
+    private final MapSelector mapSelector;
+
     /**
      * The main map, containing a grid of tiles and all units.
      */
-    private final Map _map;
+    private final Map map;
 
     /**
      * The human player for the game.
      */
-    private final Player _player;
+    private final Player player;
 
     /**
      * The CPU player for the game.
      */
-    private final Player _cpu;
+    private final Player cpu;
+
+    /**
+     * The current player whose turn it is.
+     */
+    private Player currentPlayer;
+
+    /**
+     * The winner of the game.
+     */
+    private Player winner;
 
     /**
      * Initializes a new instance of the Game class.
+     * @param mapSelector the map selector for the game
+     * @param player the first player for the game
+     * @param cpu the second player for the game
      */
-    public Game(Map map, Player player, Player cpu)
+    public Game(MapSelector mapSelector, Player player, Player cpu)
     {
-        assert map != null;
+        assert mapSelector != null;
         assert player != null;
         assert cpu != null;
 
-        _map = map;
-        _player = player;
-        _cpu = cpu;
+        this.mapSelector = mapSelector;
+        this.map = mapSelector.getMap();
+        this.player = player;
+        this.cpu = cpu;
+
+        this.mapSelector.setCurrentPlayer(this.player);
+
+        this.registerProperty(WINNER_PROPERTY, () -> this.getWinner());
     }
 
     /**
@@ -62,7 +90,7 @@ public class Game implements ITurnBased, PropertyChangeListener
      */
     public void start()
     {
-        beginTurn();
+        currentPlayer.beginTurn();
     }
 
     /**
@@ -70,8 +98,15 @@ public class Game implements ITurnBased, PropertyChangeListener
      */
     public void nextTurn()
     {
-        endTurn();
-        beginTurn();
+        currentPlayer.endTurn();
+
+        Player nextPlayer = nextPlayer();
+        nextPlayer.beginTurn();
+
+        currentPlayer = nextPlayer;
+
+        mapSelector.setCurrentPlayer(currentPlayer);
+        mapSelector.deselect();
     }
 
     /**
@@ -79,25 +114,36 @@ public class Game implements ITurnBased, PropertyChangeListener
      * If neither player has lost all units, returns null.
      * @return the winning player, if a player has won; null, otherwise
      */
-    public Player getWinner()
+    public Player checkWinGame()
     {
-        if (_cpu.getLivingUnits().isEmpty())
+        if (cpu.getLivingUnits().isEmpty())
         {
-            return _player;
+            setWinner(player);
+        }
+        else if (player.getLivingUnits().isEmpty())
+        {
+            setWinner(cpu);
         }
 
-        if (_player.getLivingUnits().isEmpty())
-        {
-            return _cpu;
-        }
-
-        return null;
+        return winner;
     }
 
-    public void winGame(Player winner)
+    /**
+     * Returns the player whose turn it is currently not.
+     * @return the player whose turn it is currently not
+     */
+    public Player nextPlayer()
     {
-        // [TODO] Indicate that the game is over
-        System.out.println("Player " + (winner.isCPU() ? "2" : "1") + " wins the game!");
+        return currentPlayer.isCPU() ? getPlayer() : getCPU();
+    }
+
+    /**
+     * Returns the map selector, which keeps track of highlights and selections.
+     * @return the map selector
+     */
+    public final MapSelector getMapSelector()
+    {
+        return mapSelector;
     }
 
     /**
@@ -106,7 +152,7 @@ public class Game implements ITurnBased, PropertyChangeListener
      */
     public final Map getMap()
     {
-        return _map;
+        return map;
     }
 
     /**
@@ -115,7 +161,7 @@ public class Game implements ITurnBased, PropertyChangeListener
      */
     public final Player getPlayer()
     {
-        return _player;
+        return player;
     }
 
     /**
@@ -124,21 +170,29 @@ public class Game implements ITurnBased, PropertyChangeListener
      */
     public final Player getCPU()
     {
-        return _cpu;
+        return cpu;
     }
 
-    @Override
-    public void beginTurn()
+    /**
+     * Returns the winner of the game.
+     * @return the player who has won the game, if one has; null, otherwise
+     */
+    public final Player getWinner()
     {
-        _player.beginTurn();
-        _cpu.beginTurn();
+        checkWinGame();
+        return winner;
     }
 
-    @Override
-    public void endTurn()
+    /**
+     * Sets the value of the winner property and may fire a property change notification.
+     * @param value the new value of the property
+     */
+    private void setWinner(Player value)
     {
-        _player.endTurn();
-        _cpu.endTurn();
+        Player oldValue = winner;
+        winner = value;
+
+        this.propertyChangeSupport.firePropertyChange(WINNER_PROPERTY, oldValue, winner);
     }
 
     @Override
@@ -146,32 +200,31 @@ public class Game implements ITurnBased, PropertyChangeListener
     {
         Object source = evt.getSource();
         String propertyName = evt.getPropertyName();
+        Object newValue = evt.getNewValue();
 
         if (source instanceof MapSelector)
         {
-            MapSelector mapSelector = (MapSelector) source;
+            MapSelector selector = (MapSelector) source;
 
             // If some action was just performed
-            if (propertyName.equals(MapSelector.MOVING_EVENT)
+            if (propertyName.equals(MapSelector.CURRENT_PLAYER_PROPERTY))
+            {
+                currentPlayer = (Player) newValue;
+            }
+            else if (propertyName.equals(MapSelector.MOVING_EVENT)
                 || propertyName.equals(MapSelector.ATTACKING_EVENT)
                 || propertyName.equals(MapSelector.ASSISTING_EVENT))
             {
-                Player currentPlayer = mapSelector.getCurrentPlayer();
+                currentPlayer = selector.getCurrentPlayer();
 
-                Player winner = getWinner();
-                if (winner instanceof Player)
+                // Check for win conditions
+                if (checkWinGame() instanceof Player)
                 {
-                    winGame(winner);
                 }
-                else if (currentPlayer.getAvailableUnits().isEmpty())
+                else if (!currentPlayer.hasAvailableUnits())
                 {
-                    Player nextPlayer = currentPlayer.isCPU() ? _player : _cpu;
-
-                    currentPlayer.endTurn();
-                    nextPlayer.beginTurn();
-
-                    mapSelector.setCurrentPlayer(nextPlayer);
-                    mapSelector.deselect();
+                    // End turns and set next player
+                    nextTurn();
                 }
             }
         }

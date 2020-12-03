@@ -25,6 +25,8 @@ import battalions.models.Tile;
 import battalions.models.Unit;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -53,10 +55,20 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
 
     private int canvasOffsetY;
 
+    private int cursorX;
+
+    private int cursorY;
+
+    private int cursorOffset;
+
     public MapSelectorView()
     {
         canvas = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_RGB);
         clearImage(canvas);
+
+        // Make windows 32x32px cursor transparent so we can draw at a custom size
+        setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+            new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "sprite cursor"));
     }
 
     @Override
@@ -66,6 +78,9 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
 
         // Draw canvas, centered inside panel
         g.drawImage(canvas, canvasOffsetX, canvasOffsetY, this);
+
+        // Draw custom size cursor
+        g.drawImage(Sprites.CURSOR, cursorX - cursorOffset, cursorY - cursorOffset, spriteSize, spriteSize, this);
     }
 
     private void onMoving(Tile source, Tile destination)
@@ -245,15 +260,17 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
         int width = getWidth();
         int height = getHeight();
 
-        spriteSize = Math.min(
+        spriteSize = Math.max(Math.min(
             width / mapWidth,
-            height / mapHeight);
+            height / mapHeight), 1);
 
         canvasWidth = mapWidth * spriteSize;
         canvasHeight = mapHeight * spriteSize;
 
         canvasOffsetX = (width - canvasWidth) / 2;
         canvasOffsetY = (height - canvasHeight) / 2;
+
+        cursorOffset = (int) (spriteSize * 0.35);
 
         canvas = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_RGB);
     }
@@ -312,6 +329,12 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
         Graphics g = image.getGraphics();
         g.clearRect(0, 0, image.getWidth(this), image.getHeight(this));
         return g;
+    }
+
+    public void setCursorLocation(int xPx, int yPx)
+    {
+        cursorX = xPx;
+        cursorY = yPx;
     }
 
     public final int getMapWidth()
