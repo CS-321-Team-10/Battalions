@@ -1,4 +1,4 @@
-1
+2
 30
 15
 0 0 Forest FieldLight 
@@ -292,7 +292,7 @@
 19 3 FieldLight null 
 19 4 SandNorthEast FieldLight 
 19 5 WaterNorthEast Sand 
-19 6 WaterVertical Sand 
+19 6 BridgeHorizontal WaterVertical 
 19 7 WaterSouthEast Sand 
 19 8 SandSouthEast FieldLight 
 19 9 FieldLight null 
@@ -451,8 +451,8 @@
 29 12 WallVertical FieldLight 
 29 13 WallVertical FieldLight 
 29 14 WallSouthEast FieldLight 
-12
-2 21 11 Archer 12 false false 
+11
+2 16 7 Archer 6 true true 
 1 2 8 Healer 10 false false 
 1 4 12 Warlock 16 false false 
 2 26 12 Knight 24 false false 
@@ -460,7 +460,6 @@
 2 28 13 Mage 12 false false 
 2 24 5 Warlock 16 false false 
 2 28 8 Healer 10 false false 
-2 16 9 Infantry 20 true false 
-1 15 7 Infantry 20 false false 
+2 16 11 Infantry 20 false false 
 1 7 6 Knight 24 false false 
 1 7 10 Archer 12 false false 

@@ -222,6 +222,7 @@ public class App
         
         // Bridges
         map.addTile(new Tile(map, new Location(14, 8), TileType.BridgeHorizontal, TileType.WaterVertical));
+        map.addTile(new Tile(map, new Location(19, 6), TileType.BridgeHorizontal, TileType.WaterVertical));
         map.addTile(new Tile(map, new Location(16, 10), TileType.BridgeVertical, TileType.WaterHorizontal));
         
         // Towers
