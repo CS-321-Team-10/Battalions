@@ -69,6 +69,23 @@ public class Player implements ITurnBased
     }
 
     /**
+     * Removes a unit from this player.
+     * @param u the unit to remove from this player
+     */
+    public void removeUnit(Unit u)
+    {
+        _units.remove(u);
+    }
+
+    /**
+     * Removes all units from this player.
+     */
+    public void clearUnits()
+    {
+        _units.clear();
+    }
+
+    /**
      * Returns the unique ID of this player.
      * @return the unique ID of this player
      */

@@ -86,6 +86,16 @@ public class Game extends PropertyChangeNotifier implements PropertyChangeListen
     }
 
     /**
+     * Clears all save data from this game.
+     */
+    public void clear()
+    {
+        map.clearUnits();
+        player.clearUnits();
+        cpu.clearUnits();
+    }
+
+    /**
      * Begins the game.
      */
     public void start()

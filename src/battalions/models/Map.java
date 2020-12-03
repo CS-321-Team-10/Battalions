@@ -162,6 +162,24 @@ public class Map extends PropertyChangeNotifier
     }
 
     /**
+     * Copies the provided array of tiles into this map.
+     * @param tiles the new tile values
+     */
+    public void setTiles(Tile[][] tiles)
+    {
+        assert tiles.length >= 1 && tiles[0].length >= 1;
+        assert tiles.length == _tiles.length && tiles[0].length == _tiles[0].length;
+
+        for (int i = 0; i <= _height; i++)
+        {
+            for (int j = 0; j <= _width; j++)
+            {
+                addTile(tiles[i][j]);
+            }
+        }
+    }
+
+    /**
      * Adds a unit to this map.
      * @param u the unit to add to the map
      */
@@ -187,6 +205,14 @@ public class Map extends PropertyChangeNotifier
         assert u != null;
 
         _units.remove(u);
+    }
+
+    /**
+     * Removes all units from this map.
+     */
+    public void clearUnits()
+    {
+        _units.clear();
     }
 
     /**

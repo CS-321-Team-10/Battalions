@@ -70,8 +70,7 @@ public class App
     {
         // Create map
         Map map = new Map(30, 15);
-        //Map map2 = new Map(30, 15);
-        
+
         // Add forest
         map.addTile(new Tile(map, new Location(0,0), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(0,1), TileType.Forest, TileType.FieldLight));
@@ -94,7 +93,7 @@ public class App
         map.addTile(new Tile(map, new Location(3,1), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(3,2), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(4,1), TileType.Forest, TileType.FieldLight));
-        
+
         // Add walls
         map.addTile(new Tile(map, new Location(1, 4), TileType.WallNorthWest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(1, 5), TileType.WallVertical, TileType.FieldLight));
@@ -120,13 +119,11 @@ public class App
         map.addTile(new Tile(map, new Location(3, 4), TileType.WallSouthEast, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(4, 6), TileType.WallVertical, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(4, 7), TileType.WallSouthEast, TileType.FieldLight));
-        
+
 
         // Create players
         Player player = new Player();
         Player cpu = new Player();
-        //Player player2 = new Player();
-        //Player cpu2 = new Player();
 
         // Add friendly units
         player.addUnit(new Unit(player, map, new Location(7, 6), UnitType.Knight));
@@ -138,12 +135,6 @@ public class App
         // Add all units to map
         player.getUnits().forEach(x -> map.addUnit(x));
         cpu.getUnits().forEach(x -> map.addUnit(x));
-
-        // Testing save system
-        //SaveSystem saving = new SaveSystem();
-        //saving.Save(map);
-        //saving.Load(map2, player2, cpu2);
-        //_game = new Game(map2, player2, cpu2);
 
         // Create game
         MapSelector mapSelector = new MapSelector(map);

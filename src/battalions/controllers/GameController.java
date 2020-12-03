@@ -19,6 +19,7 @@ package battalions.controllers;
 import battalions.models.Game;
 import battalions.models.MapSelector;
 import battalions.models.Player;
+import battalions.models.SaveSystem;
 import battalions.views.GameView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,6 +64,8 @@ public class GameController implements PropertyChangeListener
         this.model.addPropertyChangeListener(this);
 
         this.view.addEndTurnButtonListener(new EndTurnActionListener());
+        this.view.addSaveButtonListener(new SaveActionListener());
+        this.view.addLoadButtonListener(new LoadActionListener());
 
         update();
     }
@@ -137,7 +140,9 @@ public class GameController implements PropertyChangeListener
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
+            SaveSystem.load(model);
+            update();
+            model.getMapSelector().deselect();
         }
     }
 
@@ -149,7 +154,8 @@ public class GameController implements PropertyChangeListener
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
+            SaveSystem.save(model);
+            update();
         }
     }
 }
