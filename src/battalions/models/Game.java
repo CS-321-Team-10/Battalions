@@ -16,6 +16,7 @@
  */
 package battalions.models;
 
+import battalions.properties.PropertyChangeNotifier;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -25,8 +26,13 @@ import java.beans.PropertyChangeListener;
  * @author Bryant
  * @author Scott
  */
-public class Game implements PropertyChangeListener
+public class Game extends PropertyChangeNotifier implements PropertyChangeListener
 {
+    /**
+     * The property indicating the player who has won the game.
+     */
+    public static final String WINNER_PROPERTY = "winner";
+
     /**
      * The map selector for the game, keeping track of highlights and selections.
      */
@@ -53,6 +59,11 @@ public class Game implements PropertyChangeListener
     private Player currentPlayer;
 
     /**
+     * The winner of the game.
+     */
+    private Player winner;
+
+    /**
      * Initializes a new instance of the Game class.
      * @param mapSelector the map selector for the game
      * @param player the first player for the game
@@ -70,6 +81,8 @@ public class Game implements PropertyChangeListener
         this.cpu = cpu;
 
         this.mapSelector.setCurrentPlayer(this.player);
+
+        this.registerProperty(WINNER_PROPERTY, () -> this.getWinner());
     }
 
     /**
@@ -103,33 +116,16 @@ public class Game implements PropertyChangeListener
      */
     public Player checkWinGame()
     {
-        Player winner = null;
-
         if (cpu.getLivingUnits().isEmpty())
         {
-            winner = player;
+            setWinner(player);
         }
         else if (player.getLivingUnits().isEmpty())
         {
-            winner = cpu;
-        }
-
-        if (winner instanceof Player)
-        {
-            winGame(winner);
+            setWinner(cpu);
         }
 
         return winner;
-    }
-
-    /**
-     * Indicates that the specified player has won the game.
-     * @param winner the winner of the game
-     */
-    public void winGame(Player winner)
-    {
-        // [TODO] Indicate that the game is over
-        System.out.println("Player " + (winner.isCPU() ? "2" : "1") + " wins the game!");
     }
 
     /**
@@ -177,6 +173,28 @@ public class Game implements PropertyChangeListener
         return cpu;
     }
 
+    /**
+     * Returns the winner of the game.
+     * @return the player who has won the game, if one has; null, otherwise
+     */
+    public final Player getWinner()
+    {
+        checkWinGame();
+        return winner;
+    }
+
+    /**
+     * Sets the value of the winner property and may fire a property change notification.
+     * @param value the new value of the property
+     */
+    private void setWinner(Player value)
+    {
+        Player oldValue = winner;
+        winner = value;
+
+        this.propertyChangeSupport.firePropertyChange(WINNER_PROPERTY, oldValue, winner);
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt)
     {
@@ -200,7 +218,10 @@ public class Game implements PropertyChangeListener
                 currentPlayer = selector.getCurrentPlayer();
 
                 // Check for win conditions
-                if (checkWinGame() == null)
+                if (checkWinGame() instanceof Player)
+                {
+                }
+                else if (!currentPlayer.hasAvailableUnits())
                 {
                     // End turns and set next player
                     nextTurn();

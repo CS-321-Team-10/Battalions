@@ -17,10 +17,12 @@
 package battalions.views;
 
 import battalions.data.TileType;
-import battalions.data.UnitType;
+import battalions.models.Player;
 import battalions.models.Tile;
 import battalions.models.Unit;
 import java.awt.event.ActionListener;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 /**
  * Provides a view for the entire game.
@@ -119,6 +121,15 @@ public class GameView extends javax.swing.JFrame
             selectedUnitLocationLabel.setText("-");
             selectedUnitStatsLabel.setText("-");
         }
+    }
+
+    /**
+     * Indicates that the specified player has won the game.
+     * @param player the winner of the game
+     */
+    public void setWinner(Player player)
+    {
+        JOptionPane.showMessageDialog(this, "Player " + (player.isCPU() ? "2" : "1") + " wins!",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**

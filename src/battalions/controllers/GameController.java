@@ -18,6 +18,7 @@ package battalions.controllers;
 
 import battalions.models.Game;
 import battalions.models.MapSelector;
+import battalions.models.Player;
 import battalions.views.GameView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,8 +54,13 @@ public class GameController implements PropertyChangeListener
         this.model = model;
         this.view = view;
 
+        // Map selector model will update game model and game controller
+        //  about properties
         this.model.getMapSelector().addPropertyChangeListener(this.model);
         this.model.getMapSelector().addPropertyChangeListener(this);
+
+        // Game model will update this controller about properties
+        this.model.addPropertyChangeListener(this);
 
         this.view.addEndTurnButtonListener(new EndTurnActionListener());
 
@@ -77,7 +83,25 @@ public class GameController implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt)
     {
+        Object source = evt.getSource();
+        String propertyName = evt.getPropertyName();
+
         update();
+
+        if (source instanceof Game)
+        {
+            switch (propertyName)
+            {
+                case (Game.WINNER_PROPERTY):
+                    // When a player has just won
+                    Player winner = model.getWinner();
+                    if (winner instanceof Player)
+                    {
+                        view.setWinner(winner);
+                    }
+                    break;
+            }
+        }
     }
 
     /**
