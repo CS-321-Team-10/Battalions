@@ -162,6 +162,6 @@ public class Player implements ITurnBased
         return this._units
             .stream()
             .filter(unit -> unit.hasAvailableOptions())
-            .collect(Collectors.toUnmodifiableSet());
+            .collect(Collectors.toSet());
     }
 }
