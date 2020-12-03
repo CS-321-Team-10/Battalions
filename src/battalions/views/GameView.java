@@ -21,7 +21,6 @@ import battalions.models.Player;
 import battalions.models.Tile;
 import battalions.models.Unit;
 import java.awt.event.ActionListener;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**

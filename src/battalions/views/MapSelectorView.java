@@ -63,7 +63,7 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
 
     public MapSelectorView()
     {
-        canvas = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_RGB);
+        canvas = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
         clearImage(canvas);
 
         // Make windows 32x32px cursor transparent so we can draw at a custom size
@@ -208,13 +208,17 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
         }
     }
 
-    public void drawCursor(Location cursorLocation)
+    public void drawCursorLocation(Location cursorLocation, Boolean cursorType)
     {
         Graphics g = canvas.getGraphics();
 
         if (cursorLocation instanceof Location)
         {
-            drawSprite(g, Sprites.CURSOR, cursorLocation);
+            drawSprite(g, (cursorType == null)
+                ? Sprites.CURSOR_TILE
+                : cursorType
+                    ? Sprites.CURSOR_FRIENDLY
+                    : Sprites.CURSOR_ENEMY, cursorLocation);
         }
     }
 

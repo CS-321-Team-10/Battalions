@@ -16,6 +16,7 @@
  */
 package battalions.controllers;
 
+import battalions.App;
 import battalions.models.Game;
 import battalions.models.MapSelector;
 import battalions.models.Player;
@@ -66,6 +67,7 @@ public class GameController implements PropertyChangeListener
         this.view.addEndTurnButtonListener(new EndTurnActionListener());
         this.view.addSaveButtonListener(new SaveActionListener());
         this.view.addLoadButtonListener(new LoadActionListener());
+        this.view.addRestartButtonListener(new RestartActionListener());
 
         update();
     }
@@ -128,7 +130,7 @@ public class GameController implements PropertyChangeListener
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
+            App.main(new String[0]);
         }
     }
 

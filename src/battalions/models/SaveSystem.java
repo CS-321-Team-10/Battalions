@@ -34,6 +34,9 @@ import java.util.Scanner;
  */
 public class SaveSystem
 {
+    /**
+     * The save file with the current status of the game.
+     */
     private static final File SAVE_DATA = new File("SaveData.txt");
 
     /**

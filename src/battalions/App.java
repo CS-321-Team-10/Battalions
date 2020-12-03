@@ -39,6 +39,11 @@ public class App
     private Game game;
 
     /**
+     * The view used by this App.
+     */
+    private GameView gameView;
+
+    /**
      * Initializes static members of this class.
      */
     static
@@ -47,26 +52,19 @@ public class App
     }
 
     /**
-     * Initializes a new instance of the App class.
-     */
-    private App()
-    {
-        testSetup();
-    }
-
-    /**
      * The entry point of the program.
      * @param args unused command line arguments
      */
     public static void main(String[] args)
     {
-        _instance.testGui();
+        _instance.setUpGame();
+        _instance.setUpGUI();
     }
 
     /**
-     * Sets up the game, map, and players for testing.
+     * Sets up the game, map, and players.
      */
-    private void testSetup()
+    private void setUpGame()
     {
         // Create map
         Map map = new Map(30, 15);
@@ -120,7 +118,6 @@ public class App
         map.addTile(new Tile(map, new Location(4, 6), TileType.WallVertical, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(4, 7), TileType.WallSouthEast, TileType.FieldLight));
 
-
         // Create players
         Player player = new Player();
         Player cpu = new Player();
@@ -145,9 +142,14 @@ public class App
      * Initializes a Swing form as the GUI and allows the user to test several
      * actions in a game.
      */
-    private void testGui()
+    private void setUpGUI()
     {
-        GameView gameView = new GameView();
+        if (gameView instanceof GameView)
+        {
+            gameView.dispose();
+        }
+
+        gameView = new GameView();
         GameController gameController = new GameController(game, gameView);
 
         MapSelector mapSelector = game.getMapSelector();

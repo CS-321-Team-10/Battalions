@@ -19,6 +19,7 @@ package battalions.controllers;
 import battalions.data.Location;
 import battalions.models.Map;
 import battalions.models.MapSelector;
+import battalions.models.Unit;
 import battalions.views.MapSelectorView;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -39,7 +40,7 @@ public class MapSelectorController implements PropertyChangeListener
     private final MapSelector model;
 
     private final MapSelectorView view;
-    
+
     private int cursorX;
     private int cursorY;
 
@@ -71,13 +72,21 @@ public class MapSelectorController implements PropertyChangeListener
         Map map = model.getMap();
 
         view.drawTiles(map.getTiles());
-        view.drawHighlighted(model.getHighlightedTile());
         view.drawUnits(map.getUnits());
+        view.drawHighlighted(model.getHighlightedTile());
         view.drawSelectableUnits(model.getSelectableUnits());
 
-        boolean drawHighlighted = model.getSelectedUnit() == null;
-        view.drawHighlighted(model.getHighlightedUnit(), true, drawHighlighted, drawHighlighted, drawHighlighted);
-        view.drawSelected(model.getSelectedUnit(), true, true, true, true);
+        Unit selectedUnit = model.getSelectedUnit();
+        Unit highlightedUnit = model.getHighlightedUnit();
+        boolean emptySelection = selectedUnit == null;
+        boolean emptyHighlighted = highlightedUnit == null;
+
+        view.drawCursorLocation(model.getCursorLocation(), emptyHighlighted
+            ? null
+            : model.getCurrentPlayer().owns(highlightedUnit));
+
+        view.drawHighlighted(highlightedUnit, false, emptySelection, emptySelection, false);
+        view.drawSelected(model.getSelectedUnit(), true, true, true, false);
 
         view.repaint();
     }
