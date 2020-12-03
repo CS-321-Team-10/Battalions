@@ -98,7 +98,7 @@ public class SaveSystem
         }
         catch(IOException exception)
         {
-            System.out.println("Error.");
+            System.out.println("Error: File not found.");
         }
     }
     /*
@@ -185,7 +185,7 @@ public class SaveSystem
        }
        catch(FileNotFoundException exception)
        {
-           System.out.println("Error.");
+           System.out.println("Error: File not found.");
        }
     }
     

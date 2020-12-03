@@ -70,7 +70,7 @@ public class App
     {
         // Create map
         Map map = new Map(10, 10);
-        // Map map2 = new Map(10, 10);
+        //Map map2 = new Map(10, 10);
 
         // Add walls
         map.addTile(new Tile(map, new Location(4, 4), TileType.WallHorizontal, TileType.FieldLight));
@@ -87,8 +87,8 @@ public class App
         // Create players
         Player player = new Player();
         Player cpu = new Player();
-        // Player player2 = new Player();
-        // Player cpu2 = new Player();
+        //Player player2 = new Player();
+        //Player cpu2 = new Player();
 
         // Add friendly units
         player.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
@@ -102,10 +102,10 @@ public class App
         cpu.getUnits().forEach(x -> map.addUnit(x));
 
         // Testing save system
-        // SaveSystem saving = new SaveSystem();
-        // saving.Save(map);
-        // saving.Load(map2, player2, cpu2);
-        // _game = new Game(map2, player2, cpu2);
+        //SaveSystem saving = new SaveSystem();
+        //saving.Save(map);
+        //saving.Load(map2, player2, cpu2);
+        //_game = new Game(map2, player2, cpu2);
 
         // Create game
         _game = new Game(map, player, cpu);
