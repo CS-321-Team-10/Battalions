@@ -154,6 +154,46 @@ public class App
         map.addTile(new Tile(map, new Location(26, 11), TileType.WallVertical, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(26, 13), TileType.WallVertical, TileType.FieldLight));
         
+        // Rivers
+        map.addTile(new Tile(map, new Location(15, 0), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(15, 1), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(15, 2), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(15, 3), TileType.Water3WayNorth, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 3), TileType.WaterNorthWest, TileType.Sand));
+        map.addTile(new Tile(map, new Location(16, 3), TileType.WaterHorizontal, TileType.Sand));
+        map.addTile(new Tile(map, new Location(17, 3), TileType.WaterNorthEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(17, 4), TileType.WaterSouthWest, TileType.Sand));
+        map.addTile(new Tile(map, new Location(18, 4), TileType.WaterNorthEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(18, 5), TileType.WaterSouthWest, TileType.Sand));
+        map.addTile(new Tile(map, new Location(19, 5), TileType.WaterNorthEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(19, 6), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(19, 7), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(19, 7), TileType.WaterSouthEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(18, 7), TileType.WaterNorthWest, TileType.Sand));
+        map.addTile(new Tile(map, new Location(18, 8), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(18, 9), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(18, 10), TileType.WaterSouthEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(17, 10), TileType.WaterHorizontal, TileType.Sand));
+        map.addTile(new Tile(map, new Location(16, 10), TileType.BridgeVertical, TileType.WaterHorizontal));
+        map.addTile(new Tile(map, new Location(15, 10), TileType.WaterHorizontal, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 4), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 5), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 6), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 7), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 8), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 9), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 10), TileType.Water3WayEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 11), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(14, 12), TileType.WaterSouthEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(13, 12), TileType.WaterNorthWest, TileType.Sand));
+        map.addTile(new Tile(map, new Location(13, 13), TileType.WaterVertical, TileType.Sand));
+        map.addTile(new Tile(map, new Location(13, 14), TileType.WaterSouthEast, TileType.Sand));
+        map.addTile(new Tile(map, new Location(12, 14), TileType.WaterNorthWest, TileType.Sand));
+        
+        // Bridges
+        map.addTile(new Tile(map, new Location(14, 8), TileType.BridgeHorizontal, TileType.WaterVertical));
+        map.addTile(new Tile(map, new Location(13, 12), TileType.WaterNorthWest, TileType.Sand));
+        
         // Towers
         map.addTile(new Tile(map, new Location(25, 5), TileType.BrokenTower, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(4, 11), TileType.BrokenTower, TileType.FieldLight));
