@@ -69,6 +69,7 @@ public class App
         // Create map
         Map map = new Map(30, 15);
 
+        // Forest
         map.addTile(new Tile(map, new Location(0,0), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(0,1), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(0,2), TileType.Forest, TileType.FieldLight));
@@ -107,6 +108,13 @@ public class App
         map.addTile(new Tile(map, new Location(23,1), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(24,2), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(25,2), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(16,6), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(26,3), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(27,4), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(27,5), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(7,12), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(8,12), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1,13), TileType.Forest, TileType.FieldLight));
         
         // Add walls
         // Fort 1
@@ -206,7 +214,11 @@ public class App
         map.addTile(new Tile(map, new Location(14, 2), TileType.SandNorthWest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(17, 9), TileType.SandNorthWest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(12, 13), TileType.SandNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(13, 11), TileType.SandNorthWest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(11, 14), TileType.SandNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(19, 8), TileType.SandSouthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(15, 11), TileType.SandSouthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(14, 13), TileType.SandSouthEast, TileType.FieldLight));
         
         // Bridges
         map.addTile(new Tile(map, new Location(14, 8), TileType.BridgeHorizontal, TileType.WaterVertical));
