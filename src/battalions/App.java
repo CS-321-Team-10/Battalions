@@ -101,6 +101,12 @@ public class App
         map.addTile(new Tile(map, new Location(21, 12), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(22, 11), TileType.Forest, TileType.FieldLight));
         map.addTile(new Tile(map, new Location(22, 12), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(10,3), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(10,4), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(10,5), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(23,1), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(24,2), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(25,2), TileType.Forest, TileType.FieldLight));
         
         // Add walls
         // Fort 1
@@ -190,9 +196,21 @@ public class App
         map.addTile(new Tile(map, new Location(13, 14), TileType.WaterSouthEast, TileType.Sand));
         map.addTile(new Tile(map, new Location(12, 14), TileType.WaterNorthWest, TileType.Sand));
         
+        // Sand
+        map.addTile(new Tile(map, new Location(15, 4), TileType.Sand, TileType.Sand));
+        map.addTile(new Tile(map, new Location(16, 4), TileType.Sand, TileType.Sand));
+        map.addTile(new Tile(map, new Location(18, 3), TileType.SandNorthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(19, 4), TileType.SandNorthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(16, 2), TileType.SandNorthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(15, 9), TileType.SandNorthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(14, 2), TileType.SandNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(17, 9), TileType.SandNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(12, 13), TileType.SandNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(11, 14), TileType.SandNorthWest, TileType.FieldLight));
+        
         // Bridges
         map.addTile(new Tile(map, new Location(14, 8), TileType.BridgeHorizontal, TileType.WaterVertical));
-        map.addTile(new Tile(map, new Location(13, 12), TileType.WaterNorthWest, TileType.Sand));
+        map.addTile(new Tile(map, new Location(16, 10), TileType.BridgeVertical, TileType.WaterHorizontal));
         
         // Towers
         map.addTile(new Tile(map, new Location(25, 5), TileType.BrokenTower, TileType.FieldLight));
@@ -205,11 +223,17 @@ public class App
         // Add friendly units
         player.addUnit(new Unit(player, map, new Location(7, 6), UnitType.Knight));
         player.addUnit(new Unit(player, map, new Location(2, 8), UnitType.Healer));
-        player.addUnit(new Unit(cpu, map, new Location(26, 12), UnitType.Archer));
+        player.addUnit(new Unit(player, map, new Location(3, 6), UnitType.Mage));
+        player.addUnit(new Unit(player, map, new Location(4, 12), UnitType.Warlock));
+        player.addUnit(new Unit(player, map, new Location(13, 8), UnitType.Infantry));
+        player.addUnit(new Unit(player, map, new Location(7, 10), UnitType.Archer));
 
         // Add enemy units
         cpu.addUnit(new Unit(cpu, map, new Location(26, 12), UnitType.Knight));
         cpu.addUnit(new Unit(cpu, map, new Location(28, 8), UnitType.Healer));
+        cpu.addUnit(new Unit(cpu, map, new Location(28, 13), UnitType.Mage));
+        cpu.addUnit(new Unit(cpu, map, new Location(24, 5), UnitType.Warlock));
+        cpu.addUnit(new Unit(cpu, map, new Location(16, 11), UnitType.Infantry));
         cpu.addUnit(new Unit(cpu, map, new Location(21, 11), UnitType.Archer));
 
         // Add all units to map
