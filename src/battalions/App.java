@@ -69,20 +69,58 @@ public class App
     private void testSetup()
     {
         // Create map
-        Map map = new Map(10, 10);
-        //Map map2 = new Map(10, 10);
-
+        Map map = new Map(30, 15);
+        //Map map2 = new Map(30, 15);
+        
+        // Add forest
+        map.addTile(new Tile(map, new Location(0,0), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(0,1), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(0,2), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(0,3), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(0,4), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(0,5), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1,0), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(2,0), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(3,0), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(4,0), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(5,0), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1,1), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1,2), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1,3), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1,4), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(2,1), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(2,2), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(2,3), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(3,1), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(3,2), TileType.Forest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(4,1), TileType.Forest, TileType.FieldLight));
+        
         // Add walls
-        map.addTile(new Tile(map, new Location(4, 4), TileType.WallHorizontal, TileType.FieldLight));
-        map.addTile(new Tile(map, new Location(4, 5), TileType.WallVertical, TileType.FieldLight));
-        map.addTile(new Tile(map, new Location(7, 4), TileType.WallNorthWest, TileType.FieldLight));
-
-        // Add dodge boost tiles
-        map.addTile(new Tile(map, new Location(5, 4), TileType.Forest, TileType.FieldLight));
-        map.addTile(new Tile(map, new Location(5, 3), TileType.Forest, TileType.FieldLight));
-
-        // Add movement reduce tiles
-        map.addTile(new Tile(map, new Location(7, 7), TileType.Sand));
+        map.addTile(new Tile(map, new Location(1, 4), TileType.WallNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1, 5), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1, 6), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1, 7), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1, 8), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(1, 9), TileType.WallSouthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(2, 9), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(3, 9), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(4, 9), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(5, 9), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(6, 9), TileType.WallSouthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(6, 8), TileType.WallNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(7, 8), TileType.WallSouthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(7, 7), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(7, 5), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(7, 4), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(7, 3), TileType.WallNorthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(6, 3), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(5, 3), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(4, 3), TileType.WallHorizontal, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(3, 3), TileType.WallNorthWest, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(3, 4), TileType.WallSouthEast, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(4, 6), TileType.WallVertical, TileType.FieldLight));
+        map.addTile(new Tile(map, new Location(4, 7), TileType.WallSouthEast, TileType.FieldLight));
+        
 
         // Create players
         Player player = new Player();
@@ -91,8 +129,8 @@ public class App
         //Player cpu2 = new Player();
 
         // Add friendly units
-        player.addUnit(new Unit(player, map, new Location(5, 4), UnitType.Archer));
-        player.addUnit(new Unit(player, map, new Location(2, 7), UnitType.Healer));
+        player.addUnit(new Unit(player, map, new Location(7, 6), UnitType.Knight));
+        player.addUnit(new Unit(player, map, new Location(2, 8), UnitType.Healer));
 
         // Add enemy units
         cpu.addUnit(new Unit(cpu, map, new Location(9, 3), UnitType.Knight));
