@@ -657,6 +657,37 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
     {
         return _luck;
     }
+    
+    /*
+     * The following 3 functions are to be utilized by SaveSystem
+    */
+    
+    /*
+     * Set _hasMoved to true or false
+     * @param hasmoved a boolean value
+    */
+    public void sethasMoved(boolean hasmoved)
+    {
+        _hasMoved = hasmoved;
+    }
+    
+    /*
+     * Set _hasActed to true or false
+     * @param hasacted a boolean value
+    */
+    public void sethasActed(boolean hasacted)
+    {
+        _hasActed = hasacted;
+    }
+    
+    /*
+     * Set _health to the given integer
+     * @param h an integer value
+    */
+    public void setHealth(int h)
+    {
+        _health = h;
+    }
 
     /**
      * Determines whether or not this unit is alive.

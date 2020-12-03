@@ -38,8 +38,9 @@ public class SaveSystem
     
     /*
      * Gets the tile and units and writes their information into a file.
+     * @param map the map being read from
     */
-    public void SaveAndQuit(Map map)
+    public void Save(Map map)
     {
         try
         {
@@ -102,6 +103,9 @@ public class SaveSystem
     }
     /*
      * Reads data from "SaveData.txt" and updates game accordingly.
+     * @param map the map being written to
+     * @param player1 the first player being written to
+     * @param player2 the second player being written to
     */
     public void Load(Map map, Player player1, Player player2)
     {
@@ -112,7 +116,10 @@ public class SaveSystem
             String heightstring = reader.nextLine();
             int width = Integer.parseInt(widthstring);
             int height = Integer.parseInt(heightstring);
-
+            
+            /*
+             * Loading the map data.
+            */
             for(int i = 0; i < (width * height); i++)
             {
                 String data = reader.nextLine();
@@ -121,24 +128,60 @@ public class SaveSystem
                 TileType underlay;
                 int x = Integer.parseInt(split_data[0]);
                 int y = Integer.parseInt(split_data[1]);
+                Location l = new Location(x, y);
                 type = findTileType(split_data[2]);
                 underlay = findTileType(split_data[3]);
+                
+                Tile t = new Tile(map, l, type, underlay);
+                map.addTile(t);
             }
             
+            /*
+             * Loading the unit data.
+            */
             String sizestring = reader.nextLine();
             int size = Integer.parseInt(sizestring);
-            for(int i = 0; i < size; i++);
+            for(int i = 0; i < size; i++)
             {
                 String data = reader.nextLine();
                 String[] split_data = data.split(" ");
                 int player_uid = Integer.parseInt(split_data[0]);
                 int x = Integer.parseInt(split_data[1]);
                 int y = Integer.parseInt(split_data[2]);
+                Location l = new Location(x, y);
                 UnitType type = findUnitType(split_data[3]);
                 int health = Integer.parseInt(split_data[4]);
                 boolean move = Boolean.parseBoolean(split_data[5]);
                 boolean act = Boolean.parseBoolean(split_data[6]);
+                
+                /*
+                 * Determines wheter unit is attributed to player1 or 
+                 * player2
+                */
+                Unit unit;
+                if(player_uid == 1)
+                {
+                    unit = new Unit(player1, map, l, type);
+                    unit.sethasMoved(move);
+                    unit.sethasActed(act);
+                    unit.setHealth(health);
+                    player1.addUnit(unit);
+                }
+                else
+                {
+                    unit = new Unit(player2, map, l, type);
+                    unit.sethasMoved(move);
+                    unit.sethasActed(act);
+                    unit.setHealth(health);
+                    player2.addUnit(unit);
+                }
             }
+            
+            /*
+             * Add all the units to the map.
+            */
+            player1.getUnits().forEach(x -> map.addUnit(x));
+            player2.getUnits().forEach(x -> map.addUnit(x));
        }
        catch(FileNotFoundException exception)
        {
@@ -146,6 +189,10 @@ public class SaveSystem
        }
     }
     
+    /*
+     * Translates a string to to TileType.
+     * @param string the string to be translated to a TileType.
+    */
     public TileType findTileType(String string)
     {
         TileType type = TileType.FieldLight;
@@ -279,6 +326,10 @@ public class SaveSystem
         return type;
     }
     
+    /*
+     * Translates a string to a UnitType.
+     * @param string the string to be translated to a UnitType.
+    */
     public UnitType findUnitType(String string)
     {
         UnitType type = UnitType.Infantry;
