@@ -374,7 +374,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
         return getValidMoves().size() >= 1
             || getValidAttacks().size() >= 1;
     }
-    
+
 //    public Set<Location> getValidMoveLocations()
 //    {
 //        return this._type
@@ -413,7 +413,7 @@ public class Unit implements ITurnBased, IMapItem, IPlayerItem
             .filter(enemy -> this.canAttack(enemy))
             .collect(Collectors.toUnmodifiableSet());
     }
-    
+
     /**
      * Uses this unit's attack pattern mask and the current map state
      * to return its possible attacks.

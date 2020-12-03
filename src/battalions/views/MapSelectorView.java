@@ -245,9 +245,9 @@ public final class MapSelectorView extends JPanel implements PropertyChangeListe
         int width = getWidth();
         int height = getHeight();
 
-        spriteSize = Math.min(
+        spriteSize = Math.max(Math.min(
             width / mapWidth,
-            height / mapHeight);
+            height / mapHeight), 1);
 
         canvasWidth = mapWidth * spriteSize;
         canvasHeight = mapHeight * spriteSize;

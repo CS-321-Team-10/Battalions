@@ -36,7 +36,7 @@ public class App
     /**
      * The game used by this App.
      */
-    private Game _game;
+    private Game game;
 
     /**
      * Initializes static members of this class.
@@ -108,7 +108,8 @@ public class App
         // _game = new Game(map2, player2, cpu2);
 
         // Create game
-        _game = new Game(map, player, cpu);
+        MapSelector mapSelector = new MapSelector(map);
+        game = new Game(mapSelector, player, cpu);
     }
 
     /**
@@ -118,39 +119,14 @@ public class App
     private void testGui()
     {
         GameView gameView = new GameView();
+        GameController gameController = new GameController(game, gameView);
 
-        Map map = _game.getMap();
-
-        MapSelector mapSelector = new MapSelector(map);
-        mapSelector.setCurrentPlayer(this._game.getPlayer());
-        mapSelector.addPropertyChangeListener(_game);
-
-        MapView mapView = gameView.getMapView();
-
-        // [TODO] this should go in a controller and is just here temporarily
-        mapView.addEndTurnButtonListener(
-            new java.awt.event.ActionListener()
-            {
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent event)
-                {
-                    Player currentPlayer = mapSelector.getCurrentPlayer();
-                    Player nextPlayer = currentPlayer.isCPU() ? _game.getPlayer() : _game.getCPU();
-
-                    currentPlayer.endTurn();
-                    nextPlayer.beginTurn();
-
-                    mapSelector.setCurrentPlayer(nextPlayer);
-                    mapSelector.deselect();
-                }
-            });
-
-        MapSelectorView mapSelectorView = mapView.getMapSelectorView();
+        MapSelector mapSelector = game.getMapSelector();
+        MapSelectorView mapSelectorView = gameView.getMapSelectorView();
         MapSelectorController mapSelectorController = new MapSelectorController(mapSelector, mapSelectorView);
 
         gameView.setVisible(true);
-
-        _game.start();
+        game.start();
     }
 
 
@@ -169,6 +145,6 @@ public class App
      */
     public final Game getGame()
     {
-        return _game;
+        return game;
     }
 }
