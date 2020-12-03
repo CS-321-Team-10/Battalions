@@ -24,8 +24,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,6 +39,9 @@ public class MapSelectorController implements PropertyChangeListener
     private final MapSelector model;
 
     private final MapSelectorView view;
+    
+    private int cursorX;
+    private int cursorY;
 
     public MapSelectorController(MapSelector model, MapSelectorView view)
     {
@@ -75,7 +78,6 @@ public class MapSelectorController implements PropertyChangeListener
         boolean drawHighlighted = model.getSelectedUnit() == null;
         view.drawHighlighted(model.getHighlightedUnit(), true, drawHighlighted, drawHighlighted, drawHighlighted);
         view.drawSelected(model.getSelectedUnit(), true, true, true, true);
-        view.drawCursor(model.getCursorLocation());
 
         view.repaint();
     }
@@ -87,7 +89,7 @@ public class MapSelectorController implements PropertyChangeListener
         draw();
     }
 
-    private class MapSelectorViewMouseListener implements MouseListener, MouseMotionListener
+    private class MapSelectorViewMouseListener extends MouseAdapter implements MouseMotionListener
     {
         private MouseEvent pressedEvent;
 
@@ -124,20 +126,13 @@ public class MapSelectorController implements PropertyChangeListener
         }
 
         @Override
-        public void mouseEntered(MouseEvent e)
-        {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e)
-        {
-        }
-
-        @Override
         public void mouseDragged(MouseEvent e)
         {
             Location dragged = toLocation(e);
             model.setCursorLocation(dragged);
+
+            view.setCursorLocation(e.getX(), e.getY());
+            draw();
         }
 
         @Override
@@ -145,6 +140,9 @@ public class MapSelectorController implements PropertyChangeListener
         {
             Location moved = toLocation(e);
             model.setCursorLocation(moved);
+
+            view.setCursorLocation(e.getX(), e.getY());
+            draw();
         }
     }
 
