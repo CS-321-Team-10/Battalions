@@ -1,0 +1,5 @@
+"Time to prove which of you is the superior tactician!"
+"Select a unit by clicking, and choose a highlighted tile to advance it to its next position"
+"With a unit selected, command an attack to an in range enemy unit by clicking them, and hope your soldier is having a good day"
+"Click end turn to bide your time and wait for the enemy's next move."
+"Take the field by defeating all the enemy's units, and win the day!"
